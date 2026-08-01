@@ -14,6 +14,7 @@
   <dependencies>
     <dependency reexport="false">af22c227-4f5d-4fad-af44-a5f5fe32d1ae(de.q60.mps.lang.typescript)</dependency>
     <dependency reexport="false">6354ebe7-c22a-4a0f-ac54-50b52ab9b065(JDK)</dependency>
+    <dependency reexport="false">5b1f863d-65a0-41a6-a801-33896be24202(jetbrains.mps.ide.editor)</dependency>
   </dependencies>
   <languageVersions>
     <language slang="l:af22c227-4f5d-4fad-af44-a5f5fe32d1ae:de.q60.mps.lang.typescript" version="0" />
@@ -28,9 +29,11 @@
     <module reference="3f233e7f-b8a6-46d2-a57f-795d56775243(Annotations)" version="0" />
     <module reference="6354ebe7-c22a-4a0f-ac54-50b52ab9b065(JDK)" version="0" />
     <module reference="6ed54515-acc8-4d1e-a16c-9fd6cfe951ea(MPS.Core)" version="0" />
+    <module reference="498d89d2-c2e9-11e2-ad49-6cf049e62fe5(MPS.IDEA)" version="0" />
     <module reference="8865b7a8-5271-43d3-884c-6fd1d9cfdd34(MPS.OpenAPI)" version="0" />
     <module reference="af22c227-4f5d-4fad-af44-a5f5fe32d1ae(de.q60.mps.lang.typescript)" version="0" />
     <module reference="bffe5e7c-3278-4ab8-b5b3-26ba966f17b2(de.q60.mps.lang.typescript.tests)" version="0" />
+    <module reference="5b1f863d-65a0-41a6-a801-33896be24202(jetbrains.mps.ide.editor)" version="0" />
     <module reference="ceab5195-25ea-4f22-9b92-103b95ca8c0c(jetbrains.mps.lang.core)" version="0" />
   </dependencyVersions>
 </solution>
