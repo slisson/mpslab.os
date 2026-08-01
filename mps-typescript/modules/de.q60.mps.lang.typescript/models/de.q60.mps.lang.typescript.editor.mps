@@ -1499,5 +1499,23 @@
       </node>
     </node>
   </node>
+  <node concept="24kQdi" id="4R4WbZLI95A">
+    <ref role="1XX52x" to="mo8k:4R4WbZLH5ta" resolve="TSBooleanType" />
+    <node concept="3F0ifn" id="4R4WbZLI95C" role="2wV5jI">
+      <property role="3F0ifm" value="boolean" />
+    </node>
+  </node>
+  <node concept="24kQdi" id="4R4WbZLI9dE">
+    <ref role="1XX52x" to="mo8k:4R4WbZLH5um" resolve="TSNumberType" />
+    <node concept="3F0ifn" id="4R4WbZLI9dG" role="2wV5jI">
+      <property role="3F0ifm" value="number" />
+    </node>
+  </node>
+  <node concept="24kQdi" id="4R4WbZLI9lK">
+    <ref role="1XX52x" to="mo8k:4R4WbZLH5v$" resolve="TSStringType" />
+    <node concept="3F0ifn" id="4R4WbZLI9lM" role="2wV5jI">
+      <property role="3F0ifm" value="string" />
+    </node>
+  </node>
 </model>
 

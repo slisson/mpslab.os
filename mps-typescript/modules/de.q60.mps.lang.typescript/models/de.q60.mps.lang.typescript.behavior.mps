@@ -9312,5 +9312,64 @@
       </node>
     </node>
   </node>
+  <node concept="13h7C7" id="4R4WbZLI8Wt">
+    <ref role="13h7C2" to="mo8k:4R4WbZLH5s1" resolve="TSEqualsExpression" />
+    <node concept="13hLZK" id="4R4WbZLI8Ww" role="13h7CW">
+      <node concept="3clFbS" id="4R4WbZLI8Wy" role="2VODD2" />
+    </node>
+    <node concept="13i0hz" id="4R4WbZLI8Wz" role="13h7CS">
+      <property role="TrG5h" value="getPriority" />
+      <ref role="13i0hy" node="5YMdeQZxA0" resolve="getPriority" />
+      <node concept="3Tm1VV" id="4R4WbZLI8WB" role="1B3o_S" />
+      <node concept="10Oyi0" id="4R4WbZLI8WC" role="3clF45" />
+      <node concept="3clFbS" id="4R4WbZLI8WD" role="3clF47">
+        <node concept="3SKdUt" id="4R4WbZLI8WE" role="3cqZAp">
+          <node concept="1PaTwC" id="4R4WbZLI8WI" role="1aUNEU">
+            <node concept="3oM_SD" id="4R4WbZLI8WK" role="1PaTwD">
+              <property role="3oM_SC" value="binds" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WL" role="1PaTwD">
+              <property role="3oM_SC" value="looser" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WM" role="1PaTwD">
+              <property role="3oM_SC" value="than" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WN" role="1PaTwD">
+              <property role="3oM_SC" value="the" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WO" role="1PaTwD">
+              <property role="3oM_SC" value="arithmetic" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WP" role="1PaTwD">
+              <property role="3oM_SC" value="operators" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WQ" role="1PaTwD">
+              <property role="3oM_SC" value="and" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WR" role="1PaTwD">
+              <property role="3oM_SC" value="tighter" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WS" role="1PaTwD">
+              <property role="3oM_SC" value="than" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WT" role="1PaTwD">
+              <property role="3oM_SC" value="the" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WU" role="1PaTwD">
+              <property role="3oM_SC" value="ternary" />
+            </node>
+            <node concept="3oM_SD" id="4R4WbZLI8WV" role="1PaTwD">
+              <property role="3oM_SC" value="operator" />
+            </node>
+          </node>
+        </node>
+        <node concept="3clFbF" id="4R4WbZLI8WW" role="3cqZAp">
+          <node concept="3cmrfG" id="4R4WbZLI8WY" role="3clFbG">
+            <property role="3cmrfH" value="8" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 

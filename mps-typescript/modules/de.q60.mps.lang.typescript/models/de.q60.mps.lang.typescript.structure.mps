@@ -360,5 +360,35 @@
       <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
     </node>
   </node>
+  <node concept="1TIwiD" id="4R4WbZLH5s1">
+    <property role="EcuMT" value="6275768358144507624" />
+    <property role="TrG5h" value="TSEqualsExpression" />
+    <property role="34LRSv" value="==" />
+    <ref role="1TJDcQ" node="5YMdeQYNS_" resolve="TSBinaryOperation" />
+  </node>
+  <node concept="1TIwiD" id="4R4WbZLH5ta">
+    <property role="EcuMT" value="3472769636933287167" />
+    <property role="TrG5h" value="TSBooleanType" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="4R4WbZLH5tb" role="PzmwI">
+      <ref role="PrY4T" node="4Ul7eGthLpQ" resolve="TSIType" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="4R4WbZLH5um">
+    <property role="EcuMT" value="7106926194277792125" />
+    <property role="TrG5h" value="TSNumberType" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="4R4WbZLH5un" role="PzmwI">
+      <ref role="PrY4T" node="4Ul7eGthLpQ" resolve="TSIType" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="4R4WbZLH5v$">
+    <property role="EcuMT" value="5991954684290791457" />
+    <property role="TrG5h" value="TSStringType" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="4R4WbZLH5v_" role="PzmwI">
+      <ref role="PrY4T" node="4Ul7eGthLpQ" resolve="TSIType" />
+    </node>
+  </node>
 </model>
 

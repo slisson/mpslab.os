@@ -12,6 +12,16 @@
   </imports>
   <registry>
     <language id="8585453e-6bfb-4d80-98de-b16074f1d86c" name="jetbrains.mps.lang.test">
+      <concept id="1215526290564" name="jetbrains.mps.lang.test.structure.NodeTypeCheckOperation" flags="ng" index="30Omv">
+        <child id="1215526393912" name="type" index="31d$z" />
+      </concept>
+      <concept id="1215603922101" name="jetbrains.mps.lang.test.structure.NodeOperationsContainer" flags="ng" index="7CXmI">
+        <child id="1215604436604" name="nodeOperations" index="7EUXB" />
+      </concept>
+      <concept id="1215607067978" name="jetbrains.mps.lang.test.structure.CheckNodeForErrorMessagesOperation" flags="ng" index="7OXhh">
+        <property id="3743352646565420194" name="includeSelf" index="GvXf4" />
+      </concept>
+      <concept id="428590876651279930" name="jetbrains.mps.lang.test.structure.NodeTypeSystemErrorCheckOperation" flags="ng" index="2DdRWr" />
       <concept id="7011073693661765739" name="jetbrains.mps.lang.test.structure.InvokeActionStatement" flags="nn" index="2HxZob">
         <child id="1101347953350127927" name="actionReference" index="3iKnsn" />
       </concept>
@@ -32,6 +42,10 @@
       </concept>
       <concept id="4239542196496927193" name="jetbrains.mps.lang.test.structure.MPSActionReference" flags="ng" index="1iFQzN">
         <reference id="4239542196496929559" name="action" index="1iFR8X" />
+      </concept>
+      <concept id="1216913645126" name="jetbrains.mps.lang.test.structure.NodesTestCase" flags="lg" index="1lH9Xt">
+        <property id="2616911529524314943" name="accessMode" index="3DII0k" />
+        <child id="1217501822150" name="nodesToCheck" index="1SKRRt" />
       </concept>
       <concept id="1216989428737" name="jetbrains.mps.lang.test.structure.TestNode" flags="ng" index="1qefOq">
         <child id="1216989461394" name="nodeToCheck" index="1qenE9" />
@@ -65,12 +79,15 @@
       <concept id="7259284324402748763" name="de.q60.mps.lang.typescript.structure.TSExpressionStatement" flags="ng" index="3ja7nU">
         <child id="3951472244529450579" name="expression" index="$a3P1" />
       </concept>
+      <concept id="7106926194277792125" name="de.q60.mps.lang.typescript.structure.TSNumberType" flags="ng" index="1ku6r5" />
       <concept id="1382782322912190867" name="de.q60.mps.lang.typescript.structure.TSIncompleteLeftParen" flags="ng" index="1lV$2x" />
       <concept id="4291374753109167949" name="de.q60.mps.lang.typescript.structure.TSIIncompleteParen" flags="ngI" index="3mEcBk">
         <property id="3567944042883971429" name="count" index="R4xHh" />
       </concept>
       <concept id="6704462043861673507" name="de.q60.mps.lang.typescript.structure.TSPlusExpression" flags="ng" index="1rvuUm" />
+      <concept id="3472769636933287167" name="de.q60.mps.lang.typescript.structure.TSBooleanType" flags="ng" index="3$6BPE" />
       <concept id="2240197384627242780" name="de.q60.mps.lang.typescript.structure.TSIncompleteRightParen" flags="ng" index="3Aoo2U" />
+      <concept id="6275768358144507624" name="de.q60.mps.lang.typescript.structure.TSEqualsExpression" flags="ng" index="1CNJNU" />
     </language>
     <language id="ceab5195-25ea-4f22-9b92-103b95ca8c0c" name="jetbrains.mps.lang.core">
       <concept id="1133920641626" name="jetbrains.mps.lang.core.structure.BaseConcept" flags="ng" index="2VYdi">
@@ -726,6 +743,81 @@
             <node concept="24BhzH" id="5Xb8BFgwx7V" role="3nuTyc">
               <property role="2Hr5CV" value="3" />
             </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="1lH9Xt" id="6QS6LNOMncg">
+    <property role="3DII0k" value="2hh8MJdVwqX/command" />
+    <property role="TrG5h" value="Ternary_condition_that_is_not_a_boolean_is_an_error" />
+    <node concept="1qefOq" id="6QS6LNOMnch" role="1SKRRt">
+      <node concept="24Z7zp" id="6QS6LNOMncj" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="6QS6LNOMnck" role="1JIkAo">
+          <node concept="0o88v" id="6QS6LNOMncm" role="$a3P1">
+            <node concept="mk1J3" id="6QS6LNOMncq" role="3y1SWh">
+              <node concept="24BhzH" id="6QS6LNOMnct" role="33kRt2">
+                <property role="2Hr5CV" value="1" />
+              </node>
+              <node concept="24BhzH" id="6QS6LNOMncu" role="GyX5B">
+                <property role="2Hr5CV" value="4" />
+              </node>
+              <node concept="7CXmI" id="6QS6LNOMncv" role="lGtFl">
+                <node concept="30Omv" id="6QS6LNOMncw" role="7EUXB">
+                  <node concept="1ku6r5" id="6QS6LNOMncy" role="31d$z" />
+                </node>
+                <node concept="2DdRWr" id="6QS6LNOMncz" role="7EUXB" />
+              </node>
+            </node>
+            <node concept="24BhzH" id="6QS6LNOMnc$" role="10ubTB">
+              <property role="2Hr5CV" value="2" />
+            </node>
+            <node concept="24BhzH" id="6QS6LNOMnc_" role="3nuTyc">
+              <property role="2Hr5CV" value="3" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="1lH9Xt" id="6QS6LNOMnhN">
+    <property role="3DII0k" value="2hh8MJdVwqX/command" />
+    <property role="TrG5h" value="Ternary_condition_of_type_boolean_is_accepted" />
+    <node concept="1qefOq" id="6QS6LNOMnhO" role="1SKRRt">
+      <node concept="24Z7zp" id="6QS6LNOMnhQ" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="6QS6LNOMnhR" role="1JIkAo">
+          <node concept="0o88v" id="6QS6LNOMnhT" role="$a3P1">
+            <node concept="1CNJNU" id="6QS6LNOMnhX" role="3y1SWh">
+              <node concept="mk1J3" id="6QS6LNOMni0" role="33kRt2">
+                <node concept="24BhzH" id="6QS6LNOMni3" role="33kRt2">
+                  <property role="2Hr5CV" value="1" />
+                </node>
+                <node concept="24BhzH" id="6QS6LNOMni4" role="GyX5B">
+                  <property role="2Hr5CV" value="4" />
+                </node>
+              </node>
+              <node concept="24BhzH" id="6QS6LNOMni5" role="GyX5B">
+                <property role="2Hr5CV" value="4" />
+              </node>
+              <node concept="7CXmI" id="6QS6LNOMni6" role="lGtFl">
+                <node concept="30Omv" id="6QS6LNOMni7" role="7EUXB">
+                  <node concept="3$6BPE" id="6QS6LNOMni9" role="31d$z" />
+                </node>
+              </node>
+            </node>
+            <node concept="24BhzH" id="6QS6LNOMnia" role="10ubTB">
+              <property role="2Hr5CV" value="2" />
+            </node>
+            <node concept="24BhzH" id="6QS6LNOMnib" role="3nuTyc">
+              <property role="2Hr5CV" value="3" />
+            </node>
+          </node>
+        </node>
+        <node concept="7CXmI" id="6QS6LNONIX5" role="lGtFl">
+          <node concept="7OXhh" id="6QS6LNONIX6" role="7EUXB">
+            <property role="GvXf4" value="true" />
           </node>
         </node>
       </node>

@@ -42,6 +42,7 @@
         <child id="3951472244529450579" name="expression" index="$a3P1" />
       </concept>
       <concept id="6704462043861673507" name="de.q60.mps.lang.typescript.structure.TSPlusExpression" flags="ng" index="1rvuUm" />
+      <concept id="6275768358144507624" name="de.q60.mps.lang.typescript.structure.TSEqualsExpression" flags="ng" index="1CNJNU" />
       <concept id="3145181163763065424" name="de.q60.mps.lang.typescript.structure.TSConsole" flags="ng" index="3JZgZa" />
     </language>
     <language id="ceab5195-25ea-4f22-9b92-103b95ca8c0c" name="jetbrains.mps.lang.core">
@@ -112,12 +113,17 @@
     <property role="TrG5h" value="ternary" />
     <node concept="3ja7nU" id="5Xb8BFgqa8M" role="1JIkAo">
       <node concept="0o88v" id="5Xb8BFgqa8O" role="$a3P1">
-        <node concept="1rvuUm" id="5Xb8BFgqa8S" role="3y1SWh">
-          <node concept="24BhzH" id="5Xb8BFgqa8V" role="33kRt2">
-            <property role="2Hr5CV" value="1" />
+        <node concept="1CNJNU" id="6QS6LNOMnnV" role="3y1SWh">
+          <node concept="1rvuUm" id="6QS6LNOMnnY" role="33kRt2">
+            <node concept="24BhzH" id="6QS6LNOMno1" role="33kRt2">
+              <property role="2Hr5CV" value="1" />
+            </node>
+            <node concept="24BhzH" id="6QS6LNOMno2" role="GyX5B">
+              <property role="2Hr5CV" value="2" />
+            </node>
           </node>
-          <node concept="24BhzH" id="5Xb8BFgqa8W" role="GyX5B">
-            <property role="2Hr5CV" value="2" />
+          <node concept="24BhzH" id="6QS6LNOMno3" role="GyX5B">
+            <property role="2Hr5CV" value="3" />
           </node>
         </node>
         <node concept="mk1J3" id="5Xb8BFgqa8X" role="10ubTB">
@@ -129,8 +135,13 @@
           </node>
         </node>
         <node concept="0o88v" id="5Xb8BFgqa92" role="3nuTyc">
-          <node concept="24BhzH" id="5Xb8BFgqa96" role="3y1SWh">
-            <property role="2Hr5CV" value="5" />
+          <node concept="1CNJNU" id="6QS6LNOMno4" role="3y1SWh">
+            <node concept="24BhzH" id="6QS6LNOMno7" role="33kRt2">
+              <property role="2Hr5CV" value="5" />
+            </node>
+            <node concept="24BhzH" id="6QS6LNOMno8" role="GyX5B">
+              <property role="2Hr5CV" value="5" />
+            </node>
           </node>
           <node concept="24BhzH" id="5Xb8BFgqa97" role="10ubTB">
             <property role="2Hr5CV" value="6" />
@@ -145,8 +156,13 @@
       <node concept="1rvuUm" id="5Xb8BFgqa9b" role="$a3P1">
         <node concept="pJsIj" id="5Xb8BFgqa9e" role="33kRt2">
           <node concept="0o88v" id="5Xb8BFgqa9g" role="3tJ$EF">
-            <node concept="24BhzH" id="5Xb8BFgqa9k" role="3y1SWh">
-              <property role="2Hr5CV" value="1" />
+            <node concept="1CNJNU" id="6QS6LNOMno9" role="3y1SWh">
+              <node concept="24BhzH" id="6QS6LNOMnoc" role="33kRt2">
+                <property role="2Hr5CV" value="1" />
+              </node>
+              <node concept="24BhzH" id="6QS6LNOMnod" role="GyX5B">
+                <property role="2Hr5CV" value="1" />
+              </node>
             </node>
             <node concept="24BhzH" id="5Xb8BFgqa9l" role="10ubTB">
               <property role="2Hr5CV" value="2" />
@@ -158,6 +174,34 @@
         </node>
         <node concept="24BhzH" id="5Xb8BFgqa9n" role="GyX5B">
           <property role="2Hr5CV" value="4" />
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="24Z7zp" id="4R4WbZLIm68">
+    <property role="TrG5h" value="equality" />
+    <node concept="3ja7nU" id="4R4WbZLIm69" role="1JIkAo">
+      <node concept="1CNJNU" id="6QS6LNOMnsy" role="$a3P1">
+        <node concept="mk1J3" id="6QS6LNOMns_" role="33kRt2">
+          <node concept="24BhzH" id="6QS6LNOMnsC" role="33kRt2">
+            <property role="2Hr5CV" value="1" />
+          </node>
+          <node concept="24BhzH" id="6QS6LNOMnsD" role="GyX5B">
+            <property role="2Hr5CV" value="4" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="6QS6LNOMnsE" role="GyX5B">
+          <property role="2Hr5CV" value="4" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="6QS6LNOMnsF" role="1JIkAo">
+      <node concept="1CNJNU" id="6QS6LNOMnsH" role="$a3P1">
+        <node concept="33xXhr" id="6QS6LNOMnsK" role="33kRt2">
+          <property role="3b_9E9" value="a" />
+        </node>
+        <node concept="33xXhr" id="6QS6LNOMnsL" role="GyX5B">
+          <property role="3b_9E9" value="a" />
         </node>
       </node>
     </node>
