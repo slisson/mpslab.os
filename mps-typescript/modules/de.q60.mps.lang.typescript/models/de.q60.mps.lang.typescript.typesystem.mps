@@ -152,7 +152,6 @@
         <child id="1174660783414" name="rightExpression" index="1ZfhKB" />
         <child id="1174662598553" name="nodeToCheck" index="1ZmcU8" />
       </concept>
-      <concept id="1174663118805" name="jetbrains.mps.lang.typesystem.structure.CreateLessThanInequationStatement" flags="nn" index="1ZobV4" />
       <concept id="1174663239020" name="jetbrains.mps.lang.typesystem.structure.CreateGreaterThanInequationStatement" flags="nn" index="1ZoDhX" />
       <concept id="1174663314467" name="jetbrains.mps.lang.typesystem.structure.CreateComparableEquationStatement" flags="nn" index="1ZoVOM" />
     </language>
@@ -792,36 +791,6 @@
       <ref role="1YaFvo" to="mo8k:5Xb8BFglYQ1" resolve="TSTernaryOperatorExpression" />
     </node>
     <node concept="3clFbS" id="6QS6LNOKyes" role="18ibNy">
-      <node concept="1ZobV4" id="6QS6LNOKyet" role="3cqZAp">
-        <node concept="mw_s8" id="6QS6LNOKyew" role="1ZfhK$">
-          <node concept="1Z2H0r" id="6QS6LNOKyey" role="mwGJk">
-            <node concept="2OqwBi" id="6QS6LNOKye$" role="1Z2MuG">
-              <node concept="1YBJjd" id="6QS6LNOKyeB" role="2Oq$k0">
-                <ref role="1YBMHb" node="6QS6LNOKyer" resolve="ternary" />
-              </node>
-              <node concept="3TrEf2" id="6QS6LNOKyeC" role="2OqNvi">
-                <ref role="3Tt5mk" to="mo8k:5Xb8BFglYQ4" resolve="condition" />
-              </node>
-            </node>
-          </node>
-        </node>
-        <node concept="mw_s8" id="6QS6LNOKyeD" role="1ZfhKB">
-          <node concept="2c44tf" id="6QS6LNOKyeF" role="mwGJk">
-            <node concept="3$6BPE" id="6QS6LNONFzk" role="2c44tc" />
-          </node>
-        </node>
-        <node concept="2OqwBi" id="6QS6LNOKyeI" role="1ZmcU8">
-          <node concept="1YBJjd" id="6QS6LNOKyeL" role="2Oq$k0">
-            <ref role="1YBMHb" node="6QS6LNOKyer" resolve="ternary" />
-          </node>
-          <node concept="3TrEf2" id="6QS6LNOKyeM" role="2OqNvi">
-            <ref role="3Tt5mk" to="mo8k:5Xb8BFglYQ4" resolve="condition" />
-          </node>
-        </node>
-        <node concept="Xl_RD" id="6QS6LNOKyeN" role="3o8Qv2">
-          <property role="Xl_RC" value="The condition of a ternary operator must be a boolean" />
-        </node>
-      </node>
       <node concept="1ZoDhX" id="6QS6LNOKyeO" role="3cqZAp">
         <node concept="mw_s8" id="6QS6LNOKyeR" role="1ZfhK$">
           <node concept="1Z2H0r" id="6QS6LNOKyeT" role="mwGJk">
