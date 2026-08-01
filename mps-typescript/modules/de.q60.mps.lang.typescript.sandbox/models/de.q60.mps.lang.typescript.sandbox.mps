@@ -191,5 +191,18 @@
       </node>
     </node>
   </node>
+  <node concept="24Z7zp" id="6QS6LNPtLwe">
+    <property role="TrG5h" value="escapes" />
+    <node concept="3ja7nU" id="6QS6LNPtLwf" role="1JIkAo">
+      <node concept="hjOgg" id="6QS6LNPtLwh" role="$a3P1">
+        <node concept="3JZgZa" id="6QS6LNPtLwk" role="3DwI$f" />
+        <node concept="2hi8J1" id="6QS6LNPtLwl" role="CABlD">
+          <node concept="33xXhr" id="6QS6LNPtLwm" role="3gGa23">
+            <property role="3b_9E9" value="a &quot;quote&quot;, a \backslash and a&#10;newline" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 
