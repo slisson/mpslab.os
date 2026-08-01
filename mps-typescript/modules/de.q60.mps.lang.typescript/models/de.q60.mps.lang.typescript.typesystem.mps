@@ -20,6 +20,9 @@
         <child id="1197027771414" name="operand" index="2Oq$k0" />
         <child id="1197027833540" name="operation" index="2OqNvi" />
       </concept>
+      <concept id="1145552977093" name="jetbrains.mps.baseLanguage.structure.GenericNewExpression" flags="nn" index="2ShNRf">
+        <child id="1145553007750" name="creator" index="2ShVmc" />
+      </concept>
       <concept id="1137021947720" name="jetbrains.mps.baseLanguage.structure.ConceptFunction" flags="in" index="2VMwT0">
         <child id="1137022507850" name="body" index="2VODD2" />
       </concept>
@@ -38,6 +41,7 @@
         <reference id="1068581517664" name="variableDeclaration" index="3cqZAo" />
       </concept>
       <concept id="1068498886294" name="jetbrains.mps.baseLanguage.structure.AssignmentExpression" flags="nn" index="37vLTI" />
+      <concept id="1225271283259" name="jetbrains.mps.baseLanguage.structure.NPEEqualsExpression" flags="nn" index="17R0WA" />
       <concept id="4972933694980447171" name="jetbrains.mps.baseLanguage.structure.BaseVariableDeclaration" flags="ng" index="19Szcq">
         <child id="5680397130376446158" name="type" index="1tU5fm" />
       </concept>
@@ -63,6 +67,9 @@
       <concept id="1206060495898" name="jetbrains.mps.baseLanguage.structure.ElsifClause" flags="ng" index="3eNFk2">
         <child id="1206060619838" name="condition" index="3eO9$A" />
         <child id="1206060644605" name="statementList" index="3eOfB_" />
+      </concept>
+      <concept id="1079359253375" name="jetbrains.mps.baseLanguage.structure.ParenthesizedExpression" flags="nn" index="1eOMI4">
+        <child id="1079359253376" name="expression" index="1eOMHV" />
       </concept>
       <concept id="1204053956946" name="jetbrains.mps.baseLanguage.structure.IMethodCall" flags="ngI" index="1ndlxa">
         <reference id="1068499141037" name="baseMethodDeclaration" index="37wK5l" />
@@ -96,6 +103,7 @@
         <child id="1216391046856" name="descriptionBlock" index="QzAvj" />
       </concept>
       <concept id="1216383287005" name="jetbrains.mps.lang.typesystem.structure.QuickFixExecuteBlock" flags="in" index="Q5ZZ6" />
+      <concept id="1216383337216" name="jetbrains.mps.lang.typesystem.structure.ConceptFunctionParameter_node" flags="nn" index="Q6c8r" />
       <concept id="1216383482742" name="jetbrains.mps.lang.typesystem.structure.QuickFixArgument" flags="ng" index="Q6JDH">
         <child id="1216383511839" name="argumentType" index="Q6QK4" />
       </concept>
@@ -143,6 +151,9 @@
       <concept id="1177026924588" name="jetbrains.mps.lang.smodel.structure.RefConcept_Reference" flags="nn" index="chp4Y">
         <reference id="1177026940964" name="conceptDeclaration" index="cht4Q" />
       </concept>
+      <concept id="1140725362528" name="jetbrains.mps.lang.smodel.structure.Link_SetTargetOperation" flags="nn" index="2oxUTD">
+        <child id="1140725362529" name="linkTarget" index="2oxUTC" />
+      </concept>
       <concept id="2396822768958367367" name="jetbrains.mps.lang.smodel.structure.AbstractTypeCastExpression" flags="nn" index="$5XWr">
         <child id="6733348108486823193" name="leftExpression" index="1m5AlR" />
         <child id="3906496115198199033" name="conceptArgument" index="3oSUPX" />
@@ -150,6 +161,12 @@
       <concept id="1139613262185" name="jetbrains.mps.lang.smodel.structure.Node_GetParentOperation" flags="nn" index="1mfA1w" />
       <concept id="1139621453865" name="jetbrains.mps.lang.smodel.structure.Node_IsInstanceOfOperation" flags="nn" index="1mIQ4w">
         <child id="1177027386292" name="conceptArgument" index="cj9EA" />
+      </concept>
+      <concept id="1180636770613" name="jetbrains.mps.lang.smodel.structure.SNodeCreator" flags="nn" index="3zrR0B">
+        <child id="1180636770616" name="createdType" index="3zrR0E" />
+      </concept>
+      <concept id="1140131837776" name="jetbrains.mps.lang.smodel.structure.Node_ReplaceWithAnotherOperation" flags="nn" index="1P9Npp">
+        <child id="1140131861877" name="replacementNode" index="1P9ThW" />
       </concept>
       <concept id="1140137987495" name="jetbrains.mps.lang.smodel.structure.SNodeTypeCastExpression" flags="nn" index="1PxgMI" />
       <concept id="1138055754698" name="jetbrains.mps.lang.smodel.structure.SNodeType" flags="in" index="3Tqbb2">
@@ -444,6 +461,160 @@
                   </node>
                 </node>
               </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="Q5z_Y" id="5Xb8BFgnjlf">
+    <property role="TrG5h" value="TSWrapMisplacedTernaryOperatorInParens" />
+    <node concept="QznSV" id="5Xb8BFgnjli" role="QzAvj">
+      <node concept="3clFbS" id="5Xb8BFgnjlk" role="2VODD2">
+        <node concept="3clFbF" id="5Xb8BFgnjll" role="3cqZAp">
+          <node concept="Xl_RD" id="5Xb8BFgnjln" role="3clFbG">
+            <property role="Xl_RC" value="Wrap the ternary operator in parentheses." />
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="Q5ZZ6" id="5Xb8BFgnjlo" role="Q6x$H">
+      <node concept="3clFbS" id="5Xb8BFgnjlq" role="2VODD2">
+        <node concept="3cpWs8" id="5Xb8BFgnjlr" role="3cqZAp">
+          <node concept="3cpWsn" id="5Xb8BFgnjlu" role="3cpWs9">
+            <property role="TrG5h" value="parens" />
+            <node concept="3Tqbb2" id="5Xb8BFgnjlw" role="1tU5fm">
+              <ref role="ehGHo" to="mo8k:5YMdeQYNSy" resolve="TSParenthesizedExpression" />
+            </node>
+            <node concept="2ShNRf" id="5Xb8BFgnjlx" role="33vP2m">
+              <node concept="3zrR0B" id="5Xb8BFgnjlz" role="2ShVmc">
+                <node concept="3Tqbb2" id="5Xb8BFgnjl_" role="3zrR0E">
+                  <ref role="ehGHo" to="mo8k:5YMdeQYNSy" resolve="TSParenthesizedExpression" />
+                </node>
+              </node>
+            </node>
+          </node>
+        </node>
+        <node concept="3clFbF" id="5Xb8BFgnjlA" role="3cqZAp">
+          <node concept="2OqwBi" id="5Xb8BFgnjlC" role="3clFbG">
+            <node concept="Q6c8r" id="5Xb8BFgnjlF" role="2Oq$k0" />
+            <node concept="1P9Npp" id="5Xb8BFgnjlG" role="2OqNvi">
+              <node concept="37vLTw" id="5Xb8BFgnjlI" role="1P9ThW">
+                <ref role="3cqZAo" node="5Xb8BFgnjlu" resolve="parens" />
+              </node>
+            </node>
+          </node>
+        </node>
+        <node concept="3clFbF" id="5Xb8BFgnjlJ" role="3cqZAp">
+          <node concept="2OqwBi" id="5Xb8BFgnjlL" role="3clFbG">
+            <node concept="2OqwBi" id="5Xb8BFgnjlO" role="2Oq$k0">
+              <node concept="37vLTw" id="5Xb8BFgnjlR" role="2Oq$k0">
+                <ref role="3cqZAo" node="5Xb8BFgnjlu" resolve="parens" />
+              </node>
+              <node concept="3TrEf2" id="5Xb8BFgnjlS" role="2OqNvi">
+                <ref role="3Tt5mk" to="mo8k:5YMdeQYNS$" resolve="expression" />
+              </node>
+            </node>
+            <node concept="2oxUTD" id="5Xb8BFgnjlT" role="2OqNvi">
+              <node concept="1PxgMI" id="5Xb8BFgnjlV" role="2oxUTC">
+                <node concept="Q6c8r" id="5Xb8BFgnjlY" role="1m5AlR" />
+                <node concept="chp4Y" id="5Xb8BFgnjlZ" role="3oSUPX">
+                  <ref role="cht4Q" to="mo8k:1TCdlWHrFu$" resolve="TSIExpression" />
+                </node>
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="18kY7G" id="5Xb8BFgnl7E">
+    <property role="TrG5h" value="check_TSTernaryOperatorExpression" />
+    <node concept="1YaCAy" id="5Xb8BFgnl7H" role="1YuTPh">
+      <property role="TrG5h" value="ternary" />
+      <ref role="1YaFvo" to="mo8k:5Xb8BFglYQ1" resolve="TSTernaryOperatorExpression" />
+    </node>
+    <node concept="3clFbS" id="5Xb8BFgnl7I" role="18ibNy">
+      <node concept="3cpWs8" id="5Xb8BFgnl7J" role="3cqZAp">
+        <node concept="3cpWsn" id="5Xb8BFgnl7M" role="3cpWs9">
+          <property role="TrG5h" value="parentNode" />
+          <node concept="3Tqbb2" id="5Xb8BFgnl7O" role="1tU5fm" />
+          <node concept="2OqwBi" id="5Xb8BFgnl7P" role="33vP2m">
+            <node concept="1YBJjd" id="5Xb8BFgnl7S" role="2Oq$k0">
+              <ref role="1YBMHb" node="5Xb8BFgnl7H" resolve="ternary" />
+            </node>
+            <node concept="1mfA1w" id="5Xb8BFgnl7T" role="2OqNvi" />
+          </node>
+        </node>
+      </node>
+      <node concept="3clFbJ" id="5Xb8BFgnl7U" role="3cqZAp">
+        <node concept="2OqwBi" id="5Xb8BFgnl7X" role="3clFbw">
+          <node concept="37vLTw" id="5Xb8BFgnl80" role="2Oq$k0">
+            <ref role="3cqZAo" node="5Xb8BFgnl7M" resolve="parentNode" />
+          </node>
+          <node concept="1mIQ4w" id="5Xb8BFgnl81" role="2OqNvi">
+            <node concept="chp4Y" id="5Xb8BFgnl83" role="cj9EA">
+              <ref role="cht4Q" to="mo8k:5YMdeQYNS_" resolve="TSBinaryOperation" />
+            </node>
+          </node>
+        </node>
+        <node concept="3clFbS" id="5Xb8BFgnl84" role="3clFbx">
+          <node concept="2MkqsV" id="5Xb8BFgnl85" role="3cqZAp">
+            <node concept="Xl_RD" id="5Xb8BFgnl88" role="2MkJ7o">
+              <property role="Xl_RC" value="A ternary operator must be wrapped in parentheses when it is an operand of a binary operation" />
+            </node>
+            <node concept="1YBJjd" id="5Xb8BFgnl89" role="1urrMF">
+              <ref role="1YBMHb" node="5Xb8BFgnl7H" resolve="ternary" />
+            </node>
+            <node concept="3Cnw8n" id="5Xb8BFgnK1C" role="1urrFz">
+              <ref role="QpYPw" node="5Xb8BFgnjlf" resolve="TSWrapMisplacedTernaryOperatorInParens" />
+            </node>
+          </node>
+        </node>
+      </node>
+      <node concept="3clFbJ" id="5Xb8BFgnl8a" role="3cqZAp">
+        <node concept="1Wc70l" id="5Xb8BFgnl8d" role="3clFbw">
+          <node concept="2OqwBi" id="5Xb8BFgnl8g" role="3uHU7B">
+            <node concept="37vLTw" id="5Xb8BFgnl8j" role="2Oq$k0">
+              <ref role="3cqZAo" node="5Xb8BFgnl7M" resolve="parentNode" />
+            </node>
+            <node concept="1mIQ4w" id="5Xb8BFgnl8k" role="2OqNvi">
+              <node concept="chp4Y" id="5Xb8BFgnl8m" role="cj9EA">
+                <ref role="cht4Q" to="mo8k:5Xb8BFglYQ1" resolve="TSTernaryOperatorExpression" />
+              </node>
+            </node>
+          </node>
+          <node concept="17R0WA" id="5Xb8BFgnl8n" role="3uHU7w">
+            <node concept="2OqwBi" id="5Xb8BFgnl8q" role="3uHU7B">
+              <node concept="1eOMI4" id="5Xb8BFgnl8t" role="2Oq$k0">
+                <node concept="1PxgMI" id="5Xb8BFgnl8v" role="1eOMHV">
+                  <node concept="37vLTw" id="5Xb8BFgnl8y" role="1m5AlR">
+                    <ref role="3cqZAo" node="5Xb8BFgnl7M" resolve="parentNode" />
+                  </node>
+                  <node concept="chp4Y" id="5Xb8BFgnl8z" role="3oSUPX">
+                    <ref role="cht4Q" to="mo8k:5Xb8BFglYQ1" resolve="TSTernaryOperatorExpression" />
+                  </node>
+                </node>
+              </node>
+              <node concept="3TrEf2" id="5Xb8BFgnl8$" role="2OqNvi">
+                <ref role="3Tt5mk" to="mo8k:5Xb8BFglYQ4" resolve="condition" />
+              </node>
+            </node>
+            <node concept="1YBJjd" id="5Xb8BFgnl8_" role="3uHU7w">
+              <ref role="1YBMHb" node="5Xb8BFgnl7H" resolve="ternary" />
+            </node>
+          </node>
+        </node>
+        <node concept="3clFbS" id="5Xb8BFgnl8A" role="3clFbx">
+          <node concept="2MkqsV" id="5Xb8BFgnl8B" role="3cqZAp">
+            <node concept="Xl_RD" id="5Xb8BFgnl8E" role="2MkJ7o">
+              <property role="Xl_RC" value="A ternary operator must be wrapped in parentheses when it is the condition of another ternary operator" />
+            </node>
+            <node concept="1YBJjd" id="5Xb8BFgnl8F" role="1urrMF">
+              <ref role="1YBMHb" node="5Xb8BFgnl7H" resolve="ternary" />
+            </node>
+            <node concept="3Cnw8n" id="5Xb8BFgnK1D" role="1urrFz">
+              <ref role="QpYPw" node="5Xb8BFgnjlf" resolve="TSWrapMisplacedTernaryOperatorInParens" />
             </node>
           </node>
         </node>

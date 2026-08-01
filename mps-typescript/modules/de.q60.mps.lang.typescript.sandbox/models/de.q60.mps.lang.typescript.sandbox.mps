@@ -7,6 +7,11 @@
   <imports />
   <registry>
     <language id="af22c227-4f5d-4fad-af44-a5f5fe32d1ae" name="de.q60.mps.lang.typescript">
+      <concept id="2282927104365302788" name="de.q60.mps.lang.typescript.structure.TSTernaryOperatorExpression" flags="ng" index="0o88v">
+        <child id="7744661840340332174" name="ifTrue" index="10ubTB" />
+        <child id="4217550342683633468" name="ifFalse" index="3nuTyc" />
+        <child id="7687543187806104797" name="condition" index="3y1SWh" />
+      </concept>
       <concept id="1507547570108522935" name="de.q60.mps.lang.typescript.structure.TSMinusExpression" flags="ng" index="2IocK" />
       <concept id="8373526123298530633" name="de.q60.mps.lang.typescript.structure.TSNumberLiteral" flags="ng" index="24BhzH">
         <property id="7606013538328487736" name="value" index="2Hr5CV" />
@@ -99,6 +104,60 @@
               <property role="2Hr5CV" value="5" />
             </node>
           </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="24Z7zp" id="5Xb8BFgqa8L">
+    <property role="TrG5h" value="ternary" />
+    <node concept="3ja7nU" id="5Xb8BFgqa8M" role="1JIkAo">
+      <node concept="0o88v" id="5Xb8BFgqa8O" role="$a3P1">
+        <node concept="1rvuUm" id="5Xb8BFgqa8S" role="3y1SWh">
+          <node concept="24BhzH" id="5Xb8BFgqa8V" role="33kRt2">
+            <property role="2Hr5CV" value="1" />
+          </node>
+          <node concept="24BhzH" id="5Xb8BFgqa8W" role="GyX5B">
+            <property role="2Hr5CV" value="2" />
+          </node>
+        </node>
+        <node concept="mk1J3" id="5Xb8BFgqa8X" role="10ubTB">
+          <node concept="24BhzH" id="5Xb8BFgqa90" role="33kRt2">
+            <property role="2Hr5CV" value="3" />
+          </node>
+          <node concept="24BhzH" id="5Xb8BFgqa91" role="GyX5B">
+            <property role="2Hr5CV" value="4" />
+          </node>
+        </node>
+        <node concept="0o88v" id="5Xb8BFgqa92" role="3nuTyc">
+          <node concept="24BhzH" id="5Xb8BFgqa96" role="3y1SWh">
+            <property role="2Hr5CV" value="5" />
+          </node>
+          <node concept="24BhzH" id="5Xb8BFgqa97" role="10ubTB">
+            <property role="2Hr5CV" value="6" />
+          </node>
+          <node concept="24BhzH" id="5Xb8BFgqa98" role="3nuTyc">
+            <property role="2Hr5CV" value="7" />
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5Xb8BFgqa99" role="1JIkAo">
+      <node concept="1rvuUm" id="5Xb8BFgqa9b" role="$a3P1">
+        <node concept="pJsIj" id="5Xb8BFgqa9e" role="33kRt2">
+          <node concept="0o88v" id="5Xb8BFgqa9g" role="3tJ$EF">
+            <node concept="24BhzH" id="5Xb8BFgqa9k" role="3y1SWh">
+              <property role="2Hr5CV" value="1" />
+            </node>
+            <node concept="24BhzH" id="5Xb8BFgqa9l" role="10ubTB">
+              <property role="2Hr5CV" value="2" />
+            </node>
+            <node concept="24BhzH" id="5Xb8BFgqa9m" role="3nuTyc">
+              <property role="2Hr5CV" value="3" />
+            </node>
+          </node>
+        </node>
+        <node concept="24BhzH" id="5Xb8BFgqa9n" role="GyX5B">
+          <property role="2Hr5CV" value="4" />
         </node>
       </node>
     </node>

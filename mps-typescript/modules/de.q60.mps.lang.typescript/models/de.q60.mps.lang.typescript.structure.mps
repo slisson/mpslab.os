@@ -326,5 +326,39 @@
       </node>
     </node>
   </node>
+  <node concept="1TIwiD" id="5Xb8BFglYQ1">
+    <property role="EcuMT" value="2282927104365302788" />
+    <property role="TrG5h" value="TSTernaryOperatorExpression" />
+    <property role="34LRSv" value="(expr) ? (expr) : expr" />
+    <property role="R4oN_" value="ternary operator" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5Xb8BFglYQ2" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="PrWs8" id="5Xb8BFglYQ3" role="PzmwI">
+      <ref role="PrY4T" node="5YMdeQYNSu" resolve="TSIBinaryLike" />
+    </node>
+    <node concept="1TJgyj" id="5Xb8BFglYQ4" role="1TKVEi">
+      <property role="IQ2ns" value="7687543187806104797" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="condition" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="1TJgyj" id="5Xb8BFglYQ5" role="1TKVEi">
+      <property role="IQ2ns" value="7744661840340332174" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="ifTrue" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="1TJgyj" id="5Xb8BFglYQ6" role="1TKVEi">
+      <property role="IQ2ns" value="4217550342683633468" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="ifFalse" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
 </model>
 
