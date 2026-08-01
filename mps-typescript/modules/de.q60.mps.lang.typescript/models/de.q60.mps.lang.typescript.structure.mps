@@ -9,9 +9,20 @@
   </imports>
   <registry>
     <language id="c72da2b9-7cce-4447-8389-f407dc1158b7" name="jetbrains.mps.lang.structure">
+      <concept id="6054523464626862044" name="jetbrains.mps.lang.structure.structure.AttributeInfo_IsMultiple" flags="ng" index="tn0Fv" />
+      <concept id="6054523464627964745" name="jetbrains.mps.lang.structure.structure.AttributeInfo_AttributedConcept" flags="ng" index="trNpa">
+        <reference id="6054523464627965081" name="concept" index="trN6q" />
+      </concept>
+      <concept id="2992811758677295509" name="jetbrains.mps.lang.structure.structure.AttributeInfo" flags="ng" index="M6xJ_">
+        <property id="7588428831955550663" name="role" index="Hh88m" />
+        <child id="7588428831947959310" name="attributed" index="EQaZv" />
+        <child id="7588428831955550186" name="multiple" index="HhnKV" />
+      </concept>
       <concept id="1169125787135" name="jetbrains.mps.lang.structure.structure.AbstractConceptDeclaration" flags="ig" index="PkWjJ">
         <property id="6714410169261853888" name="conceptId" index="EcuMT" />
+        <property id="4628067390765907488" name="conceptShortDescription" index="R4oN_" />
         <property id="4628067390765956802" name="abstract" index="R5$K7" />
+        <property id="5092175715804935370" name="conceptAlias" index="34LRSv" />
         <child id="1071489727083" name="linkDeclaration" index="1TKVEi" />
         <child id="1071489727084" name="propertyDeclaration" index="1TKVEl" />
       </concept>
@@ -37,6 +48,9 @@
       </concept>
     </language>
     <language id="ceab5195-25ea-4f22-9b92-103b95ca8c0c" name="jetbrains.mps.lang.core">
+      <concept id="1133920641626" name="jetbrains.mps.lang.core.structure.BaseConcept" flags="ng" index="2VYdi">
+        <child id="5169995583184591170" name="smodelAttribute" index="lGtFl" />
+      </concept>
       <concept id="1169194658468" name="jetbrains.mps.lang.core.structure.INamedConcept" flags="ngI" index="TrEIO">
         <property id="1169194664001" name="name" index="TrG5h" />
       </concept>
@@ -183,6 +197,133 @@
       <property role="20lbJX" value="fLJekj5/_0__n" />
       <property role="IQ2ns" value="2591751422752546988" />
       <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="PlHQZ" id="5YMdeQYNSu">
+    <property role="EcuMT" value="1445413963760488782" />
+    <property role="TrG5h" value="TSIBinaryLike" />
+  </node>
+  <node concept="1TIwiD" id="5YMdeQYNSv">
+    <property role="EcuMT" value="8373526123298530633" />
+    <property role="TrG5h" value="TSNumberLiteral" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5YMdeQYNSw" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="1TJgyi" id="5YMdeQYNSx" role="1TKVEl">
+      <property role="IQ2nx" value="7606013538328487736" />
+      <property role="TrG5h" value="value" />
+      <ref role="AX2Wp" to="tpck:fKAQMTA" resolve="integer" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5YMdeQYNSy">
+    <property role="EcuMT" value="83412354109643915" />
+    <property role="TrG5h" value="TSParenthesizedExpression" />
+    <property role="34LRSv" value="(expr)" />
+    <property role="R4oN_" value="parenthesis" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5YMdeQYNSz" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="1TJgyj" id="5YMdeQYNS$" role="1TKVEi">
+      <property role="IQ2ns" value="7350906890408026229" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="expression" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5YMdeQYNS_">
+    <property role="EcuMT" value="3894583660651454994" />
+    <property role="TrG5h" value="TSBinaryOperation" />
+    <property role="R5$K7" value="true" />
+    <property role="34LRSv" value="&lt;?&gt;" />
+    <property role="R4oN_" value="abstract binary operation" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5YMdeQYNSA" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="PrWs8" id="5YMdeQYNSB" role="PzmwI">
+      <ref role="PrY4T" node="5YMdeQYNSu" resolve="TSIBinaryLike" />
+    </node>
+    <node concept="1TJgyj" id="5YMdeQYNSC" role="1TKVEi">
+      <property role="IQ2ns" value="5707686448369938903" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="leftExpression" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="1TJgyj" id="5YMdeQYNSD" role="1TKVEi">
+      <property role="IQ2ns" value="7602522883118221103" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="rightExpression" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5YMdeQYNSE">
+    <property role="EcuMT" value="6704462043861673507" />
+    <property role="TrG5h" value="TSPlusExpression" />
+    <property role="34LRSv" value="+" />
+    <ref role="1TJDcQ" node="5YMdeQYNS_" resolve="TSBinaryOperation" />
+  </node>
+  <node concept="1TIwiD" id="5YMdeQYNSF">
+    <property role="EcuMT" value="1507547570108522935" />
+    <property role="TrG5h" value="TSMinusExpression" />
+    <property role="34LRSv" value="-" />
+    <ref role="1TJDcQ" node="5YMdeQYNS_" resolve="TSBinaryOperation" />
+  </node>
+  <node concept="1TIwiD" id="5YMdeQYNSG">
+    <property role="EcuMT" value="317735058024221081" />
+    <property role="TrG5h" value="TSMulExpression" />
+    <property role="34LRSv" value="*" />
+    <ref role="1TJDcQ" node="5YMdeQYNS_" resolve="TSBinaryOperation" />
+  </node>
+  <node concept="1TIwiD" id="5YMdeQYNSH">
+    <property role="EcuMT" value="6812379895036577066" />
+    <property role="TrG5h" value="TSDivExpression" />
+    <property role="34LRSv" value="/" />
+    <ref role="1TJDcQ" node="5YMdeQYNS_" resolve="TSBinaryOperation" />
+  </node>
+  <node concept="PlHQZ" id="5YMdeQYNSI">
+    <property role="EcuMT" value="4291374753109167949" />
+    <property role="TrG5h" value="TSIIncompleteParen" />
+    <node concept="1TJgyi" id="5YMdeQYNSJ" role="1TKVEl">
+      <property role="IQ2nx" value="3567944042883971429" />
+      <property role="TrG5h" value="count" />
+      <ref role="AX2Wp" to="tpck:fKAQMTA" resolve="integer" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5YMdeQYNSK">
+    <property role="EcuMT" value="1382782322912190867" />
+    <property role="TrG5h" value="TSIncompleteLeftParen" />
+    <property role="34LRSv" value="(" />
+    <ref role="1TJDcQ" to="tpck:2ULFgo8_XDk" resolve="NodeAttribute" />
+    <node concept="PrWs8" id="5YMdeQYNSL" role="PzmwI">
+      <ref role="PrY4T" node="5YMdeQYNSI" resolve="TSIIncompleteParen" />
+    </node>
+    <node concept="M6xJ_" id="5YMdeQZ4tV" role="lGtFl">
+      <property role="Hh88m" value="incomplete left paren" />
+      <node concept="tn0Fv" id="5YMdeQZ4tW" role="HhnKV" />
+      <node concept="trNpa" id="5YMdeQZ4tX" role="EQaZv">
+        <ref role="trN6q" node="1TCdlWHrFu$" resolve="TSIExpression" />
+      </node>
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5YMdeQYNSM">
+    <property role="EcuMT" value="2240197384627242780" />
+    <property role="TrG5h" value="TSIncompleteRightParen" />
+    <property role="34LRSv" value=")" />
+    <ref role="1TJDcQ" to="tpck:2ULFgo8_XDk" resolve="NodeAttribute" />
+    <node concept="PrWs8" id="5YMdeQYNSN" role="PzmwI">
+      <ref role="PrY4T" node="5YMdeQYNSI" resolve="TSIIncompleteParen" />
+    </node>
+    <node concept="M6xJ_" id="5YMdeQZ4tY" role="lGtFl">
+      <property role="Hh88m" value="incomplete right paren" />
+      <node concept="tn0Fv" id="5YMdeQZ4tZ" role="HhnKV" />
+      <node concept="trNpa" id="5YMdeQZ4u0" role="EQaZv">
+        <ref role="trN6q" node="1TCdlWHrFu$" resolve="TSIExpression" />
+      </node>
     </node>
   </node>
 </model>
