@@ -3,6 +3,7 @@
   <persistence version="9" />
   <languages>
     <use id="7a5dda62-9140-4668-ab76-d5ed1746f2b2" name="jetbrains.mps.lang.typesystem" version="5" />
+    <use id="af22c227-4f5d-4fad-af44-a5f5fe32d1ae" name="de.q60.mps.lang.typescript" version="0" />
     <devkit ref="00000000-0000-4000-0000-1de82b3a4936(jetbrains.mps.devkit.aspect.typesystem)" />
   </languages>
   <imports>
@@ -15,7 +16,7 @@
       </concept>
     </language>
     <language id="af22c227-4f5d-4fad-af44-a5f5fe32d1ae" name="de.q60.mps.lang.typescript">
-      <concept id="8281127187734251692" name="de.q60.mps.lang.typescript.structure.ConsoleType" flags="ng" index="YlF7x" />
+      <concept id="8281127187734251692" name="de.q60.mps.lang.typescript.structure.TSConsoleType" flags="ng" index="YlF7x" />
     </language>
     <language id="3a13115c-633c-4c5c-bbcc-75c4219e9555" name="jetbrains.mps.lang.quotation">
       <concept id="1196350785113" name="jetbrains.mps.lang.quotation.structure.Quotation" flags="nn" index="2c44tf">
@@ -55,10 +56,10 @@
     </language>
   </registry>
   <node concept="1YbPZF" id="2moZbFC7mku">
-    <property role="TrG5h" value="typeof_Console" />
+    <property role="TrG5h" value="typeof_TSConsole" />
     <node concept="1YaCAy" id="2moZbFC7mkv" role="1YuTPh">
       <property role="TrG5h" value="console" />
-      <ref role="1YaFvo" to="mo8k:4Ul7eGthLpT" resolve="Console" />
+      <ref role="1YaFvo" to="mo8k:4Ul7eGthLpT" resolve="TSConsole" />
     </node>
     <node concept="3clFbS" id="2moZbFC7mkw" role="18ibNy">
       <node concept="1Z5TYs" id="2moZbFC7mkx" role="3cqZAp">

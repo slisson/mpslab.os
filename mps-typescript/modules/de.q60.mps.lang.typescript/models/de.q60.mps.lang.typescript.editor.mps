@@ -19,6 +19,9 @@
       </concept>
       <concept id="2000375450116423800" name="jetbrains.mps.lang.editor.structure.SubstituteMenu" flags="ng" index="22mcaB" />
       <concept id="1071666914219" name="jetbrains.mps.lang.editor.structure.ConceptEditorDeclaration" flags="ig" index="24kQdi" />
+      <concept id="1140524381322" name="jetbrains.mps.lang.editor.structure.CellModel_ListWithRole" flags="ng" index="2czfm3">
+        <child id="1140524464360" name="cellLayout" index="2czzBx" />
+      </concept>
       <concept id="1237303669825" name="jetbrains.mps.lang.editor.structure.CellLayout_Indent" flags="nn" index="l2Vlx" />
       <concept id="1237307900041" name="jetbrains.mps.lang.editor.structure.IndentLayoutIndentStyleClassItem" flags="ln" index="lj46D" />
       <concept id="1237308012275" name="jetbrains.mps.lang.editor.structure.IndentLayoutNewLineStyleClassItem" flags="ln" index="ljvvj" />
@@ -107,7 +110,7 @@
     </language>
   </registry>
   <node concept="24kQdi" id="19cEah6HauD">
-    <ref role="1XX52x" to="mo8k:1TCdlWHrFu_" resolve="Module" />
+    <ref role="1XX52x" to="mo8k:1TCdlWHrFu_" resolve="TSModule" />
     <node concept="3EZMnI" id="19cEah6HauE" role="2wV5jI">
       <node concept="3F0ifn" id="19cEah6HauF" role="3EZMnx">
         <property role="3F0ifm" value="module" />
@@ -129,6 +132,7 @@
         <node concept="pj6Ft" id="19cEah6HauL" role="3F10Kt">
           <property role="VOm3f" value="true" />
         </node>
+        <node concept="l2Vlx" id="5xjl6SURur" role="2czzBx" />
       </node>
       <node concept="3F0ifn" id="19cEah6HauM" role="3EZMnx">
         <property role="3F0ifm" value="}" />
@@ -140,7 +144,7 @@
     </node>
   </node>
   <node concept="24kQdi" id="19cEah6HauP">
-    <ref role="1XX52x" to="mo8k:1TCdlWHrFuC" resolve="ExpressionStatement" />
+    <ref role="1XX52x" to="mo8k:1TCdlWHrFuC" resolve="TSExpressionStatement" />
     <node concept="3EZMnI" id="19cEah6HauQ" role="2wV5jI">
       <node concept="3F1sOY" id="19cEah6HauR" role="3EZMnx">
         <ref role="1NtTu8" to="mo8k:1TCdlWHrFuE" resolve="expression" />
@@ -155,7 +159,7 @@
     </node>
   </node>
   <node concept="24kQdi" id="19cEah6HauU">
-    <ref role="1XX52x" to="mo8k:1TCdlWHrFuF" resolve="ConsoleLog" />
+    <ref role="1XX52x" to="mo8k:1TCdlWHrFuF" resolve="TSConsoleLog" />
     <node concept="3EZMnI" id="19cEah6HauV" role="2wV5jI">
       <node concept="3F0ifn" id="19cEah6HauW" role="3EZMnx">
         <property role="3F0ifm" value="console.log(" />
@@ -170,7 +174,7 @@
     </node>
   </node>
   <node concept="24kQdi" id="19cEah6Hav0">
-    <ref role="1XX52x" to="mo8k:1TCdlWHrFuI" resolve="StringLiteral" />
+    <ref role="1XX52x" to="mo8k:1TCdlWHrFuI" resolve="TSStringLiteral" />
     <node concept="3EZMnI" id="7VjsoZ06Unn" role="2wV5jI">
       <node concept="3F0ifn" id="7VjsoZ06Uno" role="3EZMnx">
         <property role="3F0ifm" value="&quot;" />
@@ -191,7 +195,7 @@
     </node>
   </node>
   <node concept="24kQdi" id="DTPfQdiZr1">
-    <ref role="1XX52x" to="mo8k:1UjCfdjUYX3" resolve="DotExpression" />
+    <ref role="1XX52x" to="mo8k:1UjCfdjUYX3" resolve="TSDotExpression" />
     <node concept="3EZMnI" id="DTPfQdiZr2" role="2wV5jI">
       <node concept="3F1sOY" id="DTPfQdiZr3" role="3EZMnx">
         <ref role="1NtTu8" to="mo8k:1UjCfdjUYX5" resolve="operand" />
@@ -212,13 +216,13 @@
     </node>
   </node>
   <node concept="24kQdi" id="DTPfQdiZr9">
-    <ref role="1XX52x" to="mo8k:4Ul7eGthLpT" resolve="Console" />
+    <ref role="1XX52x" to="mo8k:4Ul7eGthLpT" resolve="TSConsole" />
     <node concept="3F0ifn" id="DTPfQdiZra" role="2wV5jI">
       <property role="3F0ifm" value="console" />
     </node>
   </node>
   <node concept="24kQdi" id="DTPfQdiZrb">
-    <ref role="1XX52x" to="mo8k:4Ul7eGthLpX" resolve="ConsoleOp_Log" />
+    <ref role="1XX52x" to="mo8k:4Ul7eGthLpX" resolve="TSConsoleOp_Log" />
     <node concept="3EZMnI" id="DTPfQdiZrc" role="2wV5jI">
       <node concept="3F0ifn" id="DTPfQdiZrd" role="3EZMnx">
         <property role="3F0ifm" value="log" />
@@ -245,7 +249,7 @@
     </node>
   </node>
   <node concept="22mcaB" id="7LogU7sEZvr">
-    <ref role="aqKnT" to="mo8k:4Ul7eGthLpV" resolve="ConsoleOp_Base" />
+    <ref role="aqKnT" to="mo8k:4Ul7eGthLpV" resolve="TSConsoleOp_Base" />
     <node concept="22hDWj" id="7LogU7sEZvs" role="22hAXT" />
     <node concept="3ft6gV" id="7LogU7sEZvt" role="3ft7WO">
       <node concept="3ft6gW" id="7LogU7sEZvu" role="3ft5RY">
@@ -257,7 +261,7 @@
                   <node concept="3bvxqY" id="7LogU7sEZv$" role="2Oq$k0" />
                   <node concept="1mIQ4w" id="7LogU7sEZv_" role="2OqNvi">
                     <node concept="chp4Y" id="7LogU7sEZvA" role="cj9EA">
-                      <ref role="cht4Q" to="mo8k:1UjCfdjUYX3" resolve="DotExpression" />
+                      <ref role="cht4Q" to="mo8k:1UjCfdjUYX3" resolve="TSDotExpression" />
                     </node>
                   </node>
                 </node>
@@ -269,7 +273,7 @@
                       <node concept="1PxgMI" id="7LogU7sEZvF" role="2Oq$k0">
                         <node concept="3bvxqY" id="7LogU7sEZvG" role="1m5AlR" />
                         <node concept="chp4Y" id="7LogU7sEZvH" role="3oSUPX">
-                          <ref role="cht4Q" to="mo8k:1UjCfdjUYX3" resolve="DotExpression" />
+                          <ref role="cht4Q" to="mo8k:1UjCfdjUYX3" resolve="TSDotExpression" />
                         </node>
                       </node>
                       <node concept="3TrEf2" id="7LogU7sEZvI" role="2OqNvi">
@@ -280,7 +284,7 @@
                   </node>
                   <node concept="1mIQ4w" id="7LogU7sEZvK" role="2OqNvi">
                     <node concept="chp4Y" id="7LogU7sEZvL" role="cj9EA">
-                      <ref role="cht4Q" to="mo8k:4Ul7eGthLpR" resolve="ConsoleType" />
+                      <ref role="cht4Q" to="mo8k:4Ul7eGthLpR" resolve="TSConsoleType" />
                     </node>
                   </node>
                 </node>
