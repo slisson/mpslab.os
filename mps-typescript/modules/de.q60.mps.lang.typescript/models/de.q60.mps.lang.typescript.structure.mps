@@ -79,20 +79,6 @@
       <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
     </node>
   </node>
-  <node concept="1TIwiD" id="1TCdlWHrFuF">
-    <property role="TrG5h" value="TSConsoleLog" />
-    <property role="EcuMT" value="8721570043856821956" />
-    <node concept="PrWs8" id="1TCdlWHrFuG" role="PzmwI">
-      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
-    </node>
-    <node concept="1TJgyj" id="1TCdlWHrFuH" role="1TKVEi">
-      <property role="20lmBu" value="fLJjDmT/aggregation" />
-      <property role="20kJfa" value="argument" />
-      <property role="20lbJX" value="fLJekj4/_1" />
-      <property role="IQ2ns" value="4034092257342201905" />
-      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
-    </node>
-  </node>
   <node concept="1TIwiD" id="1TCdlWHrFuI">
     <property role="TrG5h" value="TSStringLiteral" />
     <property role="EcuMT" value="3369613353357185318" />

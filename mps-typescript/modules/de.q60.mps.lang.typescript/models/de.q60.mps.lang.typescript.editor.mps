@@ -158,21 +158,6 @@
       <node concept="l2Vlx" id="19cEah6HauT" role="2iSdaV" />
     </node>
   </node>
-  <node concept="24kQdi" id="19cEah6HauU">
-    <ref role="1XX52x" to="mo8k:1TCdlWHrFuF" resolve="TSConsoleLog" />
-    <node concept="3EZMnI" id="19cEah6HauV" role="2wV5jI">
-      <node concept="3F0ifn" id="19cEah6HauW" role="3EZMnx">
-        <property role="3F0ifm" value="console.log(" />
-      </node>
-      <node concept="3F1sOY" id="19cEah6HauX" role="3EZMnx">
-        <ref role="1NtTu8" to="mo8k:1TCdlWHrFuH" resolve="argument" />
-      </node>
-      <node concept="3F0ifn" id="19cEah6HauY" role="3EZMnx">
-        <property role="3F0ifm" value=")" />
-      </node>
-      <node concept="l2Vlx" id="19cEah6HauZ" role="2iSdaV" />
-    </node>
-  </node>
   <node concept="24kQdi" id="19cEah6Hav0">
     <ref role="1XX52x" to="mo8k:1TCdlWHrFuI" resolve="TSStringLiteral" />
     <node concept="3EZMnI" id="7VjsoZ06Unn" role="2wV5jI">

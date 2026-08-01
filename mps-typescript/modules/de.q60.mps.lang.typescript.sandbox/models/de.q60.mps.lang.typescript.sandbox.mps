@@ -7,9 +7,6 @@
   <imports />
   <registry>
     <language id="af22c227-4f5d-4fad-af44-a5f5fe32d1ae" name="de.q60.mps.lang.typescript">
-      <concept id="8721570043856821956" name="de.q60.mps.lang.typescript.structure.TSConsoleLog" flags="ng" index="22NMdU">
-        <child id="4034092257342201905" name="argument" index="3xWHAT" />
-      </concept>
       <concept id="2596016207932595749" name="de.q60.mps.lang.typescript.structure.TSModule" flags="ng" index="24Z7zp">
         <child id="906924707476882095" name="statements" index="1JIkAo" />
       </concept>
@@ -37,9 +34,12 @@
   <node concept="24Z7zp" id="LRngVnQgjd">
     <property role="TrG5h" value="hello" />
     <node concept="3ja7nU" id="LRngVnQgje" role="1JIkAo">
-      <node concept="22NMdU" id="LRngVnQgjf" role="$a3P1">
-        <node concept="33xXhr" id="LRngVnQgjg" role="3xWHAT">
-          <property role="3b_9E9" value="Hello, world!" />
+      <node concept="hjOgg" id="5xjl6SV$pw" role="$a3P1">
+        <node concept="3JZgZa" id="5xjl6SV$pz" role="3DwI$f" />
+        <node concept="2hi8J1" id="5xjl6SV$p$" role="CABlD">
+          <node concept="33xXhr" id="5xjl6SV$p_" role="3gGa23">
+            <property role="3b_9E9" value="Hello, world!" />
+          </node>
         </node>
       </node>
     </node>
