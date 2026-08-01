@@ -3,6 +3,7 @@
   <component name="MPSProject">
     <projectModules>
       <modulePath path="$PROJECT_DIR$/modules/de.q60.mps.lang.typescript.sandbox/de.q60.mps.lang.typescript.sandbox.msd" folder="" />
+      <modulePath path="$PROJECT_DIR$/modules/de.q60.mps.lang.typescript.tests/de.q60.mps.lang.typescript.tests.msd" folder="" />
       <modulePath path="$PROJECT_DIR$/modules/de.q60.mps.lang.typescript/de.q60.mps.lang.typescript.mpl" folder="" />
     </projectModules>
   </component>
