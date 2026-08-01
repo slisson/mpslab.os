@@ -7,7 +7,8 @@ published under the Apache License 2.0 (see [LICENSE](LICENSE)).
 
 ### `mps-typescript` — `de.q60.mps.lang.typescript`
 
-A TypeScript language for MPS, plus a sandbox solution that uses it.
+A TypeScript language for MPS, plus a sandbox solution that uses it. What is implemented and
+what comes next is tracked in [`mps-typescript/ROADMAP.md`](mps-typescript/ROADMAP.md).
 
 | Module                                | Kind     | Contents                                              |
 |---------------------------------------|----------|-------------------------------------------------------|
