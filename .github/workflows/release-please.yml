@@ -1,0 +1,55 @@
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Avoid overlapping release runs on rapid pushes to main.
+concurrency:
+  group: release-please
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      # Parses Conventional Commits since the last release. On a normal push it
+      # opens/updates a release PR with the bumped version + generated CHANGELOG.
+      # When that PR is merged, it tags the release and publishes release notes,
+      # and `release_created` becomes true.
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Everything below runs only when a release was actually cut. There is no
+      # distributable artifact yet — the languages are generated, not packaged — so this
+      # is a gate that the tagged commit really builds. Once a packaging task exists
+      # (an MPS plugin zip), build it here and `gh release upload` it in the same run:
+      # a token-created tag does not trigger the separate tag-driven release.yml.
+      - name: Checkout
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v7
+
+      - name: Set up JDK 21
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        if: ${{ steps.release.outputs.release_created }}
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build the release artifacts
+        if: ${{ steps.release.outputs.release_created }}
+        run: ./gradlew build -Pversion="${TAG#v}" --stacktrace
+        env:
+          TAG: ${{ steps.release.outputs.tag_name }}

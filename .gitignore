@@ -1,0 +1,13 @@
+.gradle/
+**/build/
+.kotlin/
+.idea/
+*.iml
+.DS_Store
+
+# MPS generator output. The modules here are authored as `.mps` models; everything the
+# generator derives from them is rebuilt by `./gradlew generate`.
+**/classes_gen/
+**/source_gen/
+**/source_gen.caches/
+**/.mps-caches/
