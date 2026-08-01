@@ -1,0 +1,18 @@
+# Dependency versions for the mpslab.os build.
+[versions]
+# The MPS distribution (com.jetbrains:mps). It is both what the languages are built
+# against and what runs the generator/test workers, so an upgrade is never routine —
+# renovate.json puts it behind dependency-dashboard approval.
+mps = "2026.1"
+# The JDK the MPS workers run on. MPS 2026.1 ships JBR 25 but its classes target Java 21
+# (class-file major 65), which is the floor for anything loading the platform jars.
+mpsJdk = "21"
+kotlin = "2.4.10"
+
+[libraries]
+# The distribution itself, declared as a library so Renovate's Gradle manager sees a real
+# coordinate rather than a bare version entry. Consumed as a `@zip` artifact, not a jar.
+mps-distribution = { module = "com.jetbrains:mps", version.ref = "mps" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

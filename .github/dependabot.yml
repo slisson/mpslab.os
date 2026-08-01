@@ -1,0 +1,24 @@
+version: 2
+# Dependabot owns GitHub Actions updates; Renovate (renovate.json) owns Gradle
+# dependencies and the wrapper. Splitting ownership avoids duplicate PRs.
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    labels:
+      - dependencies
+      - github-actions
+    # Emit Conventional Commits so PR-lint and release-please are satisfied.
+    # "ci" because this only updates GitHub Actions (CI tooling); "include:
+    # scope" adds the deps scope, e.g. "ci(deps): bump actions/checkout ...".
+    commit-message:
+      prefix: ci
+      include: scope
+    groups:
+      github-actions:
+        patterns:
+          - "*"
