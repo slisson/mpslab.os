@@ -27,7 +27,7 @@ jobs:
       # toolchain resolves to it and nothing has to be provisioned; a build overriding
       # -PmpsVersion falls back to the foojay resolver configured in settings.gradle.kts.
       - name: Set up JDK 21
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v5.6.0
         with:
           distribution: temurin
           java-version: '21'
