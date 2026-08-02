@@ -214,6 +214,10 @@
   <node concept="PlHQZ" id="5YMdeQYNSu">
     <property role="EcuMT" value="1445413963760488782" />
     <property role="TrG5h" value="TSIBinaryLike" />
+    <property role="R4oN_" value="an expression with a syntactic left and/or right side" />
+    <node concept="PrWs8" id="6WKYICGl6Ib" role="PrDN$">
+      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
   </node>
   <node concept="1TIwiD" id="5YMdeQYNSv">
     <property role="EcuMT" value="8373526123298530633" />
@@ -572,6 +576,54 @@
     <property role="EcuMT" value="237373411153851389" />
     <property role="TrG5h" value="TSITrailingChildOwner" />
     <property role="R4oN_" value="a construct whose notation ends with one of its children" />
+  </node>
+  <node concept="1TIwiD" id="6WKYICGl6K7">
+    <property role="EcuMT" value="4112825962079110083" />
+    <property role="TrG5h" value="TSExponentExpression" />
+    <property role="34LRSv" value="**" />
+    <ref role="1TJDcQ" node="5YMdeQYNS_" resolve="TSBinaryOperation" />
+  </node>
+  <node concept="1TIwiD" id="6WKYICGq2yd">
+    <property role="EcuMT" value="5203292047127445673" />
+    <property role="TrG5h" value="TSUnaryOperation" />
+    <property role="R5$K7" value="true" />
+    <property role="34LRSv" value="&lt;?&gt;" />
+    <property role="R4oN_" value="abstract prefix unary operation" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" />
+    <node concept="PrWs8" id="6WKYICGq2ye" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="PrWs8" id="6WKYICGq2yf" role="PzmwI">
+      <ref role="PrY4T" node="5YMdeQYNSu" resolve="TSIBinaryLike" />
+    </node>
+    <node concept="1TJgyj" id="6WKYICGq2yg" role="1TKVEi">
+      <property role="IQ2ns" value="1920165562965334341" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="expression" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="6WKYICGq2$h">
+    <property role="EcuMT" value="2450593264803086893" />
+    <property role="TrG5h" value="TSNotExpression" />
+    <property role="34LRSv" value="!" />
+    <property role="R4oN_" value="logical not" />
+    <ref role="1TJDcQ" node="6WKYICGq2yd" resolve="TSUnaryOperation" />
+  </node>
+  <node concept="1TIwiD" id="6WKYICGq2Aj">
+    <property role="EcuMT" value="5261423696657887118" />
+    <property role="TrG5h" value="TSUnaryMinusExpression" />
+    <property role="34LRSv" value="-" />
+    <property role="R4oN_" value="unary minus" />
+    <ref role="1TJDcQ" node="6WKYICGq2yd" resolve="TSUnaryOperation" />
+  </node>
+  <node concept="1TIwiD" id="6WKYICGq2C9">
+    <property role="EcuMT" value="9084056344319210901" />
+    <property role="TrG5h" value="TSUnaryPlusExpression" />
+    <property role="34LRSv" value="+" />
+    <property role="R4oN_" value="unary plus" />
+    <ref role="1TJDcQ" node="6WKYICGq2yd" resolve="TSUnaryOperation" />
   </node>
 </model>
 

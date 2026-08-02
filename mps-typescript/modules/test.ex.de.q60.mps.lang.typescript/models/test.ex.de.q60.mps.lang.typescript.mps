@@ -17,6 +17,7 @@
       <concept id="8373526123298530633" name="de.q60.mps.lang.typescript.structure.TSNumberLiteral" flags="ng" index="24BhzH">
         <property id="7606013538328487736" name="value" index="2Hr5CV" />
       </concept>
+      <concept id="2450593264803086893" name="de.q60.mps.lang.typescript.structure.TSNotExpression" flags="ng" index="fzWeU" />
       <concept id="317735058024221081" name="de.q60.mps.lang.typescript.structure.TSMulExpression" flags="ng" index="mk1J3" />
       <concept id="6812379895036577066" name="de.q60.mps.lang.typescript.structure.TSDivExpression" flags="ng" index="2o8mD1" />
       <concept id="83412354109643915" name="de.q60.mps.lang.typescript.structure.TSParenthesizedExpression" flags="ng" index="pJsIj">
@@ -26,6 +27,7 @@
         <child id="7935308623531745380" name="statements" index="6EW52" />
       </concept>
       <concept id="4306270926879848440" name="de.q60.mps.lang.typescript.structure.TSLetDeclaration" flags="ng" index="2swglJ" />
+      <concept id="5261423696657887118" name="de.q60.mps.lang.typescript.structure.TSUnaryMinusExpression" flags="ng" index="2t6vHR" />
       <concept id="8057680275657749238" name="de.q60.mps.lang.typescript.structure.TSIdentifier" flags="ng" index="2v$HdM">
         <reference id="7745766023969360865" name="declaration" index="2oxrr9" />
       </concept>
@@ -35,9 +37,13 @@
       </concept>
       <concept id="5991954684290791457" name="de.q60.mps.lang.typescript.structure.TSStringType" flags="ng" index="2Kh4GC" />
       <concept id="4715308568151819694" name="de.q60.mps.lang.typescript.structure.TSConstDeclaration" flags="ng" index="2MuU66" />
+      <concept id="5203292047127445673" name="de.q60.mps.lang.typescript.structure.TSUnaryOperation" flags="ng" index="V$4S_">
+        <child id="1920165562965334341" name="expression" index="3CQlky" />
+      </concept>
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
         <property id="7217799321058434228" name="value" index="3b_9E9" />
       </concept>
+      <concept id="4112825962079110083" name="de.q60.mps.lang.typescript.structure.TSExponentExpression" flags="ng" index="35EnaC" />
       <concept id="3894583660651454994" name="de.q60.mps.lang.typescript.structure.TSBinaryOperation" flags="ng" index="1f9ZkA">
         <child id="7602522883118221103" name="rightExpression" index="GyX5B" />
         <child id="5707686448369938903" name="leftExpression" index="33kRt2" />
@@ -48,6 +54,7 @@
         <child id="834448770786422024" name="expression" index="1IqeeO" />
       </concept>
       <concept id="6704462043861673507" name="de.q60.mps.lang.typescript.structure.TSPlusExpression" flags="ng" index="1rvuUm" />
+      <concept id="9084056344319210901" name="de.q60.mps.lang.typescript.structure.TSUnaryPlusExpression" flags="ng" index="3sPFy8" />
       <concept id="6275768358144507624" name="de.q60.mps.lang.typescript.structure.TSEqualsExpression" flags="ng" index="1CNJNU" />
       <concept id="2676595144476088988" name="de.q60.mps.lang.typescript.structure.TSVariableDeclaration" flags="ng" index="1Jbnu6">
         <child id="7603193039132759139" name="declaredType" index="19IeeE" />
@@ -199,6 +206,68 @@
         </node>
         <node concept="24BhzH" id="6WKYICG5KBO" role="3SOflj">
           <property role="2Hr5CV" value=".25" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="6WKYICGJzOz" role="1QJMAF">
+      <property role="TrG5h" value="exponentiation is right associative" />
+      <node concept="174eko" id="6WKYICGJzO$" role="1OrNMJ">
+        <node concept="35EnaC" id="6WKYICGJzOB" role="1s_IBt">
+          <node concept="24BhzH" id="6WKYICGJzOE" role="33kRt2">
+            <property role="2Hr5CV" value="2" />
+          </node>
+          <node concept="35EnaC" id="6WKYICGJzOF" role="GyX5B">
+            <node concept="24BhzH" id="6WKYICGJzOI" role="33kRt2">
+              <property role="2Hr5CV" value="3" />
+            </node>
+            <node concept="24BhzH" id="6WKYICGJzOJ" role="GyX5B">
+              <property role="2Hr5CV" value="2" />
+            </node>
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICGJzOK" role="3SOflj">
+          <property role="2Hr5CV" value="512" />
+        </node>
+      </node>
+      <node concept="174eko" id="6WKYICGJzOL" role="1OrNMJ">
+        <node concept="35EnaC" id="6WKYICGJzOO" role="1s_IBt">
+          <node concept="pJsIj" id="6WKYICGJzOR" role="33kRt2">
+            <node concept="35EnaC" id="6WKYICGJzOT" role="3tJ$EF">
+              <node concept="24BhzH" id="6WKYICGJzOW" role="33kRt2">
+                <property role="2Hr5CV" value="2" />
+              </node>
+              <node concept="24BhzH" id="6WKYICGJzOX" role="GyX5B">
+                <property role="2Hr5CV" value="3" />
+              </node>
+            </node>
+          </node>
+          <node concept="24BhzH" id="6WKYICGJzOY" role="GyX5B">
+            <property role="2Hr5CV" value="2" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICGJzOZ" role="3SOflj">
+          <property role="2Hr5CV" value="64" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="6WKYICGJzP0" role="1QJMAF">
+      <property role="TrG5h" value="exponentiation binds tighter than multiplication" />
+      <node concept="174eko" id="6WKYICGJzP1" role="1OrNMJ">
+        <node concept="mk1J3" id="6WKYICGJzP4" role="1s_IBt">
+          <node concept="24BhzH" id="6WKYICGJzP7" role="33kRt2">
+            <property role="2Hr5CV" value="3" />
+          </node>
+          <node concept="35EnaC" id="6WKYICGJzP8" role="GyX5B">
+            <node concept="24BhzH" id="6WKYICGJzPb" role="33kRt2">
+              <property role="2Hr5CV" value="2" />
+            </node>
+            <node concept="24BhzH" id="6WKYICGJzPc" role="GyX5B">
+              <property role="2Hr5CV" value="3" />
+            </node>
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICGJzPd" role="3SOflj">
+          <property role="2Hr5CV" value="24" />
         </node>
       </node>
     </node>
@@ -528,6 +597,93 @@
         </node>
         <node concept="24BhzH" id="6WKYICFTeXu" role="3SOflj">
           <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="Jsc18" id="6WKYICGJzWI">
+    <property role="TrG5h" value="unary" />
+    <node concept="B13S5" id="6WKYICGJzWJ" role="1QJMAF">
+      <property role="TrG5h" value="logical not" />
+      <node concept="2MuU66" id="6WKYICGK9jh" role="1OrNMJ">
+        <property role="TrG5h" value="one" />
+        <node concept="1ku6r5" id="6WKYICGK9ji" role="19IeeE" />
+        <node concept="24BhzH" id="6WKYICGK9jj" role="1bGQZ8">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+      <node concept="2xtvZL" id="6WKYICGK9jk" role="1OrNMJ">
+        <node concept="fzWeU" id="6WKYICGK9jm" role="2tmK5A">
+          <node concept="pJsIj" id="6WKYICGK9jo" role="3CQlky">
+            <node concept="1CNJNU" id="6WKYICGK9jq" role="3tJ$EF">
+              <node concept="2v$HdM" id="6WKYICGK9jt" role="33kRt2">
+                <ref role="2oxrr9" node="6WKYICGK9jh" resolve="one" />
+              </node>
+              <node concept="24BhzH" id="6WKYICGK9ju" role="GyX5B">
+                <property role="2Hr5CV" value="2" />
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+      <node concept="2gzqXr" id="6WKYICGK9jv" role="1OrNMJ">
+        <node concept="fzWeU" id="6WKYICGK9jx" role="2OlPJS">
+          <node concept="pJsIj" id="6WKYICGK9jz" role="3CQlky">
+            <node concept="1CNJNU" id="6WKYICGK9j_" role="3tJ$EF">
+              <node concept="2v$HdM" id="6WKYICGK9jC" role="33kRt2">
+                <ref role="2oxrr9" node="6WKYICGK9jh" resolve="one" />
+              </node>
+              <node concept="24BhzH" id="6WKYICGK9jD" role="GyX5B">
+                <property role="2Hr5CV" value="1" />
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="6WKYICGJzX6" role="1QJMAF">
+      <property role="TrG5h" value="unary minus binds tighter than addition" />
+      <node concept="174eko" id="6WKYICGJzX7" role="1OrNMJ">
+        <node concept="1rvuUm" id="6WKYICGJzXa" role="1s_IBt">
+          <node concept="2t6vHR" id="6WKYICGJzXd" role="33kRt2">
+            <node concept="24BhzH" id="6WKYICGJzXf" role="3CQlky">
+              <property role="2Hr5CV" value="5" />
+            </node>
+          </node>
+          <node concept="24BhzH" id="6WKYICGJzXg" role="GyX5B">
+            <property role="2Hr5CV" value="8" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICGJzXh" role="3SOflj">
+          <property role="2Hr5CV" value="3" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="6WKYICGJzXi" role="1QJMAF">
+      <property role="TrG5h" value="nested unary minus is not the decrement operator" />
+      <node concept="174eko" id="6WKYICGJzXj" role="1OrNMJ">
+        <node concept="2t6vHR" id="6WKYICGJzXm" role="1s_IBt">
+          <node concept="2t6vHR" id="6WKYICGJzXo" role="3CQlky">
+            <node concept="24BhzH" id="6WKYICGJzXq" role="3CQlky">
+              <property role="2Hr5CV" value="5" />
+            </node>
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICGJzXr" role="3SOflj">
+          <property role="2Hr5CV" value="5" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="6WKYICGJzXs" role="1QJMAF">
+      <property role="TrG5h" value="unary plus" />
+      <node concept="174eko" id="6WKYICGJzXt" role="1OrNMJ">
+        <node concept="3sPFy8" id="6WKYICGJzXw" role="1s_IBt">
+          <node concept="24BhzH" id="6WKYICGJzXy" role="3CQlky">
+            <property role="2Hr5CV" value="5" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICGJzXz" role="3SOflj">
+          <property role="2Hr5CV" value="5" />
         </node>
       </node>
     </node>
