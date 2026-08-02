@@ -1244,5 +1244,57 @@
       </node>
     </node>
   </node>
+  <node concept="LiM7Y" id="6WKYICG1agd">
+    <property role="TrG5h" value="Typing_a_declarations_name_creates_a_reference_to_it" />
+    <node concept="1qefOq" id="6WKYICG1age" role="25YQCW">
+      <node concept="24Z7zp" id="6WKYICG1agg" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="2MuU66" id="6WKYICG1agh" role="1JIkAo">
+          <property role="TrG5h" value="greeted" />
+          <node concept="24BhzH" id="6WKYICG1agi" role="1bGQZ8">
+            <property role="2Hr5CV" value="1" />
+          </node>
+        </node>
+        <node concept="3ja7nU" id="6WKYICG1agj" role="1JIkAo">
+          <node concept="24BhzH" id="6WKYICG1agl" role="$a3P1">
+            <property role="2Hr5CV" value="1" />
+            <node concept="LIFWc" id="6WKYICG1agm" role="lGtFl">
+              <property role="LIFWd" value="value" />
+              <property role="ZRATv" value="true" />
+              <property role="p6zMs" value="1" />
+              <property role="p6zMq" value="1" />
+              <property role="OXtK3" value="true" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="6WKYICG1agn" role="LjaKd">
+      <node concept="2TK7Tu" id="6WKYICG1ago" role="3cqZAp">
+        <property role="2TTd_B" value="+greeted" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="6WKYICG1agp" role="25YQFr">
+      <node concept="24Z7zp" id="6WKYICG1agr" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="2MuU66" id="6WKYICG1ags" role="1JIkAo">
+          <property role="TrG5h" value="greeted" />
+          <node concept="24BhzH" id="6WKYICG1agt" role="1bGQZ8">
+            <property role="2Hr5CV" value="1" />
+          </node>
+        </node>
+        <node concept="3ja7nU" id="6WKYICG1agu" role="1JIkAo">
+          <node concept="1rvuUm" id="6WKYICG1agw" role="$a3P1">
+            <node concept="24BhzH" id="6WKYICG1agz" role="33kRt2">
+              <property role="2Hr5CV" value="1" />
+            </node>
+            <node concept="2v$HdM" id="6WKYICG1ag$" role="GyX5B">
+              <ref role="2oxrr9" node="6WKYICG1ags" resolve="greeted" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 
