@@ -495,6 +495,9 @@
       <property role="20lbJX" value="fLJekj4/_1" />
       <ref role="20lvS9" node="6WKYICFF5gs" resolve="TSBlock" />
     </node>
+    <node concept="PrWs8" id="6WKYICGeLM6" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICGeLHG" resolve="TSITrailingChildOwner" />
+    </node>
   </node>
   <node concept="1TIwiD" id="6WKYICFF5pj">
     <property role="EcuMT" value="1786862727331701833" />
@@ -532,6 +535,9 @@
       <property role="20kJfa" value="elseBlock" />
       <ref role="20lvS9" node="6WKYICFF5gs" resolve="TSBlock" />
     </node>
+    <node concept="PrWs8" id="6WKYICGeLKc" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICGeLHG" resolve="TSITrailingChildOwner" />
+    </node>
   </node>
   <node concept="1TIwiD" id="6WKYICFF5r1">
     <property role="EcuMT" value="902545861387718385" />
@@ -561,6 +567,11 @@
     <property role="3F6X1D" value="8012179620760754156" />
     <property role="FLfZY" value="-?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][-+]?[0-9]*)?" />
     <property role="TrG5h" value="TSNumberValue" />
+  </node>
+  <node concept="PlHQZ" id="6WKYICGeLHG">
+    <property role="EcuMT" value="237373411153851389" />
+    <property role="TrG5h" value="TSITrailingChildOwner" />
+    <property role="R4oN_" value="a construct whose notation ends with one of its children" />
   </node>
 </model>
 
