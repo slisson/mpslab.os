@@ -160,6 +160,48 @@
         </node>
       </node>
     </node>
+    <node concept="B13S5" id="6WKYICG5KBp" role="1QJMAF">
+      <property role="TrG5h" value="floating point literals" />
+      <node concept="174eko" id="6WKYICG5KBq" role="1OrNMJ">
+        <node concept="1rvuUm" id="6WKYICG5KBt" role="1s_IBt">
+          <node concept="24BhzH" id="6WKYICG5KBw" role="33kRt2">
+            <property role="2Hr5CV" value="1.5" />
+          </node>
+          <node concept="24BhzH" id="6WKYICG5KBx" role="GyX5B">
+            <property role="2Hr5CV" value="2.25" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICG5KBy" role="3SOflj">
+          <property role="2Hr5CV" value="3.75" />
+        </node>
+      </node>
+      <node concept="174eko" id="6WKYICG5KBz" role="1OrNMJ">
+        <node concept="mk1J3" id="6WKYICG5KBA" role="1s_IBt">
+          <node concept="24BhzH" id="6WKYICG5KBD" role="33kRt2">
+            <property role="2Hr5CV" value="1.5e3" />
+          </node>
+          <node concept="24BhzH" id="6WKYICG5KBE" role="GyX5B">
+            <property role="2Hr5CV" value="2" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICG5KBF" role="3SOflj">
+          <property role="2Hr5CV" value="3000" />
+        </node>
+      </node>
+      <node concept="174eko" id="6WKYICG5KBG" role="1OrNMJ">
+        <node concept="2o8mD1" id="6WKYICG5KBJ" role="1s_IBt">
+          <node concept="24BhzH" id="6WKYICG5KBM" role="33kRt2">
+            <property role="2Hr5CV" value="1" />
+          </node>
+          <node concept="24BhzH" id="6WKYICG5KBN" role="GyX5B">
+            <property role="2Hr5CV" value="4" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICG5KBO" role="3SOflj">
+          <property role="2Hr5CV" value=".25" />
+        </node>
+      </node>
+    </node>
   </node>
   <node concept="Jsc18" id="6WKYICFB5UU">
     <property role="TrG5h" value="comparison" />

@@ -135,6 +135,21 @@
         </node>
       </node>
     </node>
+    <node concept="3ja7nU" id="6WKYICG5UgJ" role="1JIkAo">
+      <node concept="1rvuUm" id="6WKYICG5UgL" role="$a3P1">
+        <node concept="mk1J3" id="6WKYICG5UgO" role="33kRt2">
+          <node concept="24BhzH" id="6WKYICG5UgR" role="33kRt2">
+            <property role="2Hr5CV" value="1.5" />
+          </node>
+          <node concept="24BhzH" id="6WKYICG5UgS" role="GyX5B">
+            <property role="2Hr5CV" value="2" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICG5UgT" role="GyX5B">
+          <property role="2Hr5CV" value="6.02e23" />
+        </node>
+      </node>
+    </node>
   </node>
   <node concept="24Z7zp" id="5Xb8BFgqa8L">
     <property role="TrG5h" value="ternary" />

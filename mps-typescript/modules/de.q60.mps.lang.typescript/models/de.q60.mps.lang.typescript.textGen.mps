@@ -183,15 +183,10 @@
       <node concept="3clFbS" id="6QS6LNPtmuf" role="2VODD2">
         <node concept="lc7rE" id="6QS6LNPtmug" role="3cqZAp">
           <node concept="l9hG8" id="6QS6LNPtmui" role="lcghm">
-            <node concept="3cpWs3" id="6QS6LNPtmuk" role="lb14g">
-              <node concept="Xl_RD" id="6QS6LNPtmun" role="3uHU7B">
-                <property role="Xl_RC" value="" />
-              </node>
-              <node concept="2OqwBi" id="6QS6LNPtmuo" role="3uHU7w">
-                <node concept="117lpO" id="6QS6LNPtmur" role="2Oq$k0" />
-                <node concept="3TrcHB" id="6QS6LNPtmus" role="2OqNvi">
-                  <ref role="3TsBF5" to="mo8k:5YMdeQYNSx" resolve="value" />
-                </node>
+            <node concept="2OqwBi" id="6WKYICG563s" role="lb14g">
+              <node concept="117lpO" id="6WKYICG563v" role="2Oq$k0" />
+              <node concept="3TrcHB" id="6WKYICG563w" role="2OqNvi">
+                <ref role="3TsBF5" to="mo8k:5YMdeQYNSx" resolve="value" />
               </node>
             </node>
           </node>
