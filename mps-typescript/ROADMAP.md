@@ -8,15 +8,15 @@ pattern rather than a new one.
 
 | Aspect      | State                                                                                                                                                                          |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. Expressions: string literal, number literal (integer or floating point, `TSNumberValue`-constrained text rather than an `integer` property), identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts, `+ - * /`, `==`, parentheses, ternary. Types: `boolean`, `number`, `string`, `console`. |
-| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`) render only when filled and are added by intention. |
-| behavior    | Operator priority, the parenthesis machinery, and `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope. |
+| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Expressions: string literal, number literal (integer or floating point, `TSNumberValue`-constrained text rather than an `integer` property), identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts, `+ - * /`, `==`, parentheses, ternary. Types: `boolean`, `number`, `string`, `console`. |
+| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`, `else if`) render only when filled, and are reached by typing `:` / `=` / `else{` / `else if` — default transformation menus with RIGHT side-transform sections on `TSVariableDeclaration`, `TSIType` and `TSIfStatement`, plus one `TransformationMenuContribution` to `BaseConcept`'s default menu that hands a transform typed after a nested construct to whatever that construct closes. |
+| behavior    | Operator priority, the parenthesis machinery, `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope — `TSITrailingChildOwner.trailingChild` for the `else` side transforms, and `TSNameUtil.isValidName`. |
 | typesystem  | `typeof` inference rules for literals, binary operations, `==`, ternary, parentheses, declarations and identifiers; non-typesystem checks for priority violations, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, and a number literal that stops at its exponent; one quick fix. No subtyping rules. |
-| constraints | `TSIdentifier.declaration` declares the inherited scope, which is what makes the `ScopeProvider`s above take effect; the unitTest language restricts assertions to test methods. |
+| constraints | `TSIdentifier.declaration` declares the inherited scope, which is what makes the `ScopeProvider`s above take effect; `TSIDeclaration.name` is validated as a TypeScript identifier, which is what lets `:` and `=` leave the name cell instead of extending the name; the unitTest language restricts assertions to test methods. |
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
 | textgen     | 20 `ConceptTextGenDeclaration`s; the binary operators share one on `TSBinaryOperation` and the three declaration kinds one on `TSVariableDeclaration`, both writing the concept alias. `TSModule` writes `<name>.ts`. Done in phase 0.1.             |
-| intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty.                                                |
-| tests       | 17 editor tests (precedence/parens/ternary, typing `const`, typing an identifier, typing a decimal point and an exponent, the add-else intention), 13 nodes tests (expression and declaration types, floating point literals, scoping in and out, ternary conditions, the const/annotation/initializer/exponent checks, the two unitTest checks). |
+| intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty. Kept beside the side transforms, which are now the primary way in: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. |
+| tests       | 24 editor tests (precedence/parens/ternary, typing `const`, typing an identifier, typing a decimal point and an exponent, the add-else intention, the six side transforms for the optional cells and the one case that must not forward), 13 nodes tests (expression and declaration types, floating point literals, scoping in and out, ternary conditions, the const/annotation/initializer/exponent checks, the two unitTest checks). |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 The gap that dominates the ordering is now the standard library: `console` is still a
@@ -38,7 +38,7 @@ language is the one that is hardcoded.
 3. **The standard library.** `console` cannot stay a concept. Decide between a hand-written
    ambient-declaration model (a small `lib.d.ts` equivalent, written in the language itself)
    and importing real `.d.ts` files. *Recommendation:* hand-written minimal lib in phase 3;
-   revisit `.d.ts` import much later.
+   real `.d.ts` import in phase 9, which subsumes it once it works.
 
 ## Phase 0 — foundations (before any new syntax)
 
@@ -221,6 +221,105 @@ decorators.
 - A stable set of generator entry points and mapping labels for languages reducing into
   TypeScript.
 
+## Phase 9 — interop: stub models from external TypeScript
+
+The Java analogue is exact: MPS reads `.class` files and `.java` sources into read-only stub
+models so that hand-written code can reference libraries it did not author. TypeScript needs
+the same, and it is what unblocks decision 3 — once real `.d.ts` files can be read, the
+hand-written lib model of phase 3 stops being the standard library and becomes a bootstrap.
+
+**Decided: a Node subprocess as the parser, and a real stub model root as the MPS side.**
+The two alternatives on each axis, and why they lost, are recorded below so the decision does
+not get re-opened for free.
+
+### The input is `.d.ts`, never `.ts`
+
+A stub is signatures without bodies, and TypeScript already has that format. For a package,
+the `.d.ts` ships with it or comes from `@types/*`. For loose implementation sources, run
+`tsc --declaration --emitDeclarationOnly` (or the LanguageService's `getEmitOutput` with
+`emitOnlyDtsFiles`) and let TypeScript's own inference reduce the file first, then import the
+result. That makes this the `.class` path rather than the `.java`-source path: the grammar to
+cover shrinks to the declaration subset, and none of TypeScript's inference has to be
+reimplemented to get a signature out of an untyped-but-inferable function.
+
+### Read the checker's symbols, not the syntax tree
+
+Declaration files lean on declaration merging, `export * from` chains, `export =` and ambient
+module augmentation, and a syntactic walk gets all of them wrong. Build a `ts.Program` and go
+through the checker instead: `ts.resolveModuleName` to find the file behind an import
+specifier, `checker.getExportsOfModule(moduleSymbol)` for the flattened export list — that
+list is the stub model's roots, one to one — then `getTypeOfSymbolAtLocation` and, where the
+structure cannot hold the type, `typeToString`.
+
+### The parser: a Node subprocess
+
+`typescript` is Apache 2.0 and already a dependency here (`typescript@5.9.3` in
+`package.json`), and the project already requires Node to run `npm test`, so the sidecar adds
+no dependency a contributor does not already have. The extractor is a small TS program living
+beside the existing npm project; it speaks a request/response JSON protocol over stdio, and it
+emits **our own stub schema, shaped like our concepts** — not `ts.Node`. Serialising the real
+AST is not an option anyway: it is cyclic through `parent` and far larger than what a stub
+needs. Keep it behind one interface on the JVM side; long-lived with a reused `LanguageService`
+for interactive re-import, spawn-and-exit for a one-shot.
+
+Rejected: **GraalJS in process**, which does run `typescript.js` and would let a custom
+`CompilerHost` read through MPS's VFS, but runs interpreter-only on JBR — far too slow for a
+file the size of `lib.dom.d.ts`. Worth keeping as a no-Node-required fallback, not as the
+default. **IntelliJ's own TS PSI** is not available: MPS is built on the Community platform and
+JavaScript/TypeScript support is a closed-source plugin bundled only with the commercial IDEs
+(confirm against the target distribution before relying on the absence). **A JVM-native TS
+parser** does not exist in maintained form, and the Rust parsers (swc, oxc) are syntax-only,
+which is exactly the level ruled out above. **`typescript-go` / TS 7** is the one to revisit —
+much faster, but its public surface is still LSP-shaped rather than "hand me the program",
+which is the other reason for the interface.
+
+### The MPS side: a real stub model root
+
+`node_modules/` and declaration directories should appear as read-only models that reload when
+the files change, not as a one-time paste into the project. The extension point is
+`mps.modelRootFactory`, and there are two implementations to work from in the MPS sources:
+
+- `samples/propertyPersistence/.../persistence/` is the worked sample and the closest fit —
+  `ModelRootFactory`, `ModelRoot`, `ModelDescriptor`, `DataSource`, plus `ModelRootEntry` and
+  its factory for the module-settings UI. All six are ~440 lines of *generated* Java together.
+- `plugins/mps-java/core/modules/jetbrains.mps.java.core/.../sourceStubs/` is the production
+  one, registered as `rootType="java_source_stubs"`. `JavaSourceStubModelDescriptor.createModel()`
+  is the method to copy: build an `SModel`, fill it from the data source, return
+  `ModelLoadingState.NO_IMPLEMENTATION` — signatures, no bodies. Note that it parses with MPS's
+  own `jetbrains.mps.java.core.newparser.JavaParser` rather than through IntelliJ PSI, which is
+  the same shape as the sidecar: parse outside the platform, build `SNode`s directly.
+
+Build an importer *action* over the same extractor first, though. It writes an ordinary model
+and needs none of the plumbing above, so it makes the extractor and the JSON schema testable
+on their own — and it is the fastest way to get a large corpus of real TypeScript into MPS,
+which is the point the cross-cutting section already made about a `.ts` importer.
+
+### The part that is actually hard
+
+Not the parsing — the impedance. TypeScript's types are structural, and real `.d.ts` files use
+generics, overloads, unions, conditional and mapped types freely; phase 5 will not represent
+all of that and should not try. A stub only has to support three things: name binding and
+scopes, MPS-side checking, and emitting a correct `import`. The first and third need names and
+module paths only, and the second is a dial. So the stub language gets a `TSRawType` holding
+the `typeToString` text as opaque payload: an unrepresentable type still round-trips, still
+renders, still generates correctly, and simply does not participate in MPS type checking. The
+importer then has no failure mode on an exotic type — which is the same producer-not-checker
+stance as decision 1.
+
+Budget for scale from the start: `lib.dom.d.ts` is on the order of 20k declarations, so the
+model root has to be lazy per model and filtered, or the first import against a real project
+hangs.
+
+### Order of work
+
+1. The extractor (`Program` → `getExportsOfModule` → stub JSON) in the existing npm project.
+2. The JVM reader and an import action producing an ordinary model, with `TSRawType` as the
+   catch-all.
+3. A round-trip test that costs nothing to build: the language generates `.ts`, `tsc` declares
+   it, the importer reads the `.d.ts` back, and the result is asserted against the nodes it
+   came from. A `@types` package is the second corpus.
+4. Only then the model-root plumbing, once the schema has stopped moving.
+
 ## Cross-cutting, ongoing
 
 - Intentions and quick fixes alongside each phase (the ternary paren quick fix is the model).
@@ -229,3 +328,4 @@ decorators.
 - Editor tests for every typing interaction; nodes tests for every type rule.
 - Optional side track once the structure is broad enough: a `.ts` **importer** (parse real
   TypeScript into MPS nodes), which is also the fastest way to build a large test corpus.
+  This is now step 2 of phase 9 rather than a track of its own.
