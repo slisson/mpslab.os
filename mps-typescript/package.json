@@ -1,0 +1,20 @@
+{
+  "name": "mps-typescript",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The TypeScript the MPS generator writes out of this project: type-checked with tsc, and — for the TSTestCase roots in test.ex.de.q60.mps.lang.typescript — run with node's built-in test runner.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "tsc",
+    "test": "npm run build && node --test --test-reporter=spec --test-reporter-destination=stdout \"build/ts/**/*.test.js\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}

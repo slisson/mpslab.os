@@ -13,3 +13,8 @@
 **/test_gen/
 **/test_gen.caches/
 **/.mps-caches/
+
+# The npm project that compiles and runs the generated TypeScript. package.json,
+# package-lock.json and tsconfig.json are checked in; what npm and tsc produce is not
+# (tsc writes into build/, which is already ignored above).
+node_modules/

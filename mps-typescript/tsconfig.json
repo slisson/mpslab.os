@@ -1,0 +1,29 @@
+{
+  // There are no hand-written sources here. The inputs are what the MPS generator wrote
+  // into the modules' source_gen — one .ts per TSModule root in the sandbox, one .test.ts
+  // per TSTestCase root in test.ex.de.q60.mps.lang.typescript — so `./gradlew generate`
+  // has to have run before `npm test`.
+  //
+  // package.json sits next to this file rather than in a subdirectory because "module":
+  // "nodenext" decides ESM-vs-CommonJS per input file, from the nearest package.json to
+  // *that file*. From anywhere else the generated sources would be compiled to CommonJS
+  // and then loaded as ESM.
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "rootDir": "modules",
+    "outDir": "build/ts",
+    "types": ["node"],
+    // The point of compiling at all: tsc is the ground truth for whether the language
+    // generates well-typed TypeScript (roadmap decision 1).
+    "strict": true,
+    "skipLibCheck": true,
+    "sourceMap": true
+  },
+  "include": [
+    "modules/de.q60.mps.lang.typescript.sandbox/source_gen/**/*.ts",
+    "modules/test.ex.de.q60.mps.lang.typescript/source_gen/**/*.ts"
+  ]
+}

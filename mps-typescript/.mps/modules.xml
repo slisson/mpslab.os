@@ -5,6 +5,8 @@
       <modulePath path="$PROJECT_DIR$/modules/de.q60.mps.lang.typescript.sandbox/de.q60.mps.lang.typescript.sandbox.msd" folder="" />
       <modulePath path="$PROJECT_DIR$/modules/de.q60.mps.lang.typescript.tests/de.q60.mps.lang.typescript.tests.msd" folder="" />
       <modulePath path="$PROJECT_DIR$/modules/de.q60.mps.lang.typescript/de.q60.mps.lang.typescript.mpl" folder="" />
+      <modulePath path="$PROJECT_DIR$/modules/de.q60.mps.lang.typescript.unitTest/de.q60.mps.lang.typescript.unitTest.mpl" folder="" />
+      <modulePath path="$PROJECT_DIR$/modules/test.ex.de.q60.mps.lang.typescript/test.ex.de.q60.mps.lang.typescript.msd" folder="" />
     </projectModules>
   </component>
 </project>
