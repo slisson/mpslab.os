@@ -18,6 +18,7 @@
   </dependencies>
   <languageVersions>
     <language slang="l:af22c227-4f5d-4fad-af44-a5f5fe32d1ae:de.q60.mps.lang.typescript" version="0" />
+    <language slang="l:7af3fcbd-9a15-43d7-84c7-2139553841f8:de.q60.mps.lang.typescript.unitTest" version="0" />
     <language slang="l:f3061a53-9226-4cc5-a443-f952ceaf5816:jetbrains.mps.baseLanguage" version="12" />
     <language slang="l:443f4c36-fcf5-4eb6-9500-8d06ed259e3e:jetbrains.mps.baseLanguage.classifiers" version="0" />
     <language slang="l:f61473f9-130f-42f6-b98d-6c438812c2f6:jetbrains.mps.baseLanguage.unitTest" version="1" />

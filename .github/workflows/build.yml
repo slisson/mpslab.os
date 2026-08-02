@@ -32,6 +32,16 @@ jobs:
           distribution: temurin
           java-version: '21'
 
+      # The generated TypeScript is compiled with tsc and run with node's own test runner
+      # (`node --test`), so the job needs a Node as well as a JDK. 22 is the floor: the
+      # test runner only accepts glob patterns for test files from 22.0.
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: mps-typescript/package-lock.json
+
       - name: Validate Gradle wrapper
         uses: gradle/actions/wrapper-validation@v6
 
@@ -52,6 +62,19 @@ jobs:
 
       - name: Build
         run: xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" ./gradlew build --stacktrace
+
+      # Everything below runs on what the step above generated: `mps-typescript` is an npm
+      # project whose sources are the modules' source_gen. `tsc --strict` is the ground
+      # truth for whether the language emits well-typed TypeScript; `node --test` then runs
+      # the TSTestCase roots of test.ex.de.q60.mps.lang.typescript, which have become
+      # `describe`/`test` blocks over node:assert.
+      - name: Install the TypeScript toolchain
+        run: npm ci
+        working-directory: mps-typescript
+
+      - name: Compile and run the generated TypeScript
+        run: npm test
+        working-directory: mps-typescript
 
       - name: Upload test reports
         if: ${{ !cancelled() }}

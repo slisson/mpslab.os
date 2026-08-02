@@ -35,12 +35,16 @@ val resolveMps = rootProject.tasks.named("resolveMps")
 // ---------------------------------------------------------------------------
 
 val languageDir = layout.projectDirectory.dir("modules/de.q60.mps.lang.typescript")
+val unitTestLanguageDir = layout.projectDirectory.dir("modules/de.q60.mps.lang.typescript.unitTest")
 val sandboxDir = layout.projectDirectory.dir("modules/de.q60.mps.lang.typescript.sandbox")
 val testsDir = layout.projectDirectory.dir("modules/de.q60.mps.lang.typescript.tests")
+val tsTestsDir = layout.projectDirectory.dir("modules/test.ex.de.q60.mps.lang.typescript")
 
 val languageModule = languageDir.file("de.q60.mps.lang.typescript.mpl")
+val unitTestLanguageModule = unitTestLanguageDir.file("de.q60.mps.lang.typescript.unitTest.mpl")
 val sandboxModule = sandboxDir.file("de.q60.mps.lang.typescript.sandbox.msd")
 val testsModule = testsDir.file("de.q60.mps.lang.typescript.tests.msd")
+val tsTestsModule = tsTestsDir.file("test.ex.de.q60.mps.lang.typescript.msd")
 
 // Everything the generator writes into the source tree. `MpsGenerateTask` models a single
 // `generatedOutput` (the one it cleans before each run), but a language module generates
@@ -53,9 +57,19 @@ val generatedDirs = listOf(
     languageDir.dir("generator/source_gen"),
     languageDir.dir("generator/source_gen.caches"),
     languageDir.dir("generator/classes_gen"),
+    unitTestLanguageDir.dir("source_gen"),
+    unitTestLanguageDir.dir("source_gen.caches"),
+    unitTestLanguageDir.dir("classes_gen"),
+    unitTestLanguageDir.dir("generator/source_gen"),
+    unitTestLanguageDir.dir("generator/source_gen.caches"),
+    unitTestLanguageDir.dir("generator/classes_gen"),
     sandboxDir.dir("source_gen"),
     sandboxDir.dir("source_gen.caches"),
     sandboxDir.dir("classes_gen"),
+    // The .test.ts files: what `npm test` compiles and runs.
+    tsTestsDir.dir("source_gen"),
+    tsTestsDir.dir("source_gen.caches"),
+    tsTestsDir.dir("classes_gen"),
     // The tests module generates its JUnit classes into test_gen rather than source_gen —
     // that is what the `tests` module facet means.
     testsDir.dir("test_gen"),
@@ -86,7 +100,7 @@ val generate = tasks.register<MpsGenerateTask>("generate") {
 
     macro("mps.home", mpsHomeDir)
 
-    module(languageModule, sandboxModule, testsModule)
+    module(languageModule, unitTestLanguageModule, sandboxModule, testsModule, tsTestsModule)
 
     // The one directory the task itself cleans; the others are handled by the doFirst below.
     generatedOutput.set(languageDir.dir("source_gen"))
@@ -134,9 +148,9 @@ val runTests = tasks.register<MpsLaunchTestsTask>("runTests") {
 
     macro("mps.home", mpsHomeDir)
 
-    // The tests are found in the tests module; the other two are loaded because it
+    // The tests are found in the tests module; the others are loaded because it
     // depends on them.
-    testModule(testsModule, languageModule, sandboxModule)
+    testModule(testsModule, languageModule, unitTestLanguageModule, sandboxModule)
 }
 
 tasks.named("check") {

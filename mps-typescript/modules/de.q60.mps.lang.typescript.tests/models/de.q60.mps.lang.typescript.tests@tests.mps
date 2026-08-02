@@ -6,6 +6,7 @@
     <use id="f3061a53-9226-4cc5-a443-f952ceaf5816" name="jetbrains.mps.baseLanguage" version="12" />
     <use id="f61473f9-130f-42f6-b98d-6c438812c2f6" name="jetbrains.mps.baseLanguage.unitTest" version="1" />
     <use id="8585453e-6bfb-4d80-98de-b16074f1d86c" name="jetbrains.mps.lang.test" version="6" />
+    <use id="7af3fcbd-9a15-43d7-84c7-2139553841f8" name="de.q60.mps.lang.typescript.unitTest" version="0" />
   </languages>
   <imports>
     <import index="ekwn" ref="r:9832fb5f-2578-4b58-8014-a5de79da988e(jetbrains.mps.ide.editor.actions)" />
@@ -21,6 +22,7 @@
       <concept id="1215607067978" name="jetbrains.mps.lang.test.structure.CheckNodeForErrorMessagesOperation" flags="ng" index="7OXhh">
         <property id="3743352646565420194" name="includeSelf" index="GvXf4" />
       </concept>
+      <concept id="7835233914436786109" name="jetbrains.mps.lang.test.structure.NodeUnknownErrorCheckOperation" flags="ng" index="mDk06" />
       <concept id="7011073693661765739" name="jetbrains.mps.lang.test.structure.InvokeActionStatement" flags="nn" index="2HxZob">
         <child id="1101347953350127927" name="actionReference" index="3iKnsn" />
       </concept>
@@ -91,6 +93,21 @@
       <concept id="3472769636933287167" name="de.q60.mps.lang.typescript.structure.TSBooleanType" flags="ng" index="3$6BPE" />
       <concept id="2240197384627242780" name="de.q60.mps.lang.typescript.structure.TSIncompleteRightParen" flags="ng" index="3Aoo2U" />
       <concept id="6275768358144507624" name="de.q60.mps.lang.typescript.structure.TSEqualsExpression" flags="ng" index="1CNJNU" />
+    </language>
+    <language id="7af3fcbd-9a15-43d7-84c7-2139553841f8" name="de.q60.mps.lang.typescript.unitTest">
+      <concept id="7474925316805868297" name="de.q60.mps.lang.typescript.unitTest.structure.TSAssertTrue" flags="ng" index="2xtvZL">
+        <child id="923496749372008960" name="condition" index="2tmK5A" />
+      </concept>
+      <concept id="2893403391783031051" name="de.q60.mps.lang.typescript.unitTest.structure.TSTestMethod" flags="ng" index="B13S5">
+        <child id="3423858813637018076" name="body" index="1OrNMJ" />
+      </concept>
+      <concept id="2540675105150896836" name="de.q60.mps.lang.typescript.unitTest.structure.TSTestCase" flags="ng" index="Jsc18">
+        <child id="3377630177900161387" name="testMethods" index="1QJMAF" />
+      </concept>
+      <concept id="9159215323861021911" name="de.q60.mps.lang.typescript.unitTest.structure.TSAssertEquals" flags="ng" index="174eko">
+        <child id="4433563903700617020" name="actual" index="1s_IBt" />
+        <child id="4065307100039490071" name="expected" index="3SOflj" />
+      </concept>
     </language>
     <language id="ceab5195-25ea-4f22-9b92-103b95ca8c0c" name="jetbrains.mps.lang.core">
       <concept id="1133920641626" name="jetbrains.mps.lang.core.structure.BaseConcept" flags="ng" index="2VYdi">
@@ -849,6 +866,93 @@
                 <node concept="1ku6r5" id="6QS6LNOSd3D" role="31d$z" />
               </node>
             </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="1lH9Xt" id="6WKYICFEOjj">
+    <property role="3DII0k" value="2hh8MJdVwqX/command" />
+    <property role="TrG5h" value="A_test_case_with_boolean_assertions_is_free_of_errors" />
+    <node concept="1qefOq" id="6WKYICFEOjk" role="1SKRRt">
+      <node concept="Jsc18" id="6WKYICFEOjm" role="1qenE9">
+        <property role="TrG5h" value="t" />
+        <node concept="B13S5" id="6WKYICFEOjn" role="1QJMAF">
+          <property role="TrG5h" value="a test" />
+          <node concept="2xtvZL" id="6WKYICFEOjo" role="1OrNMJ">
+            <node concept="1CNJNU" id="6WKYICFEOjq" role="2tmK5A">
+              <node concept="24BhzH" id="6WKYICFEOjt" role="33kRt2">
+                <property role="2Hr5CV" value="1" />
+              </node>
+              <node concept="24BhzH" id="6WKYICFEOju" role="GyX5B">
+                <property role="2Hr5CV" value="1" />
+              </node>
+              <node concept="7CXmI" id="6WKYICFEOjv" role="lGtFl">
+                <node concept="30Omv" id="6WKYICFEOjw" role="7EUXB">
+                  <node concept="3$6BPE" id="6WKYICFEOjy" role="31d$z" />
+                </node>
+              </node>
+            </node>
+          </node>
+          <node concept="174eko" id="6WKYICFEOjz" role="1OrNMJ">
+            <node concept="1rvuUm" id="6WKYICFEOjA" role="1s_IBt">
+              <node concept="24BhzH" id="6WKYICFEOjD" role="33kRt2">
+                <property role="2Hr5CV" value="1" />
+              </node>
+              <node concept="24BhzH" id="6WKYICFEOjE" role="GyX5B">
+                <property role="2Hr5CV" value="2" />
+              </node>
+            </node>
+            <node concept="24BhzH" id="6WKYICFEOjF" role="3SOflj">
+              <property role="2Hr5CV" value="3" />
+            </node>
+          </node>
+        </node>
+        <node concept="7CXmI" id="6WKYICFEOjG" role="lGtFl">
+          <node concept="7OXhh" id="6WKYICFEOjH" role="7EUXB">
+            <property role="GvXf4" value="true" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="1lH9Xt" id="6WKYICFEWGi">
+    <property role="3DII0k" value="2hh8MJdVwqX/command" />
+    <property role="TrG5h" value="An_assertion_condition_that_is_not_boolean_is_an_error" />
+    <node concept="1qefOq" id="6WKYICFEWGj" role="1SKRRt">
+      <node concept="Jsc18" id="6WKYICFEWGl" role="1qenE9">
+        <property role="TrG5h" value="t" />
+        <node concept="B13S5" id="6WKYICFEWGm" role="1QJMAF">
+          <property role="TrG5h" value="a test" />
+          <node concept="2xtvZL" id="6WKYICFEWGn" role="1OrNMJ">
+            <node concept="24BhzH" id="6WKYICFEWGp" role="2tmK5A">
+              <property role="2Hr5CV" value="1" />
+              <node concept="7CXmI" id="6WKYICFEWGq" role="lGtFl">
+                <node concept="mDk06" id="6WKYICFEWGr" role="7EUXB" />
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="1lH9Xt" id="6WKYICFEWLE">
+    <property role="3DII0k" value="2hh8MJdVwqX/command" />
+    <property role="TrG5h" value="An_assertion_is_not_allowed_outside_a_test_method" />
+    <node concept="1qefOq" id="6WKYICFEWLF" role="1SKRRt">
+      <node concept="24Z7zp" id="6WKYICFEWLH" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="2xtvZL" id="6WKYICFEWLI" role="1JIkAo">
+          <node concept="1CNJNU" id="6WKYICFEWLK" role="2tmK5A">
+            <node concept="24BhzH" id="6WKYICFEWLN" role="33kRt2">
+              <property role="2Hr5CV" value="1" />
+            </node>
+            <node concept="24BhzH" id="6WKYICFEWLO" role="GyX5B">
+              <property role="2Hr5CV" value="1" />
+            </node>
+          </node>
+          <node concept="7CXmI" id="6WKYICFEWLP" role="lGtFl">
+            <node concept="mDk06" id="6WKYICFEWRw" role="7EUXB" />
           </node>
         </node>
       </node>

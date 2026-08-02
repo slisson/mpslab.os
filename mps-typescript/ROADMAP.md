@@ -14,11 +14,12 @@ pattern rather than a new one.
 | constraints | Empty.                                                                                                                                                                          |
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
 | textgen     | 12 `ConceptTextGenDeclaration`s; the binary operators share one on `TSBinaryOperation` that writes the concept alias. `TSModule` writes `<name>.ts`. Done in phase 0.1.             |
-| tests       | 13 editor tests around precedence/parens/ternary, 1 nodes test for expression types.                                                                                             |
+| tests       | 12 editor tests around precedence/parens/ternary, 5 nodes tests (expression types, ternary conditions, the two unitTest checks, one error-free test case).                        |
+| unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`. Done in phase 0.2.                   |
 
-Two gaps dominate the ordering: there is no text output, and there is no name binding
-(`TSIdentifier.name` and `TSCallOperation.name` are strings, `console` is hardcoded as a
-concept).
+Two gaps dominate the ordering: there is no name binding (`TSIdentifier.name` and
+`TSCallOperation.name` are strings, `console` is hardcoded as a concept), and there are no
+declarations to bind to.
 
 ## Open decisions to settle first
 
@@ -50,16 +51,40 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
   writes `node.concept.getConceptAlias()` — the same source the editor renders with
   `component alias`, so the generated operator cannot drift from the typed one. That also
   means every operator added in phase 1 needs no textgen of its own.
-- **0.2 `tsc` in the build.** A Gradle task that runs `tsc --noEmit --strict` over the
-  generated sandbox output. This is the regression net for every phase that follows; without
-  it, type-system and textgen bugs are invisible.
+- **0.2 `tsc` in the build, and a unit-test language.** ✅ Done, and the two turned out to be
+  one task: a compiler that only type-checks proves the output parses, a test runner proves
+  it *means* something, and both need the same npm project. `mps-typescript/` is now that
+  project — `package.json` + `tsconfig.json` over the modules' `source_gen`, `npm test` =
+  `tsc` then `node --test`, run after `./gradlew build` in CI.
+  - `de.q60.mps.lang.typescript.unitTest` is a separate language extending the core one, the
+    way `jetbrains.mps.baseLanguage.unitTest` sits beside baseLanguage: `TSTestCase` (root,
+    named) holds `TSTestMethod`s, whose bodies hold statements and the four assertions
+    (`assert true` / `assert false` / `assert equals` / `assert not equals`). TextGen writes
+    `<name>.test.ts`: a `describe` per test case, a `test` per method, `assert.ok` /
+    `assert.deepStrictEqual` per assertion, over `node:test` and `node:assert`. Keeping it
+    out of the core language matters for decision 2 — a language reducing *into* TypeScript
+    gets the expressions without the test vocabulary.
+  - Two checks came with it: an assertion is only a legal child inside a `TSTestMethod`
+    (`canBeChild`), and an assertion's condition must be `boolean`. The second exists because
+    `tsc --strict` rejects a non-boolean condition (TS2872, "always truthy") — the check
+    catches in the editor what the compiler would otherwise catch minutes later. It found a
+    real one on its first run: the `ternary` sandbox root used `1 + 2` as a condition.
+  - The `TSTestCase` roots live in their own solution, `test.ex.de.q60.mps.lang.typescript`,
+    not in the sandbox — the sandbox demonstrates notation, these are executed.
+  - Deliberately not built yet: `fail` (nothing can reach it without control flow, so it
+    could not be covered end to end — it arrives with `if` in phase 4), assertion messages
+    (they need an alternation cell for the optional child, and `node:assert` already prints
+    actual/expected), and `beforeEach`/`afterEach` (nothing to set up until there are
+    declarations, phase 2). Editor tests for typing the assertion aliases are still owed;
+    the four concepts are covered by nodes tests and by the generated tests themselves.
 - **0.3 Generalize the precedence machinery.** Today priority lives in checking rules and
   side transforms per concept. Move it to a single source of truth — a behavior method
   `priority()` plus `isRightAssociative()` on `TSIBinaryLike`, with unary/prefix/postfix
   supported — so that adding the remaining ~30 operators is a table entry, not a design task.
 - **0.4 Definition of done, per concept.** Write it down and follow it: structure + editor
   cell + substitute/side transform + typesystem rule + textgen + at least one editor test
-  and one nodes test. The current 14 tests are the model to keep.
+  and one nodes test — and, now that 0.2 is in, a `TSTestCase` that runs the construct as
+  real TypeScript wherever it can be evaluated. The current 17 tests are the model to keep.
 
 ## Phase 1 — finish the expression language
 

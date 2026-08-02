@@ -10,15 +10,43 @@ published under the Apache License 2.0 (see [LICENSE](LICENSE)).
 A TypeScript language for MPS, plus a sandbox solution that uses it. What is implemented and
 what comes next is tracked in [`mps-typescript/ROADMAP.md`](mps-typescript/ROADMAP.md).
 
-| Module                                | Kind     | Contents                                              |
-|---------------------------------------|----------|-------------------------------------------------------|
-| `de.q60.mps.lang.typescript`          | language | structure, editor, constraints, behavior, typesystem  |
-| `de.q60.mps.lang.typescript.generator`| generator| the templates the language generates through          |
-| `de.q60.mps.lang.typescript.sandbox`  | solution | example models written in the language                |
+| Module                                  | Kind     | Contents                                                  |
+|-----------------------------------------|----------|-----------------------------------------------------------|
+| `de.q60.mps.lang.typescript`            | language | structure, editor, constraints, behavior, typesystem      |
+| `de.q60.mps.lang.typescript.generator`  | generator| the templates the language generates through              |
+| `de.q60.mps.lang.typescript.unitTest`   | language | `TSTestCase` and the assertions — the `BTestCase` analogue |
+| `de.q60.mps.lang.typescript.sandbox`    | solution | example models written in the language                    |
+| `de.q60.mps.lang.typescript.tests`      | solution | MPS editor and nodes tests for both languages             |
+| `test.ex.de.q60.mps.lang.typescript`    | solution | `TSTestCase` roots — the tests that run *as TypeScript*   |
 
 The modules are authored *in* MPS: the `.mps` models are the source, and everything under
 `source_gen/`, `classes_gen/` and `source_gen.caches/` is generator output that is rebuilt
 by the build and kept out of version control.
+
+### Two kinds of test, and which is which
+
+`de.q60.mps.lang.typescript.tests` holds MPS's own `EditorTestCase`/`NodesTestCase` roots.
+They test the *language* — that typing an operator rebalances the tree, that a type rule
+fires — and they run inside a headless MPS (`./gradlew check`).
+
+`test.ex.de.q60.mps.lang.typescript` holds `TSTestCase` roots written in
+`de.q60.mps.lang.typescript.unitTest`. They test the *generated TypeScript*, and they are
+not run by MPS at all: textgen writes each `TSTestCase` to a `<name>.test.ts` whose test
+methods have become `node:test` `describe`/`test` blocks over `node:assert`, and node runs
+them. This is the `BTestCase` equivalent — where `BTestCase` becomes a JUnit class that
+MPS's own launcher runs, a `TSTestCase` becomes a TypeScript file that `tsc` compiles and
+`node --test` runs.
+
+```
+test case comparison {              import { describe, test } from "node:test";
+  test numbers compare by value {   import { strict as assert } from "node:assert";
+    assert true 1 * 4 == 4;    →
+  }                                 describe("comparison", () => {
+}                                     test("numbers compare by value", () => {
+                                        assert.ok(1 * 4 == 4);
+                                      });
+                                    });
+```
 
 ## Building
 
@@ -30,6 +58,22 @@ That runs the MPS generator headlessly over the modules — generate, textgen an
 one pass — so a broken model, a type error or a template that no longer compiles fails the
 build. The `mps-typescript/` directory is also a normal MPS project: open it in the IDE and
 the same modules load from `.mps/modules.xml`.
+
+### Compiling and running the generated TypeScript
+
+Gradle stops at the `.ts` files. Compiling and running them is npm's job, from the same
+directory the generator wrote into:
+
+```
+cd mps-typescript && npm ci && npm test
+```
+
+`npm test` runs `tsc` over every generated `.ts` and then `node --test` over the compiled
+`*.test.js`. `tsc --strict` is deliberately the ground truth for whether the language emits
+well-typed TypeScript — it is what catches, say, a ternary whose condition is a number.
+`./gradlew generate` has to have run first: there are no hand-written TypeScript sources
+here, and `npm ci` needs Node 22 or newer. The two steps run one after the other in
+[`build.yml`](.github/workflows/build.yml).
 
 ### The MPS distribution
 
@@ -51,16 +95,20 @@ it is not already installed.
 
 | Task                          | What it does                                              |
 |-------------------------------|------------------------------------------------------------|
-| `:mps-typescript:generate`    | Runs the MPS generator over the language and the sandbox   |
+| `:mps-typescript:generate`    | Runs the MPS generator over the languages, the sandbox and the test solutions |
+| `:mps-typescript:runTests`    | Runs the MPS editor and nodes tests in a headless MPS      |
 | `:mps-typescript:cleanGenerated` | Deletes the generator output from the module directories |
-| `build`                       | The lifecycle task; currently just `generate`              |
+| `build`                       | The lifecycle task: `generate` + `runTests`                |
+
+Running the generated TypeScript is not a Gradle task — see above.
 
 ## Repository layout
 
 ```
 build-logic/       Gradle plugin driving the MPS workers (generation, headless tests)
 gradle/            version catalog + wrapper
-mps-typescript/    the MPS project: .mps/ + modules/
+mps-typescript/    the MPS project: .mps/ + modules/, and the npm project (package.json,
+                   tsconfig.json) that compiles and runs what the generator writes
 ```
 
 `build-logic` is an included build rather than a subproject, because Gradle can only
@@ -69,7 +117,7 @@ resolve a plugin by id from a build included for plugin resolution. It wraps MPS
 plugins, macros and modules that an MPS worker reads, then launches the worker in a forked
 JVM. `MpsGenerateTask` drives the generator; `MpsLaunchTestsTask` boots a headless
 `IdeaEnvironment` and runs MPS test modules, reporting through Gradle's own test
-infrastructure (unused so far — there are no test modules yet).
+infrastructure.
 
 ## Contributing
 

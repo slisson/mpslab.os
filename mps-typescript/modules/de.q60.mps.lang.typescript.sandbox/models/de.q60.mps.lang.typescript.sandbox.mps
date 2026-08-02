@@ -113,12 +113,17 @@
     <property role="TrG5h" value="ternary" />
     <node concept="3ja7nU" id="5Xb8BFgqa8M" role="1JIkAo">
       <node concept="0o88v" id="5Xb8BFgqa8O" role="$a3P1">
-        <node concept="1rvuUm" id="6QS6LNOSd98" role="3y1SWh">
-          <node concept="24BhzH" id="6QS6LNOSd9b" role="33kRt2">
-            <property role="2Hr5CV" value="1" />
+        <node concept="1CNJNU" id="6WKYICFAJHl" role="3y1SWh">
+          <node concept="1rvuUm" id="6WKYICFAJHo" role="33kRt2">
+            <node concept="24BhzH" id="6WKYICFAJHr" role="33kRt2">
+              <property role="2Hr5CV" value="1" />
+            </node>
+            <node concept="24BhzH" id="6WKYICFAJHs" role="GyX5B">
+              <property role="2Hr5CV" value="2" />
+            </node>
           </node>
-          <node concept="24BhzH" id="6QS6LNOSd9c" role="GyX5B">
-            <property role="2Hr5CV" value="2" />
+          <node concept="24BhzH" id="6WKYICFAJHt" role="GyX5B">
+            <property role="2Hr5CV" value="3" />
           </node>
         </node>
         <node concept="mk1J3" id="5Xb8BFgqa8X" role="10ubTB">
@@ -130,8 +135,13 @@
           </node>
         </node>
         <node concept="0o88v" id="5Xb8BFgqa92" role="3nuTyc">
-          <node concept="24BhzH" id="6QS6LNOSd9d" role="3y1SWh">
-            <property role="2Hr5CV" value="5" />
+          <node concept="1CNJNU" id="6WKYICFAJHu" role="3y1SWh">
+            <node concept="24BhzH" id="6WKYICFAJHx" role="33kRt2">
+              <property role="2Hr5CV" value="5" />
+            </node>
+            <node concept="24BhzH" id="6WKYICFAJHy" role="GyX5B">
+              <property role="2Hr5CV" value="5" />
+            </node>
           </node>
           <node concept="24BhzH" id="5Xb8BFgqa97" role="10ubTB">
             <property role="2Hr5CV" value="6" />
@@ -146,8 +156,13 @@
       <node concept="1rvuUm" id="5Xb8BFgqa9b" role="$a3P1">
         <node concept="pJsIj" id="5Xb8BFgqa9e" role="33kRt2">
           <node concept="0o88v" id="5Xb8BFgqa9g" role="3tJ$EF">
-            <node concept="24BhzH" id="6QS6LNOSd9e" role="3y1SWh">
-              <property role="2Hr5CV" value="1" />
+            <node concept="1CNJNU" id="6WKYICFAJHz" role="3y1SWh">
+              <node concept="24BhzH" id="6WKYICFAJHA" role="33kRt2">
+                <property role="2Hr5CV" value="1" />
+              </node>
+              <node concept="24BhzH" id="6WKYICFAJHB" role="GyX5B">
+                <property role="2Hr5CV" value="1" />
+              </node>
             </node>
             <node concept="24BhzH" id="5Xb8BFgqa9l" role="10ubTB">
               <property role="2Hr5CV" value="2" />
