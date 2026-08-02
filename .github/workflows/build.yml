@@ -42,8 +42,16 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      # The editor tests boot a real MPS editor, and the IDE platform initialises AWT for
+      # real rather than headlessly — -Djava.awt.headless=true is not enough. With no X
+      # server on the runner, AWT falls back to X11GraphicsEnvironment and the launcher dies
+      # before it runs anything: "Can't connect to X11 window server using ':0.0'". Xvfb is
+      # a display for it to connect to; nothing is ever shown.
+      - name: Ensure Xvfb is available
+        run: which xvfb-run || (sudo apt-get update && sudo apt-get install -y xvfb)
+
       - name: Build
-        run: ./gradlew build --stacktrace
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" ./gradlew build --stacktrace
 
       - name: Upload test reports
         if: ${{ !cancelled() }}
