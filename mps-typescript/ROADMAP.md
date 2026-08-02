@@ -8,15 +8,15 @@ pattern rather than a new one.
 
 | Aspect      | State                                                                                                                                                                          |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Expressions: string literal, number literal (integer or floating point, `TSNumberValue`-constrained text rather than an `integer` property), identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts, `+ - * / **`, `==`, the prefix operators `! - +` under an abstract `TSUnaryOperation`, parentheses, ternary. `TSIBinaryLike` extends `TSIExpression`, which is what lets the precedence machinery ask a one-sided operator for its level. Types: `boolean`, `number`, `string`, `console`. |
+| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Expressions: identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts. All twenty-five binary operators, grouped under the abstract `TSArithmeticOperation` / `TSComparisonOperation` / `TSEqualityOperation` / `TSLogicalOperation` / `TSBitwiseOperation`; the prefix operators `! - + ~ typeof void` under `TSUnaryOperation`; parentheses; ternary. Literals: string, number (`TSNumberValue`-constrained text covering the decimal, hex, binary, octal, separator and bigint forms), `true`/`false`, template literals as a head plus a span per interpolation. `TSIBinaryLike` extends `TSIExpression`, which is what lets the precedence machinery ask a one-sided operator for its level. Types: `boolean`, `number`, `string`, `console`, `null`, `undefined`, union, array. |
 | editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`, `else if`) render only when filled, and are reached by typing `:` / `=` / `else{` / `else if` — default transformation menus with RIGHT side-transform sections on `TSVariableDeclaration`, `TSIType` and `TSIfStatement`, plus one `TransformationMenuContribution` to `BaseConcept`'s default menu that hands a transform typed after a nested construct to whatever that construct closes. |
-| behavior    | `TSPrecedence` — the whole precedence scale as named constants, and the only place a priority number is written — the parenthesis machinery written against `TSIBinaryLike` rather than against binary operations, `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope — `TSITrailingChildOwner.trailingChild` for the `else` side transforms, and `TSNameUtil.isValidName`. |
-| typesystem  | `typeof` inference rules for literals, binary operations, `==`, the prefix operators (`number`, overridden to `boolean` for `!`), ternary, parentheses, declarations and identifiers; non-typesystem checks for priority violations, a prefix operator immediately left of `**` (TS17006, a syntax restriction rather than a precedence one), stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, and a number literal that stops at its exponent; one quick fix. No subtyping rules. Operand types are not constrained yet — that arrives with the type rules in phase 1. |
+| behavior    | `TSPrecedence` — the whole precedence scale as instances carrying level *and* associativity, and the only place a priority number is written — the parenthesis machinery written against `TSIBinaryLike` rather than against binary operations, `TSTypeUtil.union` normalizing every union that is built, `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope — `TSITrailingChildOwner.trailingChild` for the `else` side transforms, `needsSpaceBeforeOperand` and `needsParenthesesAsArrayElement` (each asked by both the editor and the textgen, so what is shown and what is generated cannot drift), and `TSNameUtil.isValidName`. Types present themselves through `BaseConcept.getPresentation`, overridden only where the notation is more than a keyword — the alias is already the default. |
+| typesystem  | Per-operator typing lives in an `OverloadedOpRulesContainer` table, which `typeof_TSBinaryOperation` consults through `operation-type` — so an operand combination with no row *is* the "cannot be applied" error, rather than a separate set of operand checks. Overriding rules for equality, `in`, `,` and `&& \|\| ??`, whose results do not depend on their operands. `typeof` rules for every literal, the prefix operators, the ternary, parens, declarations and identifiers. Non-typesystem checks: priority violations, a prefix operator immediately left of `**` (TS17006 — a syntax restriction, not a precedence one), `??` mixed with `\|\|`/`&&`, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, and a number literal still in an intermediate typing state. Two quick fixes. **No subtyping rules at all yet** — which is what stops a union from being usable as an annotation. |
 | constraints | `TSIdentifier.declaration` declares the inherited scope, which is what makes the `ScopeProvider`s above take effect; `TSIDeclaration.name` is validated as a TypeScript identifier, which is what lets `:` and `=` leave the name cell instead of extending the name; the unitTest language restricts assertions to test methods. |
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
-| textgen     | 20 `ConceptTextGenDeclaration`s; the binary operators share one on `TSBinaryOperation` and the three declaration kinds one on `TSVariableDeclaration`, both writing the concept alias. `TSModule` writes `<name>.ts`. Done in phase 0.1.             |
-| intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty. Kept beside the side transforms, which are now the primary way in: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. |
-| tests       | 27 editor tests (precedence/parens/ternary, left- and right-associativity, typing a prefix operator, typing `const`, typing an identifier, typing a decimal point and an exponent, the add-else intention, the six side transforms for the optional cells and the one case that must not forward), 14 nodes tests (expression, prefix-operator and declaration types, floating point literals, scoping in and out, ternary conditions, the const/annotation/initializer/exponent checks, the two unitTest checks) — 59 JUnit tests between them. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `unit_test_language` — since the concept already says which kind a test is. |
+| textgen     | 27 `ConceptTextGenDeclaration`s; the twenty-five binary operators share one on `TSBinaryOperation`, the six prefix operators one on `TSUnaryOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts`. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
+| intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty — and add a template-literal interpolation. Kept beside the side transforms, which are the primary way in for the first four: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. For the interpolation it is the *only* way in, which is a gap rather than a design — see *Cross-cutting*. |
+| tests       | 28 editor tests and 17 nodes tests — 77 JUnit tests between them — plus 20 TypeScript tests that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), and the error when the table has no row. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `unit_test_language` — since the concept already says which kind a test is. |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 The gap that dominates the ordering is now the standard library: `console` is still a
@@ -178,21 +178,79 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
 
 ## Phase 1 — finish the expression language
 
-Cheap once 0.3 is done, and it exercises the machinery under load. Each of the operators below is
-now one structure concept plus one behavior root naming a `TSPrecedence` level; everything else —
-editor, textgen, side transforms, substitution, the result-type rule — it inherits.
+The syntax half was as cheap as 0.3 promised. The type half was not, and it is what re-ordered the
+rest of this document: see *What phase 1 learned about phase 5* below.
 
-- Operators by precedence group: `%`, `< > <= >=`, `!= === !==`, `&& || ??`,
-  `& | ^ << >> >>>`, `,`, `in`. (`instanceof` waits for classes. `**` landed with 0.3 as the
+- ✅ **Operators by precedence group**: `%`, `< > <= >=`, `!= === !==`, `&& || ??`,
+  `& | ^ << >> >>>`, `,`, `in` — twenty-five in all, each one structure concept plus one behavior
+  root naming a `TSPrecedence` level. Everything else — editor, textgen, side transforms,
+  substitution — is inherited. (`instanceof` waits for classes; `**` landed with 0.3 as the
   right-associativity test case.)
-- Unary: `~`, `typeof`, `void`. (`!` and unary `-`/`+` landed with 0.3 as the one-sided test case;
-  `++`/`--` need assignability → phase 2.)
-- Literals: `true`/`false`, `null`, `undefined`, template literals, array literal, object
-  literal. Number literals cover the decimal forms, integer and floating point; `0x`/`0b`/
-  `0o`, numeric separators and `bigint` are a widening of the `TSNumberValue` datatype and
-  of `check_TSNumberLiteral` beside it.
-- Type rules that come with them: numeric operands, the `number + string → string` overload,
-  comparisons → `boolean`, the union results of `&&`/`||`/`??`.
+- ✅ **Grouped, so the type rules are five roots rather than twenty-five.** `TSArithmeticOperation`,
+  `TSComparisonOperation`, `TSEqualityOperation`, `TSLogicalOperation` and `TSBitwiseOperation` are
+  abstract intermediates under `TSBinaryOperation`. `in` and `,` stay direct children, since neither
+  shares a rule with anything.
+- ✅ **Unary**: `~`, `typeof`, `void`. (`!` and unary `-`/`+` landed with 0.3; `++`/`--` need
+  assignability → phase 2.) The spacing rule had to grow for them: `needsSpaceBeforeOperand` now
+  asks whether the alias and the operand would run together into one token — always after an alias
+  ending in a letter, otherwise only where `--` or `++` would appear. So `typeof 5` and `- -5`, but
+  `~~5` and `!!5`. One behavior method, which the editor and the textgen both call.
+- ✅ **Literals**: `true`/`false` under an abstract `TSBooleanLiteral`; template literals, modelled
+  as TypeScript's own AST models them — a head of text and a span per interpolation, each carrying
+  the text after it, so the two cannot fall out of alternation; and `TSNumberValue` widened for
+  `0x`/`0b`/`0o`, numeric separators and `bigint`, with `check_TSNumberLiteral` reporting what the
+  datatype has to admit as an intermediate typing state.
+- ✅ **The type rules, via MPS's overloaded-operator mechanism** — which is the find of this phase.
+  `OverloadedOpRulesContainer` holds the per-operator typing as a *table*: `+` with a string operand
+  → `string` (one `OverloadedOpTypeRule_OneTypeSpecified` row covering string+string, string+number
+  and number+string), arithmetic and bitwise (number, number) → `number`, comparison (number, number)
+  and (string, string) → `boolean`. `typeof_TSBinaryOperation` is then a single rule that waits for
+  both operand types, asks the table, and reports otherwise.
+
+  **The operand checks are not a second set of rules.** A combination with no row in the table *is*
+  what "cannot be applied to these operands" means, so the checking and the typing cannot disagree —
+  they are the same table. `Operator '*' cannot be applied to 'string' and 'number'`.
+- ✅ The four operators whose result does not depend on their operands override that rule instead of
+  adding rows: equality → `boolean` (carrying the same-type check the old `typeof_TSEqualsExpression`
+  had, now generalized to all four), `in` → `boolean`, `,` → its right operand, and `&& || ??` → the
+  union of both operands.
+- ✅ **The types those rules needed**: `TSUnionType`, `TSNullType`, `TSUndefinedType`, `TSArrayType`.
+  `TSTypeUtil.union` is the only place a union is constructed — it flattens, deduplicates and sorts,
+  because MPS compares types as trees and `number|string` is only the same type as `string|number` if
+  both are always built the same way round.
+- ✅ **Type syntax has a precedence of its own**, which nothing in phase 0 anticipated. The array
+  suffix binds tighter than a union, so `number | string[]` is TypeScript for `number | (string[])`.
+  `TSIType.needsParenthesesAsArrayElement` is the one virtual method that decides it, asked by both
+  the presentation and the textgen. Function types will override it in phase 3. If a third such
+  question appears, types want their own `TSPrecedence`.
+
+Still open, and the order they should be done in:
+
+1. **The member-of-union subtyping rule.** Until a union member is a subtype of its union,
+   `let x: number | string = 1` does not type-check, which makes the unions above only half usable.
+   This is the one genuinely blocking item.
+2. **`null` and `undefined` literals.** Cheap now that the types exist — two concepts, two editors,
+   two textgens, two inference rules.
+3. **The tests phase 1 still owes**: `TSTestCase` roots running the new operators as real TypeScript,
+   and editor tests for the alias-collision groups (see *Cross-cutting* below).
+4. **Array literals** — moved to phase 5, see below.
+5. **Object literals** — moved to phase 5, see below.
+
+### What phase 1 learned about phase 5
+
+Two of phase 1's own bullets turned out to need types phase 5 owns, and pretending otherwise would
+have shipped something wrong:
+
+- **The array literal** is fine for `[1, 2, 3]` (→ `number[]`) and, now that unions exist, for
+  `[1, "a"]` (→ `(number | string)[]`). It is `[]` that has no answer here: TypeScript types it
+  `never[]`, and `never` is phase 5. Array covariance — what makes `never[]` assignable to
+  `number[]` — is phase 5's structural subtyping. So the literal moves to phase 5 and arrives with
+  the types that can state it.
+- **The object literal** is worse, and the reason is not the type system at all: `{a: 1}` needs a
+  `TSObjectType` with property signatures, and *nothing can read such a type* until member access
+  exists, which is phase 3. A type no expression can consume is not worth shipping.
+
+Neither is a large piece of work once its prerequisites exist. Both are listed under phase 5 now.
 
 ## Phase 2 — names, declarations, scopes (architectural)
 
@@ -275,11 +333,20 @@ The second retrofit-expensive change. Mostly done; what remains is listed at the
 
 The largest and most open-ended phase; scope it by decision 1 above.
 
-- `any` / `unknown` / `never` / `void` / `null` / `undefined` with strict-null semantics.
+- `any` / `unknown` / `never` / `void` with strict-null semantics. `null` and `undefined` are
+  already here as types — phase 1's `&& || ??` rules needed them — so what is left for them is the
+  *semantics*, not the concepts.
 - Structural subtyping rule; object types, `interface`, `type` aliases, optional properties,
-  index signatures.
-- Unions and intersections; literal types.
-- Arrays and tuples.
+  index signatures. **The object literal lands here**, not in phase 1: `{a: 1}` needs a
+  `TSObjectType` with property signatures, and no expression can read such a type until member
+  access exists in phase 3.
+- Intersections and literal types. Unions themselves are already here from phase 1, normalized by
+  `TSTypeUtil.union`; what phase 5 owes them is the **member-of-union subtyping rule**, without
+  which `let x: number | string = 1` does not type-check — that one is small and blocking, so it
+  is listed as phase 1's next item rather than left to wait here.
+- Arrays and tuples. **The array literal lands here too**, for one reason only: `[]` is `never[]`
+  in TypeScript, and assigning it to `number[]` needs array covariance. The non-empty cases already
+  work with what phase 1 built.
 - **Narrowing** (`typeof` guards, truthiness, discriminated unions, `as`, `!`). MPS's
   typesystem is not flow-sensitive; this needs its own design — most likely a behavior-level
   narrowed type per reference computed from the dataflow graph, not an inference rule. Treat
@@ -410,6 +477,20 @@ hangs.
 
 ## Cross-cutting, ongoing
 
+- **Two small debts phase 1 left, neither worth a phase of its own.** `${` cannot be typed into a
+  template literal's text cell — a free-text property accepts the keystroke, so no side transform
+  ever fires there, and the intention is the only way in until that cell is given something that
+  refuses it. And a negative number *literal* is now a second spelling of unary minus applied to a
+  positive one, because `TSNumberValue` still admits a leading `-` from before `TSUnaryMinusExpression`
+  existed; the output is identical either way, but two trees render the same text, and the `-?`
+  should go the next time a migration is being written anyway.
+- **An operator whose alias is a prefix of another one cannot be tested by typing it alone.** `?`
+  before `??`, `!` before `!=`/`!==`, `<` before `<=`/`<<`, `>` before `>=`/`>>`/`>>>`, `&` before
+  `&&`, `|` before `||` — MPS holds the side transform *pending* while a longer alias could still
+  match, and commits it when the edit ends. In the editor that is the next keystroke or the caret
+  leaving the cell; in an `EditorTestCase` it is `InvokeActionStatement` with `MoveRight`.
+  `PressKeyStatement` with `VK_RIGHT` does **not** work, and fails as though the keystroke did
+  nothing. Every operator added from here on is in one of those families.
 - Intentions and quick fixes alongside each phase (the ternary paren quick fix is the model).
 - Migration scripts for every structural rename — the concept-prefix rename and the
   `TSConsoleLog` removal show the cost of not having them.
