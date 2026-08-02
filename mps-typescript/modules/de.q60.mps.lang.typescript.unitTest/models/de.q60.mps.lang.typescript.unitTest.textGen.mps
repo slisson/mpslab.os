@@ -377,5 +377,28 @@
       </node>
     </node>
   </node>
+  <node concept="WtQ9Q" id="6WKYICFMYnN">
+    <ref role="WuzLi" to="2rf1:6WKYICFMSWv" resolve="TSFail" />
+    <node concept="11bSqf" id="6WKYICFMYnO" role="11c4hB">
+      <node concept="3clFbS" id="6WKYICFMYnQ" role="2VODD2">
+        <node concept="lc7rE" id="6WKYICFMYnR" role="3cqZAp">
+          <node concept="la8eA" id="6WKYICFMYnT" role="lcghm">
+            <property role="lacIc" value="assert.fail(" />
+          </node>
+          <node concept="l9hG8" id="6WKYICFMYnU" role="lcghm">
+            <node concept="2OqwBi" id="6WKYICFMYnW" role="lb14g">
+              <node concept="117lpO" id="6WKYICFMYnZ" role="2Oq$k0" />
+              <node concept="3TrEf2" id="6WKYICFMYo0" role="2OqNvi">
+                <ref role="3Tt5mk" to="2rf1:6WKYICFMSWx" resolve="message" />
+              </node>
+            </node>
+          </node>
+          <node concept="la8eA" id="6WKYICFMYo1" role="lcghm">
+            <property role="lacIc" value=");" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 

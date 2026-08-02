@@ -12,7 +12,7 @@ what comes next is tracked in [`mps-typescript/ROADMAP.md`](mps-typescript/ROADM
 
 | Module                                  | Kind     | Contents                                                  |
 |-----------------------------------------|----------|-----------------------------------------------------------|
-| `de.q60.mps.lang.typescript`            | language | structure, editor, constraints, behavior, typesystem      |
+| `de.q60.mps.lang.typescript`            | language | structure, editor, behavior, typesystem, intentions, textgen |
 | `de.q60.mps.lang.typescript.generator`  | generator| the templates the language generates through              |
 | `de.q60.mps.lang.typescript.unitTest`   | language | `TSTestCase` and the assertions — the `BTestCase` analogue |
 | `de.q60.mps.lang.typescript.sandbox`    | solution | example models written in the language                    |

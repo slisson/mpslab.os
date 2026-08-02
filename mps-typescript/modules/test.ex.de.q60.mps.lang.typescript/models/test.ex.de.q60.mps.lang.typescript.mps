@@ -22,6 +22,19 @@
       <concept id="83412354109643915" name="de.q60.mps.lang.typescript.structure.TSParenthesizedExpression" flags="ng" index="pJsIj">
         <child id="7350906890408026229" name="expression" index="3tJ$EF" />
       </concept>
+      <concept id="8640047791204011315" name="de.q60.mps.lang.typescript.structure.TSBlock" flags="ng" index="qYD23">
+        <child id="7935308623531745380" name="statements" index="6EW52" />
+      </concept>
+      <concept id="4306270926879848440" name="de.q60.mps.lang.typescript.structure.TSLetDeclaration" flags="ng" index="2swglJ" />
+      <concept id="8057680275657749238" name="de.q60.mps.lang.typescript.structure.TSIdentifier" flags="ng" index="2v$HdM">
+        <reference id="7745766023969360865" name="declaration" index="2oxrr9" />
+      </concept>
+      <concept id="3720627991746027321" name="de.q60.mps.lang.typescript.structure.TSElseIfClause" flags="ng" index="ILWLb">
+        <child id="4391307923817728188" name="condition" index="1usCvQ" />
+        <child id="1792031550624269005" name="block" index="1TBx7Y" />
+      </concept>
+      <concept id="5991954684290791457" name="de.q60.mps.lang.typescript.structure.TSStringType" flags="ng" index="2Kh4GC" />
+      <concept id="4715308568151819694" name="de.q60.mps.lang.typescript.structure.TSConstDeclaration" flags="ng" index="2MuU66" />
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
         <property id="7217799321058434228" name="value" index="3b_9E9" />
       </concept>
@@ -29,8 +42,23 @@
         <child id="7602522883118221103" name="rightExpression" index="GyX5B" />
         <child id="5707686448369938903" name="leftExpression" index="33kRt2" />
       </concept>
+      <concept id="7106926194277792125" name="de.q60.mps.lang.typescript.structure.TSNumberType" flags="ng" index="1ku6r5" />
+      <concept id="902545861387718385" name="de.q60.mps.lang.typescript.structure.TSAssignmentStatement" flags="ng" index="3p1v9s">
+        <child id="488639419388104298" name="target" index="219B2s" />
+        <child id="834448770786422024" name="expression" index="1IqeeO" />
+      </concept>
       <concept id="6704462043861673507" name="de.q60.mps.lang.typescript.structure.TSPlusExpression" flags="ng" index="1rvuUm" />
       <concept id="6275768358144507624" name="de.q60.mps.lang.typescript.structure.TSEqualsExpression" flags="ng" index="1CNJNU" />
+      <concept id="2676595144476088988" name="de.q60.mps.lang.typescript.structure.TSVariableDeclaration" flags="ng" index="1Jbnu6">
+        <child id="7603193039132759139" name="declaredType" index="19IeeE" />
+        <child id="8956598854396892412" name="initializer" index="1bGQZ8" />
+      </concept>
+      <concept id="1786862727331701833" name="de.q60.mps.lang.typescript.structure.TSIfStatement" flags="ng" index="3Oct9B">
+        <child id="186330115020247543" name="elseBlock" index="2uaaIR" />
+        <child id="6415352913453783659" name="thenBlock" index="12avcn" />
+        <child id="264280299738157132" name="condition" index="18F3B4" />
+        <child id="2578765457793828190" name="elseIfClauses" index="1X4dzr" />
+      </concept>
     </language>
     <language id="7af3fcbd-9a15-43d7-84c7-2139553841f8" name="de.q60.mps.lang.typescript.unitTest">
       <concept id="5324903807302792343" name="de.q60.mps.lang.typescript.unitTest.structure.TSAssertFalse" flags="ng" index="2gzqXr">
@@ -52,6 +80,9 @@
       <concept id="7158842254919711510" name="de.q60.mps.lang.typescript.unitTest.structure.TSAssertNotEquals" flags="ng" index="1$OICc">
         <child id="3663594992465210637" name="expected" index="s7_$L" />
         <child id="6572111961859092722" name="actual" index="1_w2nK" />
+      </concept>
+      <concept id="1671337506811517318" name="de.q60.mps.lang.typescript.unitTest.structure.TSFail" flags="ng" index="1Iu54t">
+        <child id="1832419353059037549" name="message" index="1NN9Vs" />
       </concept>
     </language>
     <language id="ceab5195-25ea-4f22-9b92-103b95ca8c0c" name="jetbrains.mps.lang.core">
@@ -213,6 +244,248 @@
         </node>
         <node concept="24BhzH" id="6WKYICFB5VL" role="3SOflj">
           <property role="2Hr5CV" value="2" />
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="Jsc18" id="6WKYICFTeMp">
+    <property role="TrG5h" value="declarations" />
+    <node concept="B13S5" id="6WKYICFTeMq" role="1QJMAF">
+      <property role="TrG5h" value="a const keeps the value it was initialized with" />
+      <node concept="2MuU66" id="6WKYICFTeMr" role="1OrNMJ">
+        <property role="TrG5h" value="answer" />
+        <node concept="1ku6r5" id="6WKYICFTeMs" role="19IeeE" />
+        <node concept="24BhzH" id="6WKYICFTeMt" role="1bGQZ8">
+          <property role="2Hr5CV" value="40" />
+        </node>
+      </node>
+      <node concept="174eko" id="6WKYICFTeMu" role="1OrNMJ">
+        <node concept="1rvuUm" id="6WKYICFTeMx" role="1s_IBt">
+          <node concept="2v$HdM" id="6WKYICFTeM$" role="33kRt2">
+            <ref role="2oxrr9" node="6WKYICFTeMr" resolve="answer" />
+          </node>
+          <node concept="24BhzH" id="6WKYICFTeM_" role="GyX5B">
+            <property role="2Hr5CV" value="2" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="6WKYICFTeMA" role="3SOflj">
+          <property role="2Hr5CV" value="42" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="6WKYICFTeMB" role="1QJMAF">
+      <property role="TrG5h" value="a let can be reassigned" />
+      <node concept="2swglJ" id="6WKYICFTeMC" role="1OrNMJ">
+        <property role="TrG5h" value="counter" />
+        <node concept="1ku6r5" id="6WKYICFTeMD" role="19IeeE" />
+        <node concept="24BhzH" id="6WKYICFTeME" role="1bGQZ8">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+      <node concept="3p1v9s" id="6WKYICFTeMF" role="1OrNMJ">
+        <node concept="2v$HdM" id="6WKYICFTeMI" role="219B2s">
+          <ref role="2oxrr9" node="6WKYICFTeMC" resolve="counter" />
+        </node>
+        <node concept="mk1J3" id="6WKYICFTeMJ" role="1IqeeO">
+          <node concept="2v$HdM" id="6WKYICFTeMM" role="33kRt2">
+            <ref role="2oxrr9" node="6WKYICFTeMC" resolve="counter" />
+          </node>
+          <node concept="24BhzH" id="6WKYICFTeMN" role="GyX5B">
+            <property role="2Hr5CV" value="5" />
+          </node>
+        </node>
+      </node>
+      <node concept="174eko" id="6WKYICFTeMO" role="1OrNMJ">
+        <node concept="2v$HdM" id="6WKYICFTeMR" role="1s_IBt">
+          <ref role="2oxrr9" node="6WKYICFTeMC" resolve="counter" />
+        </node>
+        <node concept="24BhzH" id="6WKYICFTeMS" role="3SOflj">
+          <property role="2Hr5CV" value="5" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="6WKYICFTeMT" role="1QJMAF">
+      <property role="TrG5h" value="a declaration without an annotation takes the type of its initializer" />
+      <node concept="2MuU66" id="6WKYICFTeMU" role="1OrNMJ">
+        <property role="TrG5h" value="word" />
+        <node concept="33xXhr" id="6WKYICFTeMV" role="1bGQZ8">
+          <property role="3b_9E9" value="hello" />
+        </node>
+      </node>
+      <node concept="174eko" id="6WKYICFTeMW" role="1OrNMJ">
+        <node concept="2v$HdM" id="6WKYICFTeMZ" role="1s_IBt">
+          <ref role="2oxrr9" node="6WKYICFTeMU" resolve="word" />
+        </node>
+        <node concept="33xXhr" id="6WKYICFTeN0" role="3SOflj">
+          <property role="3b_9E9" value="hello" />
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="Jsc18" id="6WKYICFTeVV">
+    <property role="TrG5h" value="control_flow" />
+    <node concept="B13S5" id="6WKYICFTeVW" role="1QJMAF">
+      <property role="TrG5h" value="an if runs the then branch when its condition holds" />
+      <node concept="2swglJ" id="6WKYICFTeVX" role="1OrNMJ">
+        <property role="TrG5h" value="flow" />
+        <node concept="2Kh4GC" id="6WKYICFTeVY" role="19IeeE" />
+        <node concept="33xXhr" id="6WKYICFTeVZ" role="1bGQZ8">
+          <property role="3b_9E9" value="none" />
+        </node>
+      </node>
+      <node concept="2MuU66" id="6WKYICFTeW0" role="1OrNMJ">
+        <property role="TrG5h" value="one" />
+        <node concept="1ku6r5" id="6WKYICFTeW1" role="19IeeE" />
+        <node concept="24BhzH" id="6WKYICFTeW2" role="1bGQZ8">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+      <node concept="3Oct9B" id="6WKYICFTeW3" role="1OrNMJ">
+        <node concept="1CNJNU" id="6WKYICFTeW6" role="18F3B4">
+          <node concept="2v$HdM" id="6WKYICFTeW9" role="33kRt2">
+            <ref role="2oxrr9" node="6WKYICFTeW0" resolve="one" />
+          </node>
+          <node concept="24BhzH" id="6WKYICFTeWa" role="GyX5B">
+            <property role="2Hr5CV" value="1" />
+          </node>
+        </node>
+        <node concept="qYD23" id="6WKYICFTeWb" role="12avcn">
+          <node concept="3p1v9s" id="6WKYICFTeWc" role="6EW52">
+            <node concept="2v$HdM" id="6WKYICFTeWf" role="219B2s">
+              <ref role="2oxrr9" node="6WKYICFTeVX" resolve="flow" />
+            </node>
+            <node concept="33xXhr" id="6WKYICFTeWg" role="1IqeeO">
+              <property role="3b_9E9" value="then" />
+            </node>
+          </node>
+        </node>
+        <node concept="qYD23" id="6WKYICFTeWh" role="2uaaIR">
+          <node concept="3p1v9s" id="6WKYICFTeWi" role="6EW52">
+            <node concept="2v$HdM" id="6WKYICFTeWl" role="219B2s">
+              <ref role="2oxrr9" node="6WKYICFTeVX" resolve="flow" />
+            </node>
+            <node concept="33xXhr" id="6WKYICFTeWm" role="1IqeeO">
+              <property role="3b_9E9" value="else" />
+            </node>
+          </node>
+        </node>
+      </node>
+      <node concept="174eko" id="6WKYICFTeWn" role="1OrNMJ">
+        <node concept="2v$HdM" id="6WKYICFTeWq" role="1s_IBt">
+          <ref role="2oxrr9" node="6WKYICFTeVX" resolve="flow" />
+        </node>
+        <node concept="33xXhr" id="6WKYICFTeWr" role="3SOflj">
+          <property role="3b_9E9" value="then" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="6WKYICFTeWs" role="1QJMAF">
+      <property role="TrG5h" value="an else-if branch runs when the first condition does not hold" />
+      <node concept="2swglJ" id="6WKYICFTeWt" role="1OrNMJ">
+        <property role="TrG5h" value="chosen" />
+        <node concept="1ku6r5" id="6WKYICFTeWu" role="19IeeE" />
+        <node concept="24BhzH" id="6WKYICFTeWv" role="1bGQZ8">
+          <property role="2Hr5CV" value="0" />
+        </node>
+      </node>
+      <node concept="2MuU66" id="6WKYICFTeWw" role="1OrNMJ">
+        <property role="TrG5h" value="two" />
+        <node concept="1ku6r5" id="6WKYICFTeWx" role="19IeeE" />
+        <node concept="24BhzH" id="6WKYICFTeWy" role="1bGQZ8">
+          <property role="2Hr5CV" value="2" />
+        </node>
+      </node>
+      <node concept="3Oct9B" id="6WKYICFTeWz" role="1OrNMJ">
+        <node concept="1CNJNU" id="6WKYICFTeWA" role="18F3B4">
+          <node concept="2v$HdM" id="6WKYICFTeWD" role="33kRt2">
+            <ref role="2oxrr9" node="6WKYICFTeWw" resolve="two" />
+          </node>
+          <node concept="24BhzH" id="6WKYICFTeWE" role="GyX5B">
+            <property role="2Hr5CV" value="1" />
+          </node>
+        </node>
+        <node concept="qYD23" id="6WKYICFTeWF" role="12avcn">
+          <node concept="3p1v9s" id="6WKYICFTeWG" role="6EW52">
+            <node concept="2v$HdM" id="6WKYICFTeWJ" role="219B2s">
+              <ref role="2oxrr9" node="6WKYICFTeWt" resolve="chosen" />
+            </node>
+            <node concept="24BhzH" id="6WKYICFTeWK" role="1IqeeO">
+              <property role="2Hr5CV" value="1" />
+            </node>
+          </node>
+        </node>
+        <node concept="ILWLb" id="6WKYICFTeWL" role="1X4dzr">
+          <node concept="1CNJNU" id="6WKYICFTeWO" role="1usCvQ">
+            <node concept="2v$HdM" id="6WKYICFTeWR" role="33kRt2">
+              <ref role="2oxrr9" node="6WKYICFTeWw" resolve="two" />
+            </node>
+            <node concept="24BhzH" id="6WKYICFTeWS" role="GyX5B">
+              <property role="2Hr5CV" value="2" />
+            </node>
+          </node>
+          <node concept="qYD23" id="6WKYICFTeWT" role="1TBx7Y">
+            <node concept="3p1v9s" id="6WKYICFTeWU" role="6EW52">
+              <node concept="2v$HdM" id="6WKYICFTeWX" role="219B2s">
+                <ref role="2oxrr9" node="6WKYICFTeWt" resolve="chosen" />
+              </node>
+              <node concept="24BhzH" id="6WKYICFTeWY" role="1IqeeO">
+                <property role="2Hr5CV" value="2" />
+              </node>
+            </node>
+          </node>
+        </node>
+        <node concept="qYD23" id="6WKYICFTeWZ" role="2uaaIR">
+          <node concept="3p1v9s" id="6WKYICFTeX0" role="6EW52">
+            <node concept="2v$HdM" id="6WKYICFTeX3" role="219B2s">
+              <ref role="2oxrr9" node="6WKYICFTeWt" resolve="chosen" />
+            </node>
+            <node concept="24BhzH" id="6WKYICFTeX4" role="1IqeeO">
+              <property role="2Hr5CV" value="3" />
+            </node>
+          </node>
+        </node>
+      </node>
+      <node concept="174eko" id="6WKYICFTeX5" role="1OrNMJ">
+        <node concept="2v$HdM" id="6WKYICFTeX8" role="1s_IBt">
+          <ref role="2oxrr9" node="6WKYICFTeWt" resolve="chosen" />
+        </node>
+        <node concept="24BhzH" id="6WKYICFTeX9" role="3SOflj">
+          <property role="2Hr5CV" value="2" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="6WKYICFTeXa" role="1QJMAF">
+      <property role="TrG5h" value="a branch that must not be taken fails the test if it is" />
+      <node concept="2MuU66" id="6WKYICFTeXb" role="1OrNMJ">
+        <property role="TrG5h" value="guarded" />
+        <node concept="1ku6r5" id="6WKYICFTeXc" role="19IeeE" />
+        <node concept="24BhzH" id="6WKYICFTeXd" role="1bGQZ8">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+      <node concept="3Oct9B" id="6WKYICFTeXe" role="1OrNMJ">
+        <node concept="1CNJNU" id="6WKYICFTeXh" role="18F3B4">
+          <node concept="2v$HdM" id="6WKYICFTeXk" role="33kRt2">
+            <ref role="2oxrr9" node="6WKYICFTeXb" resolve="guarded" />
+          </node>
+          <node concept="24BhzH" id="6WKYICFTeXl" role="GyX5B">
+            <property role="2Hr5CV" value="2" />
+          </node>
+        </node>
+        <node concept="qYD23" id="6WKYICFTeXm" role="12avcn">
+          <node concept="1Iu54t" id="6WKYICFTeXn" role="6EW52">
+            <node concept="33xXhr" id="6WKYICFTeXp" role="1NN9Vs">
+              <property role="3b_9E9" value="1 is not 2" />
+            </node>
+          </node>
+        </node>
+      </node>
+      <node concept="174eko" id="6WKYICFTeXq" role="1OrNMJ">
+        <node concept="2v$HdM" id="6WKYICFTeXt" role="1s_IBt">
+          <ref role="2oxrr9" node="6WKYICFTeXb" resolve="guarded" />
+        </node>
+        <node concept="24BhzH" id="6WKYICFTeXu" role="3SOflj">
+          <property role="2Hr5CV" value="1" />
         </node>
       </node>
     </node>

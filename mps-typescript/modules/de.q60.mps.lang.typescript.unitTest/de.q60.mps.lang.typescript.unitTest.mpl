@@ -57,6 +57,7 @@
   </generators>
   <dependencies>
     <dependency reexport="true">af22c227-4f5d-4fad-af44-a5f5fe32d1ae(de.q60.mps.lang.typescript)</dependency>
+    <dependency reexport="false">2d3c70e9-aab2-4870-8d8d-6036800e4103(jetbrains.mps.kernel)</dependency>
   </dependencies>
   <languageVersions>
     <language slang="l:f3061a53-9226-4cc5-a443-f952ceaf5816:jetbrains.mps.baseLanguage" version="12" />

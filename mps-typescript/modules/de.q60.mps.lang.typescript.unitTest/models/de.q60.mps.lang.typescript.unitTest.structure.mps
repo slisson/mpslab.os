@@ -81,6 +81,9 @@
       <property role="20lbJX" value="fLJekj5/_0__n" />
       <ref role="20lvS9" to="mo8k:1TCdlWHrFuz" resolve="TSIStatement" />
     </node>
+    <node concept="PrWs8" id="6WKYICFSfQy" role="PzmwI">
+      <ref role="PrY4T" to="tpck:3fifI_xCcJN" resolve="ScopeProvider" />
+    </node>
   </node>
   <node concept="1TIwiD" id="6WKYICF_RIO">
     <property role="EcuMT" value="7474925316805868297" />
@@ -160,6 +163,23 @@
       <property role="IQ2ns" value="3663594992465210637" />
       <property role="20lmBu" value="fLJjDmT/aggregation" />
       <property role="20kJfa" value="expected" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" to="mo8k:1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="6WKYICFMSWv">
+    <property role="EcuMT" value="1671337506811517318" />
+    <property role="TrG5h" value="TSFail" />
+    <property role="34LRSv" value="fail" />
+    <property role="R4oN_" value="fail the test unconditionally" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="6WKYICFMSWw" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICF_RIE" resolve="TSIAssertion" />
+    </node>
+    <node concept="1TJgyj" id="6WKYICFMSWx" role="1TKVEi">
+      <property role="IQ2ns" value="1832419353059037549" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="message" />
       <property role="20lbJX" value="fLJekj4/_1" />
       <ref role="20lvS9" to="mo8k:1TCdlWHrFu$" resolve="TSIExpression" />
     </node>

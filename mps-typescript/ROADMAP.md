@@ -8,18 +8,20 @@ pattern rather than a new one.
 
 | Aspect      | State                                                                                                                                                                          |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| structure   | `TSModule` (root, named) → `TSIStatement*`; only `TSExpressionStatement`. Expressions: string/number literal, identifier (plain `name` property), dot expression, call operation, `console` + `console.log` as bespoke concepts, `+ - * /`, `===`, parentheses, ternary. Types: `boolean`, `number`, `string`, `console`. |
-| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. |
-| typesystem  | `typeof` inference rules for literals, binary operations, `===`, ternary, parentheses; non-typesystem checks for priority violations and stray incomplete parens; one quick fix. No subtyping rules. |
-| constraints | Empty.                                                                                                                                                                          |
+| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. Expressions: string/number literal, identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts, `+ - * /`, `==`, parentheses, ternary. Types: `boolean`, `number`, `string`, `console`. |
+| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`) render only when filled and are added by intention. |
+| behavior    | Operator priority, the parenthesis machinery, and `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope. |
+| typesystem  | `typeof` inference rules for literals, binary operations, `==`, ternary, parentheses, declarations and identifiers; non-typesystem checks for priority violations, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, and a reference to a declaration that is not visible yet; one quick fix. No subtyping rules. |
+| constraints | Empty in the core language; the unitTest language restricts assertions to test methods.                                                                                          |
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
-| textgen     | 12 `ConceptTextGenDeclaration`s; the binary operators share one on `TSBinaryOperation` that writes the concept alias. `TSModule` writes `<name>.ts`. Done in phase 0.1.             |
-| tests       | 12 editor tests around precedence/parens/ternary, 5 nodes tests (expression types, ternary conditions, the two unitTest checks, one error-free test case).                        |
-| unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`. Done in phase 0.2.                   |
+| textgen     | 20 `ConceptTextGenDeclaration`s; the binary operators share one on `TSBinaryOperation` and the three declaration kinds one on `TSVariableDeclaration`, both writing the concept alias. `TSModule` writes `<name>.ts`. Done in phase 0.1.             |
+| intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty.                                                |
+| tests       | 12 editor tests around precedence/parens/ternary, 11 nodes tests (expression and declaration types, scoping in and out, ternary conditions, the const/annotation/initializer checks, the two unitTest checks).                        |
+| unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
-Two gaps dominate the ordering: there is no name binding (`TSIdentifier.name` and
-`TSCallOperation.name` are strings, `console` is hardcoded as a concept), and there are no
-declarations to bind to.
+The gap that dominates the ordering is now the standard library: `console` is still a
+concept and `TSCallOperation.name` is still a string, so the only callable thing in the
+language is the one that is hardcoded.
 
 ## Open decisions to settle first
 
@@ -71,12 +73,13 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
     real one on its first run: the `ternary` sandbox root used `1 + 2` as a condition.
   - The `TSTestCase` roots live in their own solution, `test.ex.de.q60.mps.lang.typescript`,
     not in the sandbox — the sandbox demonstrates notation, these are executed.
-  - Deliberately not built yet: `fail` (nothing can reach it without control flow, so it
-    could not be covered end to end — it arrives with `if` in phase 4), assertion messages
-    (they need an alternation cell for the optional child, and `node:assert` already prints
-    actual/expected), and `beforeEach`/`afterEach` (nothing to set up until there are
-    declarations, phase 2). Editor tests for typing the assertion aliases are still owed;
-    the four concepts are covered by nodes tests and by the generated tests themselves.
+  - `fail` was left out at first because nothing could reach it without control flow; it
+    came back with `if`. Assertion messages are still out (they need a conditional cell for
+    the optional child, and `node:assert` already prints actual/expected), and so are
+    `beforeEach`/`afterEach` — those are now buildable, since declarations exist, and are
+    worth adding the next time a test wants shared setup. Editor tests for typing the
+    assertion aliases are still owed; the concepts are covered by nodes tests and by the
+    generated tests themselves.
 - **0.3 Generalize the precedence machinery.** Today priority lives in checking rules and
   side transforms per concept. Move it to a single source of truth — a behavior method
   `priority()` plus `isRightAssociative()` on `TSIBinaryLike`, with unary/prefix/postfix
@@ -84,7 +87,8 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
 - **0.4 Definition of done, per concept.** Write it down and follow it: structure + editor
   cell + substitute/side transform + typesystem rule + textgen + at least one editor test
   and one nodes test — and, now that 0.2 is in, a `TSTestCase` that runs the construct as
-  real TypeScript wherever it can be evaluated. The current 17 tests are the model to keep.
+  real TypeScript wherever it can be evaluated. The current 33 MPS tests and 13 TypeScript
+  tests are the model to keep.
 
 ## Phase 1 — finish the expression language
 
@@ -101,17 +105,36 @@ Cheap once 0.3 is done, and it exercises the machinery under load.
 
 ## Phase 2 — names, declarations, scopes (architectural)
 
-The second retrofit-expensive change. Do it before anything that declares a name.
+The second retrofit-expensive change. Mostly done; what remains is listed at the end.
 
-- `TSIDeclaration` (`INamedConcept`), and turn `TSIdentifier` into a smart reference to it,
-  keeping an unresolved-identifier fallback so editing stays fluid.
-- Scopes: `ScopeProvider.getScope` on `TSModule` and, once blocks exist, on blocks —
-  including TDZ/hoisting rules for `var` vs `let`/`const`.
-- `let` / `const` / `var` with optional type annotation and initializer; inference from the
-  initializer; `const` reassignment check.
-- Assignment `=`, compound assignment, `++`/`--` — needs an "is assignable target" predicate.
-- Type annotations become writable: substitute menu for `TSIType`, plus `TSTypeReference`.
-- A migration script for the `TSIdentifier` property → reference change.
+- ✅ `TSIDeclaration` (`INamedConcept`), and `TSIdentifier` turned into a smart reference to
+  it. No unresolved-identifier fallback: an identifier is a reference or it is nothing.
+  No migration script either — there were no `TSIdentifier` instances anywhere to migrate,
+  and a migration keyed to a language version nothing has reached is dead code.
+- ✅ Scopes: `ScopeProvider.getScope` on `TSModule`, `TSBlock` and (in the unitTest language)
+  `TSTestMethod`. Each returns the declarations of its own statement list that precede the
+  referring statement, composed with the enclosing scope — MPS's ancestor walk stops at the
+  first provider that answers, so a block that did not compose would hide everything outside
+  it. Two things are worth knowing:
+  - **The before-declaration rule is ours to enforce.** MPS resolves the inherited scope but
+    does not validate a reference against it, so an identifier pointing further down the
+    statement list is accepted in silence. `check_TSIdentifier` asks the scope the same
+    question and reports it.
+  - **`var` is treated like `let`.** TypeScript hoists `var` and gives it `undefined` before
+    its declaration; here it is out of scope, which is stricter than TypeScript and rejects
+    code TypeScript accepts. Nobody should be writing that, but it is a deviation.
+- ✅ `let` / `const` / `var` with optional type annotation and initializer; inference from the
+  initializer; `const` reassignment check; a declaration must have an annotation or an
+  initializer, since the language has no `any` to fall back on and `--strict` rejects the
+  implicit one.
+- ✅ Assignment `=`. The target is a `TSIdentifier`, not an arbitrary expression, so the
+  "is assignable target" predicate is one `isInstanceOf` rather than a design. It becomes a
+  real question with property access and element access.
+- ✅ Type annotations are writable: `boolean` / `number` / `string` have editors and textgen,
+  and the built-in subconcept substitution offers them. `TSTypeReference` waits for
+  something to reference.
+- Still open: compound assignment and `++`/`--`; assignment as an *expression* (it is a
+  statement here, which is where the precedence question was avoided); TDZ proper.
 
 ## Phase 3 — functions
 
@@ -124,8 +147,15 @@ The second retrofit-expensive change. Do it before anything that declares a name
 
 ## Phase 4 — statements and control flow
 
-- `TSBlock`, `if`/`else`, `while`, `do`/`while`, `for`, `for-of`, `for-in`, `switch`,
-  `break`/`continue`, `throw`, `try`/`catch`/`finally`.
+- ✅ `TSBlock` and `if` / `else if` / `else`. The else-if chain is modelled as baseLanguage
+  models it — a list of `TSElseIfClause` beside an optional else block — rather than as a
+  nested if in the else, so the editor and textgen write the flat chain the source has.
+  The condition takes any expression, consistent with the ternary (commit 325a097): TS
+  coerces, and `tsc` objects only to the *always*-truthy ones, which is a narrower rule than
+  "must be boolean" and not one worth duplicating.
+- ✅ `fail` in the unitTest language, which was waiting for a branch that could reach it.
+- Still open: `while`, `do`/`while`, `for`, `for-of`, `for-in`, `switch`, `break`/`continue`,
+  `throw`, `try`/`catch`/`finally`.
 - Dataflow aspect on top: unreachable code, missing return, unused variable, use before
   assignment. This is where MPS gives something `tsc` does not — live, in-editor.
 
