@@ -228,6 +228,7 @@
       <concept id="2644386474300074836" name="jetbrains.mps.lang.smodel.structure.ConceptIdRefExpression" flags="nn" index="35c_gC">
         <reference id="2644386474300074837" name="conceptDeclaration" index="35c_gD" />
       </concept>
+      <concept id="6677504323281689838" name="jetbrains.mps.lang.smodel.structure.SConceptType" flags="in" index="3bZ5Sz" />
       <concept id="1139613262185" name="jetbrains.mps.lang.smodel.structure.Node_GetParentOperation" flags="nn" index="1mfA1w" />
       <concept id="1139621453865" name="jetbrains.mps.lang.smodel.structure.Node_IsInstanceOfOperation" flags="nn" index="1mIQ4w">
         <child id="1177027386292" name="conceptArgument" index="cj9EA" />
@@ -9794,9 +9795,7 @@
       </node>
       <node concept="37vLTG" id="6WKYICFGV3I" role="3clF46">
         <property role="TrG5h" value="kind" />
-        <node concept="3uibUv" id="6WKYICFGV3K" role="1tU5fm">
-          <ref role="3uigEE" to="c17a:~SAbstractConcept" resolve="SAbstractConcept" />
-        </node>
+        <node concept="3bZ5Sz" id="6WKYICFVvEt" role="1tU5fm" />
       </node>
       <node concept="37vLTG" id="6WKYICFGV3L" role="3clF46">
         <property role="TrG5h" value="child" />
@@ -9910,9 +9909,7 @@
       </node>
       <node concept="37vLTG" id="6WKYICFGXCY" role="3clF46">
         <property role="TrG5h" value="kind" />
-        <node concept="3uibUv" id="6WKYICFGXD0" role="1tU5fm">
-          <ref role="3uigEE" to="c17a:~SAbstractConcept" resolve="SAbstractConcept" />
-        </node>
+        <node concept="3bZ5Sz" id="6WKYICFVyFF" role="1tU5fm" />
       </node>
       <node concept="37vLTG" id="6WKYICFGXD1" role="3clF46">
         <property role="TrG5h" value="child" />

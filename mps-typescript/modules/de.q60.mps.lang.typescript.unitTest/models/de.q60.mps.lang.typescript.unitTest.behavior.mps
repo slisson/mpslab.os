@@ -87,6 +87,7 @@
       <concept id="2644386474300074836" name="jetbrains.mps.lang.smodel.structure.ConceptIdRefExpression" flags="nn" index="35c_gC">
         <reference id="2644386474300074837" name="conceptDeclaration" index="35c_gD" />
       </concept>
+      <concept id="6677504323281689838" name="jetbrains.mps.lang.smodel.structure.SConceptType" flags="in" index="3bZ5Sz" />
       <concept id="1138055754698" name="jetbrains.mps.lang.smodel.structure.SNodeType" flags="in" index="3Tqbb2" />
       <concept id="1138056282393" name="jetbrains.mps.lang.smodel.structure.SLinkListAccess" flags="nn" index="3Tsc0h">
         <reference id="1138056546658" name="link" index="3TtcxE" />
@@ -120,9 +121,7 @@
       </node>
       <node concept="37vLTG" id="6WKYICFSsrS" role="3clF46">
         <property role="TrG5h" value="kind" />
-        <node concept="3uibUv" id="6WKYICFSsrU" role="1tU5fm">
-          <ref role="3uigEE" to="c17a:~SAbstractConcept" resolve="SAbstractConcept" />
-        </node>
+        <node concept="3bZ5Sz" id="6WKYICFVEEQ" role="1tU5fm" />
       </node>
       <node concept="37vLTG" id="6WKYICFSsrV" role="3clF46">
         <property role="TrG5h" value="child" />
