@@ -8,15 +8,15 @@ pattern rather than a new one.
 
 | Aspect      | State                                                                                                                                                                          |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. Expressions: string/number literal, identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts, `+ - * /`, `==`, parentheses, ternary. Types: `boolean`, `number`, `string`, `console`. |
+| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. Expressions: string literal, number literal (integer or floating point, `TSNumberValue`-constrained text rather than an `integer` property), identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts, `+ - * /`, `==`, parentheses, ternary. Types: `boolean`, `number`, `string`, `console`. |
 | editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`) render only when filled and are added by intention. |
 | behavior    | Operator priority, the parenthesis machinery, and `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope. |
-| typesystem  | `typeof` inference rules for literals, binary operations, `==`, ternary, parentheses, declarations and identifiers; non-typesystem checks for priority violations, stray incomplete parens, `const` reassignment, and a declaration with neither annotation nor initializer; one quick fix. No subtyping rules. |
+| typesystem  | `typeof` inference rules for literals, binary operations, `==`, ternary, parentheses, declarations and identifiers; non-typesystem checks for priority violations, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, and a number literal that stops at its exponent; one quick fix. No subtyping rules. |
 | constraints | `TSIdentifier.declaration` declares the inherited scope, which is what makes the `ScopeProvider`s above take effect; the unitTest language restricts assertions to test methods. |
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
 | textgen     | 20 `ConceptTextGenDeclaration`s; the binary operators share one on `TSBinaryOperation` and the three declaration kinds one on `TSVariableDeclaration`, both writing the concept alias. `TSModule` writes `<name>.ts`. Done in phase 0.1.             |
 | intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty.                                                |
-| tests       | 15 editor tests (precedence/parens/ternary, typing `const`, typing an identifier, the add-else intention), 11 nodes tests (expression and declaration types, scoping in and out, ternary conditions, the const/annotation/initializer checks, the two unitTest checks). |
+| tests       | 17 editor tests (precedence/parens/ternary, typing `const`, typing an identifier, typing a decimal point and an exponent, the add-else intention), 13 nodes tests (expression and declaration types, floating point literals, scoping in and out, ternary conditions, the const/annotation/initializer/exponent checks, the two unitTest checks). |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 The gap that dominates the ordering is now the standard library: `console` is still a
@@ -87,7 +87,7 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
 - **0.4 Definition of done, per concept.** Write it down and follow it: structure + editor
   cell + substitute/side transform + typesystem rule + textgen + at least one editor test
   and one nodes test — and, now that 0.2 is in, a `TSTestCase` that runs the construct as
-  real TypeScript wherever it can be evaluated. The current 36 MPS tests and 13 TypeScript
+  real TypeScript wherever it can be evaluated. The current 45 MPS tests and 14 TypeScript
   tests are the model to keep. Editor tests earn their place: the two added with phase 2
   found a scoping bug that a sandbox, a test solution and a review had all missed.
 
@@ -100,7 +100,9 @@ Cheap once 0.3 is done, and it exercises the machinery under load.
   `,`, `in`. (`instanceof` waits for classes.)
 - Unary: `!`, unary `-`/`+`, `~`, `typeof`, `void`. (`++`/`--` need assignability → phase 2.)
 - Literals: `true`/`false`, `null`, `undefined`, template literals, array literal, object
-  literal.
+  literal. Number literals cover the decimal forms, integer and floating point; `0x`/`0b`/
+  `0o`, numeric separators and `bigint` are a widening of the `TSNumberValue` datatype and
+  of `check_TSNumberLiteral` beside it.
 - Type rules that come with them: numeric operands, the `number + string → string` overload,
   comparisons → `boolean`, the union results of `&&`/`||`/`??`.
 

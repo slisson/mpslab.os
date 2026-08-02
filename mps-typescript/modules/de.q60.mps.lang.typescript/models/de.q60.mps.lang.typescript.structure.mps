@@ -13,6 +13,12 @@
       <concept id="6054523464627964745" name="jetbrains.mps.lang.structure.structure.AttributeInfo_AttributedConcept" flags="ng" index="trNpa">
         <reference id="6054523464627965081" name="concept" index="trN6q" />
       </concept>
+      <concept id="1082978164218" name="jetbrains.mps.lang.structure.structure.DataTypeDeclaration" flags="ng" index="AxPO6">
+        <property id="7791109065626895363" name="datatypeId" index="3F6X1D" />
+      </concept>
+      <concept id="1082978499127" name="jetbrains.mps.lang.structure.structure.ConstrainedDataTypeDeclaration" flags="ng" index="Az7Fb">
+        <property id="1083066089218" name="constraint" index="FLfZY" />
+      </concept>
       <concept id="2992811758677295509" name="jetbrains.mps.lang.structure.structure.AttributeInfo" flags="ng" index="M6xJ_">
         <property id="7588428831955550663" name="role" index="Hh88m" />
         <child id="7588428831947959310" name="attributed" index="EQaZv" />
@@ -219,7 +225,7 @@
     <node concept="1TJgyi" id="5YMdeQYNSx" role="1TKVEl">
       <property role="IQ2nx" value="7606013538328487736" />
       <property role="TrG5h" value="value" />
-      <ref role="AX2Wp" to="tpck:fKAQMTA" resolve="integer" />
+      <ref role="AX2Wp" node="6WKYICG4pvG" resolve="TSNumberValue" />
     </node>
   </node>
   <node concept="1TIwiD" id="5YMdeQYNSy">
@@ -550,6 +556,11 @@
       <property role="20lbJX" value="fLJekj4/_1" />
       <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
     </node>
+  </node>
+  <node concept="Az7Fb" id="6WKYICG4pvG">
+    <property role="3F6X1D" value="8012179620760754156" />
+    <property role="FLfZY" value="-?([0-9]+([.][0-9]*)?|[.][0-9]+)([eE][-+]?[0-9]*)?" />
+    <property role="TrG5h" value="TSNumberValue" />
   </node>
 </model>
 
