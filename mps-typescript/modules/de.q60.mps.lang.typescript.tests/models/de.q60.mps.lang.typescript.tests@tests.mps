@@ -141,6 +141,7 @@
     </language>
     <language id="ceab5195-25ea-4f22-9b92-103b95ca8c0c" name="jetbrains.mps.lang.core">
       <concept id="1133920641626" name="jetbrains.mps.lang.core.structure.BaseConcept" flags="ng" index="2VYdi">
+        <property id="1193676396447" name="virtualPackage" index="3GE5qa" />
         <child id="5169995583184591170" name="smodelAttribute" index="lGtFl" />
       </concept>
       <concept id="1169194658468" name="jetbrains.mps.lang.core.structure.INamedConcept" flags="ngI" index="TrEIO">
@@ -150,6 +151,7 @@
   </registry>
   <node concept="LiM7Y" id="5YMdeRgphv">
     <property role="TrG5h" value="Type_plus_then_times_binds_times_tighter" />
+    <property role="3GE5qa" value="expressions.precedence" />
     <node concept="1qefOq" id="5YMdeRgphw" role="25YQCW">
       <node concept="24Z7zp" id="5YMdeRgphy" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -195,6 +197,7 @@
   </node>
   <node concept="LiM7Y" id="5YMdeRgFi1">
     <property role="TrG5h" value="Type_times_then_plus_rebalances_the_tree" />
+    <property role="3GE5qa" value="expressions.precedence" />
     <node concept="1qefOq" id="5YMdeRgFi2" role="25YQCW">
       <node concept="24Z7zp" id="5YMdeRgFi4" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -240,6 +243,7 @@
   </node>
   <node concept="LiM7Y" id="5YMdeRgFld">
     <property role="TrG5h" value="Type_close_paren_matches_the_open_one_and_restructures" />
+    <property role="3GE5qa" value="expressions.precedence" />
     <node concept="1qefOq" id="5YMdeRgFle" role="25YQCW">
       <node concept="24Z7zp" id="5YMdeRgFlg" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -300,6 +304,7 @@
   </node>
   <node concept="LiM7Y" id="5Xb8BFgltnr">
     <property role="TrG5h" value="Enter_then_a_number_makes_a_new_expression_statement" />
+    <property role="3GE5qa" value="statements" />
     <node concept="1qefOq" id="5Xb8BFgltns" role="25YQCW">
       <node concept="24Z7zp" id="5Xb8BFgltnu" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -345,6 +350,7 @@
   </node>
   <node concept="LiM7Y" id="5Xb8BFgt$II">
     <property role="TrG5h" value="Ternary_takes_the_whole_binary_expression_as_its_condition" />
+    <property role="3GE5qa" value="expressions.ternary" />
     <node concept="1qefOq" id="5Xb8BFgt$IJ" role="25YQCW">
       <node concept="24Z7zp" id="5Xb8BFgt$IB" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -392,6 +398,7 @@
   </node>
   <node concept="LiM7Y" id="5Xb8BFgt$J0">
     <property role="TrG5h" value="Ternary_typed_on_a_left_operand_is_wrapped_in_parentheses" />
+    <property role="3GE5qa" value="expressions.ternary" />
     <node concept="1qefOq" id="5Xb8BFgt$J1" role="25YQCW">
       <node concept="24Z7zp" id="5Xb8BFgt$IS" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -441,6 +448,7 @@
   </node>
   <node concept="LiM7Y" id="5Xb8BFgt$Jk">
     <property role="TrG5h" value="Ternary_typed_on_a_ternary_condition_is_wrapped_in_parentheses" />
+    <property role="3GE5qa" value="expressions.ternary" />
     <node concept="1qefOq" id="5Xb8BFgt$Jl" role="25YQCW">
       <node concept="24Z7zp" id="5Xb8BFgt$Jb" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -496,6 +504,7 @@
   </node>
   <node concept="LiM7Y" id="5Xb8BFgvhJy">
     <property role="TrG5h" value="Binary_operation_typed_in_the_true_branch_stays_in_the_branch" />
+    <property role="3GE5qa" value="expressions.ternary" />
     <node concept="1qefOq" id="5Xb8BFgvhJz" role="25YQCW">
       <node concept="24Z7zp" id="5Xb8BFgvhJp" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -552,6 +561,7 @@
   </node>
   <node concept="LiM7Y" id="5Xb8BFgvhJQ">
     <property role="TrG5h" value="Binary_operation_typed_in_the_false_branch_stays_in_the_branch" />
+    <property role="3GE5qa" value="expressions.ternary" />
     <node concept="1qefOq" id="5Xb8BFgvhJR" role="25YQCW">
       <node concept="24Z7zp" id="5Xb8BFgvhJH" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -608,6 +618,7 @@
   </node>
   <node concept="LiM7Y" id="5Xb8BFgvhKa">
     <property role="TrG5h" value="Binary_operation_typed_after_the_condition_stays_in_the_condition" />
+    <property role="3GE5qa" value="expressions.ternary" />
     <node concept="1qefOq" id="5Xb8BFgvhKb" role="25YQCW">
       <node concept="24Z7zp" id="5Xb8BFgvhK1" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -664,6 +675,7 @@
   </node>
   <node concept="LiM7Y" id="5Xb8BFgwx7E">
     <property role="TrG5h" value="Close_paren_inside_a_ternary_branch_rebalances_that_branch_only" />
+    <property role="3GE5qa" value="expressions.ternary" />
     <node concept="1qefOq" id="5Xb8BFgwx7F" role="25YQCW">
       <node concept="24Z7zp" id="5Xb8BFgwx7u" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -740,6 +752,7 @@
   </node>
   <node concept="LiM7Y" id="5Xb8BFgwx7Z">
     <property role="TrG5h" value="Close_paren_does_not_match_an_open_paren_in_another_ternary_branch" />
+    <property role="3GE5qa" value="expressions.ternary" />
     <node concept="1qefOq" id="5Xb8BFgwx80" role="25YQCW">
       <node concept="24Z7zp" id="5Xb8BFgwx7Q" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -801,6 +814,7 @@
   <node concept="1lH9Xt" id="6QS6LNOMncg">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="Any_expression_is_allowed_as_a_ternary_condition" />
+    <property role="3GE5qa" value="expressions.ternary" />
     <node concept="1qefOq" id="6QS6LNOMnch" role="1SKRRt">
       <node concept="24Z7zp" id="6QS6LNOMncj" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -843,6 +857,7 @@
   <node concept="1lH9Xt" id="6QS6LNOMnhN">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="Expression_types_are_computed" />
+    <property role="3GE5qa" value="expressions" />
     <node concept="1qefOq" id="6QS6LNOMnhO" role="1SKRRt">
       <node concept="24Z7zp" id="6QS6LNOMnhQ" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -904,6 +919,7 @@
   <node concept="1lH9Xt" id="6WKYICFEOjj">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="A_test_case_with_boolean_assertions_is_free_of_errors" />
+    <property role="3GE5qa" value="unit_test_language" />
     <node concept="1qefOq" id="6WKYICFEOjk" role="1SKRRt">
       <node concept="Jsc18" id="6WKYICFEOjm" role="1qenE9">
         <property role="TrG5h" value="t" />
@@ -949,6 +965,7 @@
   <node concept="1lH9Xt" id="6WKYICFEWGi">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="An_assertion_condition_that_is_not_boolean_is_an_error" />
+    <property role="3GE5qa" value="unit_test_language" />
     <node concept="1qefOq" id="6WKYICFEWGj" role="1SKRRt">
       <node concept="Jsc18" id="6WKYICFEWGl" role="1qenE9">
         <property role="TrG5h" value="t" />
@@ -969,6 +986,7 @@
   <node concept="1lH9Xt" id="6WKYICFEWLE">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="An_assertion_is_not_allowed_outside_a_test_method" />
+    <property role="3GE5qa" value="unit_test_language" />
     <node concept="1qefOq" id="6WKYICFEWLF" role="1SKRRt">
       <node concept="24Z7zp" id="6WKYICFEWLH" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -991,6 +1009,7 @@
   <node concept="1lH9Xt" id="6WKYICFTf5f">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="Declarations_and_the_identifiers_that_point_at_them_are_typed" />
+    <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="6WKYICFTf5g" role="1SKRRt">
       <node concept="24Z7zp" id="6WKYICFTf5i" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1038,6 +1057,7 @@
   <node concept="1lH9Xt" id="6WKYICFTfby">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="Assigning_to_a_const_is_an_error" />
+    <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="6WKYICFTfbz" role="1SKRRt">
       <node concept="24Z7zp" id="6WKYICFTfb_" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1064,6 +1084,7 @@
   <node concept="1lH9Xt" id="6WKYICFTfhr">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="A_declaration_needs_a_type_annotation_or_an_initializer" />
+    <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="6WKYICFTfhs" role="1SKRRt">
       <node concept="24Z7zp" id="6WKYICFTfhu" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1079,6 +1100,7 @@
   <node concept="1lH9Xt" id="6WKYICFTfnj">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="An_initializer_must_have_the_declared_type" />
+    <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="6WKYICFTfnk" role="1SKRRt">
       <node concept="24Z7zp" id="6WKYICFTfnm" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1098,6 +1120,7 @@
   <node concept="1lH9Xt" id="6WKYICFTftP">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="A_declaration_of_an_enclosing_block_is_visible_inside_a_nested_one" />
+    <property role="3GE5qa" value="declarations.scopes" />
     <node concept="1qefOq" id="6WKYICFTftQ" role="1SKRRt">
       <node concept="24Z7zp" id="6WKYICFTftS" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1140,6 +1163,7 @@
   <node concept="1lH9Xt" id="6WKYICFTf$C">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="A_declaration_is_not_visible_before_it_is_declared" />
+    <property role="3GE5qa" value="declarations.scopes" />
     <node concept="1qefOq" id="6WKYICFTf$D" role="1SKRRt">
       <node concept="24Z7zp" id="6WKYICFTf$F" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1162,6 +1186,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICFY8me">
     <property role="TrG5h" value="Typing_const_in_a_statement_list_creates_a_const_declaration" />
+    <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="6WKYICFY8mf" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICFY8mh" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1203,6 +1228,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICFYEeV">
     <property role="TrG5h" value="The_intention_adds_the_else_branch_the_editor_hides_when_it_is_empty" />
+    <property role="3GE5qa" value="statements.control_flow" />
     <node concept="1qefOq" id="6WKYICFYEeW" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICFYEeY" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1251,6 +1277,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICG1agd">
     <property role="TrG5h" value="Typing_a_declarations_name_creates_a_reference_to_it" />
+    <property role="3GE5qa" value="declarations.scopes" />
     <node concept="1qefOq" id="6WKYICG1age" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICG1agg" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1304,6 +1331,7 @@
   <node concept="1lH9Xt" id="6WKYICG5KN1">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="Floating_point_literals_are_numbers" />
+    <property role="3GE5qa" value="expressions.numbers" />
     <node concept="1qefOq" id="6WKYICG5KN2" role="1SKRRt">
       <node concept="24Z7zp" id="6WKYICG5KN4" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1363,6 +1391,7 @@
   <node concept="1lH9Xt" id="6WKYICG5KVx">
     <property role="3DII0k" value="2hh8MJdVwqX/command" />
     <property role="TrG5h" value="A_number_literal_that_stops_at_its_exponent_is_an_error" />
+    <property role="3GE5qa" value="expressions.numbers" />
     <node concept="1qefOq" id="6WKYICG5KVy" role="1SKRRt">
       <node concept="24Z7zp" id="6WKYICG5KV$" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1379,6 +1408,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICG5L3S">
     <property role="TrG5h" value="Typing_a_decimal_point_continues_the_number_literal" />
+    <property role="3GE5qa" value="expressions.numbers" />
     <node concept="1qefOq" id="6WKYICG5L3T" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICG5L3V" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1414,6 +1444,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICG5LcP">
     <property role="TrG5h" value="Typing_an_exponent_continues_the_number_literal" />
+    <property role="3GE5qa" value="expressions.numbers" />
     <node concept="1qefOq" id="6WKYICG5LcQ" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICG5LcS" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1449,6 +1480,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICGd_e5">
     <property role="TrG5h" value="Typing_a_colon_after_the_name_adds_the_type_annotation" />
+    <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="6WKYICGd_e6" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICGd_e8" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1487,6 +1519,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICGd_nB">
     <property role="TrG5h" value="Typing_an_equals_sign_after_the_name_adds_the_initializer" />
+    <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="6WKYICGd_nC" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICGd_nE" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1523,6 +1556,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICGd_xo">
     <property role="TrG5h" value="Typing_an_equals_sign_after_the_type_annotation_adds_the_initializer" />
+    <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="6WKYICGd_xp" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICGd_xr" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1560,6 +1594,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICGd_FI">
     <property role="TrG5h" value="Typing_else_after_the_then_block_adds_the_else_branch" />
+    <property role="3GE5qa" value="statements.control_flow" />
     <node concept="1qefOq" id="6WKYICGd_FJ" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICGd_FL" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1609,6 +1644,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICGdA1a">
     <property role="TrG5h" value="Typing_else_if_after_the_then_block_adds_a_clause" />
+    <property role="3GE5qa" value="statements.control_flow" />
     <node concept="1qefOq" id="6WKYICGdA1b" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICGdA1d" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1666,6 +1702,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICGdAc_">
     <property role="TrG5h" value="Typing_else_if_after_a_clauses_block_appends_a_second_clause" />
+    <property role="3GE5qa" value="statements.control_flow" />
     <node concept="1qefOq" id="6WKYICGdAcA" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICGdAcC" role="1qenE9">
         <property role="TrG5h" value="m" />
@@ -1725,6 +1762,7 @@
   </node>
   <node concept="LiM7Y" id="6WKYICGgGmP">
     <property role="TrG5h" value="Typing_else_after_a_block_that_is_only_a_statement_does_nothing" />
+    <property role="3GE5qa" value="statements.control_flow" />
     <node concept="1qefOq" id="6WKYICGgGmQ" role="25YQCW">
       <node concept="24Z7zp" id="6WKYICGgGmS" role="1qenE9">
         <property role="TrG5h" value="m" />
