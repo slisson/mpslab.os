@@ -10,6 +10,7 @@
   </languages>
   <imports>
     <import index="ekwn" ref="r:9832fb5f-2578-4b58-8014-a5de79da988e(jetbrains.mps.ide.editor.actions)" />
+    <import index="hb1i" ref="r:68855d6a-0611-45d5-9d54-ada096e93139(de.q60.mps.lang.typescript.intentions)" implicit="true" />
   </imports>
   <registry>
     <language id="8585453e-6bfb-4d80-98de-b16074f1d86c" name="jetbrains.mps.lang.test">
@@ -50,6 +51,9 @@
       </concept>
       <concept id="1216989428737" name="jetbrains.mps.lang.test.structure.TestNode" flags="ng" index="1qefOq">
         <child id="1216989461394" name="nodeToCheck" index="1qenE9" />
+      </concept>
+      <concept id="1225989773458" name="jetbrains.mps.lang.test.structure.InvokeIntentionStatement" flags="nn" index="1MFPAf">
+        <reference id="1225989811227" name="intention" index="1MFYO6" />
       </concept>
     </language>
     <language id="f3061a53-9226-4cc5-a443-f952ceaf5816" name="jetbrains.mps.baseLanguage">
@@ -110,6 +114,7 @@
         <child id="8956598854396892412" name="initializer" index="1bGQZ8" />
       </concept>
       <concept id="1786862727331701833" name="de.q60.mps.lang.typescript.structure.TSIfStatement" flags="ng" index="3Oct9B">
+        <child id="186330115020247543" name="elseBlock" index="2uaaIR" />
         <child id="6415352913453783659" name="thenBlock" index="12avcn" />
         <child id="264280299738157132" name="condition" index="18F3B4" />
       </concept>
@@ -1146,6 +1151,95 @@
           <node concept="24BhzH" id="6WKYICFTf$M" role="1bGQZ8">
             <property role="2Hr5CV" value="1" />
           </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="LiM7Y" id="6WKYICFY8me">
+    <property role="TrG5h" value="Typing_const_in_a_statement_list_creates_a_const_declaration" />
+    <node concept="1qefOq" id="6WKYICFY8mf" role="25YQCW">
+      <node concept="24Z7zp" id="6WKYICFY8mh" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="6WKYICFY8mi" role="1JIkAo">
+          <node concept="24BhzH" id="6WKYICFY8mk" role="$a3P1">
+            <property role="2Hr5CV" value="1" />
+            <node concept="LIFWc" id="6WKYICFY8ml" role="lGtFl">
+              <property role="LIFWd" value="value" />
+              <property role="ZRATv" value="true" />
+              <property role="p6zMs" value="1" />
+              <property role="p6zMq" value="1" />
+              <property role="OXtK3" value="true" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="6WKYICFY8mm" role="LjaKd">
+      <node concept="2HxZob" id="6WKYICFY8mn" role="3cqZAp">
+        <node concept="1iFQzN" id="6WKYICFY8mp" role="3iKnsn">
+          <ref role="1iFR8X" to="ekwn:6KwcZ1G3Pjm" resolve="Insert" />
+        </node>
+      </node>
+      <node concept="2TK7Tu" id="6WKYICFY8mq" role="3cqZAp">
+        <property role="2TTd_B" value="const" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="6WKYICFY8mr" role="25YQFr">
+      <node concept="24Z7zp" id="6WKYICFY8mt" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="6WKYICFY8mu" role="1JIkAo">
+          <node concept="24BhzH" id="6WKYICFY8mw" role="$a3P1">
+            <property role="2Hr5CV" value="1" />
+          </node>
+        </node>
+        <node concept="2MuU66" id="6WKYICFY8mx" role="1JIkAo" />
+      </node>
+    </node>
+  </node>
+  <node concept="LiM7Y" id="6WKYICFYEeV">
+    <property role="TrG5h" value="The_intention_adds_the_else_branch_the_editor_hides_when_it_is_empty" />
+    <node concept="1qefOq" id="6WKYICFYEeW" role="25YQCW">
+      <node concept="24Z7zp" id="6WKYICFYEeY" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3Oct9B" id="6WKYICFYEeZ" role="1JIkAo">
+          <node concept="1CNJNU" id="6WKYICFYEf2" role="18F3B4">
+            <node concept="24BhzH" id="6WKYICFYEf5" role="33kRt2">
+              <property role="2Hr5CV" value="1" />
+            </node>
+            <node concept="24BhzH" id="6WKYICFYEf7" role="GyX5B">
+              <property role="2Hr5CV" value="1" />
+            </node>
+          </node>
+          <node concept="qYD23" id="6WKYICFYEf8" role="12avcn" />
+          <node concept="LIFWc" id="6WKYICFZVvr" role="lGtFl">
+            <property role="LIFWd" value="ifKeyword" />
+            <property role="ZRATv" value="true" />
+            <property role="p6zMq" value="2" />
+            <property role="p6zMs" value="2" />
+            <property role="OXtK3" value="true" />
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="6WKYICFYEf9" role="LjaKd">
+      <node concept="1MFPAf" id="6WKYICFYXzv" role="3cqZAp">
+        <ref role="1MFYO6" to="hb1i:6WKYICFLkqh" resolve="AddElseBranch" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="6WKYICFYEfb" role="25YQFr">
+      <node concept="24Z7zp" id="6WKYICFYEfd" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3Oct9B" id="6WKYICFYEfe" role="1JIkAo">
+          <node concept="1CNJNU" id="6WKYICFYEfh" role="18F3B4">
+            <node concept="24BhzH" id="6WKYICFYEfk" role="33kRt2">
+              <property role="2Hr5CV" value="1" />
+            </node>
+            <node concept="24BhzH" id="6WKYICFYEfl" role="GyX5B">
+              <property role="2Hr5CV" value="1" />
+            </node>
+          </node>
+          <node concept="qYD23" id="6WKYICFYEfm" role="12avcn" />
+          <node concept="qYD23" id="6WKYICFYEfn" role="2uaaIR" />
         </node>
       </node>
     </node>

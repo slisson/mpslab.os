@@ -16,7 +16,7 @@ pattern rather than a new one.
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
 | textgen     | 20 `ConceptTextGenDeclaration`s; the binary operators share one on `TSBinaryOperation` and the three declaration kinds one on `TSVariableDeclaration`, both writing the concept alias. `TSModule` writes `<name>.ts`. Done in phase 0.1.             |
 | intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty.                                                |
-| tests       | 12 editor tests around precedence/parens/ternary, 11 nodes tests (expression and declaration types, scoping in and out, ternary conditions, the const/annotation/initializer checks, the two unitTest checks).                        |
+| tests       | 14 editor tests (precedence/parens/ternary, typing `const`, the add-else intention), 11 nodes tests (expression and declaration types, scoping in and out, ternary conditions, the const/annotation/initializer checks, the two unitTest checks). |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 The gap that dominates the ordering is now the standard library: `console` is still a
@@ -87,8 +87,9 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
 - **0.4 Definition of done, per concept.** Write it down and follow it: structure + editor
   cell + substitute/side transform + typesystem rule + textgen + at least one editor test
   and one nodes test — and, now that 0.2 is in, a `TSTestCase` that runs the construct as
-  real TypeScript wherever it can be evaluated. The current 33 MPS tests and 13 TypeScript
-  tests are the model to keep.
+  real TypeScript wherever it can be evaluated. The current 35 MPS tests and 13 TypeScript
+  tests are the model to keep. Editor tests earn their place: the two added with phase 2
+  found that typing `const` works and that typing an identifier does not.
 
 ## Phase 1 — finish the expression language
 
@@ -111,6 +112,31 @@ The second retrofit-expensive change. Mostly done; what remains is listed at the
   it. No unresolved-identifier fallback: an identifier is a reference or it is nothing.
   No migration script either — there were no `TSIdentifier` instances anywhere to migrate,
   and a migration keyed to a language version nothing has reached is dead code.
+- ⚠️ **An identifier cannot be typed.** Writing a declaration's name where an expression is
+  expected substitutes nothing — the cell stays an empty `TSIExpression`. Identifiers can
+  only be created programmatically, which is how every one in the sandbox and the test
+  solution got there. This is the one thing in phase 2 that does not work, and it is worth
+  fixing before the language is used by hand.
+
+  What is already established, so the next attempt does not repeat it:
+  - The scope is right. `ModelConstraints.getReferenceDescriptor(plus, rightExpression, 0,
+    TSIdentifier.declaration, TSIdentifier).getScope()` returns the visible declarations at
+    exactly the position that fails.
+  - The menu is right. `TSIdentifier` has a default `SubstituteMenu` with a
+    `SubstituteMenuPart_ReferenceScope` on `declaration`, it is registered in
+    `getDeclaredDefaultSubstituteMenus`, and the generated item's `getMatchingText` returns
+    the referenced node's name.
+  - The route ought to reach it. `SubstituteMenuPart_Subconcepts` on `TSIExpression`
+    generates a `ConceptMenusPart` over `getDirectDescendants`, and `TSIdentifier` is a
+    direct descendant. Adding an explicit `SubstituteMenuPart_IncludeMenu` for it changes
+    nothing, so the indirection is not the missing link.
+  - It is not the statement wrapper: typing into an empty operand of a `+` created by the
+    side transform fails the same way, and a digit typed in that same cell substitutes fine
+    through the `TSNumberLiteral` action beside it.
+
+  The editor test that found this (`+greeted `, expecting `1 + greeted;`) is not in the
+  tests model, because a red build is worse than a documented gap — put it back first when
+  picking this up.
 - ✅ Scopes: `ScopeProvider.getScope` on `TSModule`, `TSBlock` and (in the unitTest language)
   `TSTestMethod`. Each returns the declarations of its own statement list that precede the
   referring statement, composed with the enclosing scope — MPS's ancestor walk stops at the
