@@ -4,7 +4,9 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.Directory
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.FileCollection
 import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
@@ -31,6 +33,7 @@ import javax.inject.Inject
  */
 abstract class AbstractMpsWorkerTask @Inject constructor(
     private val execOps: ExecOperations,
+    private val objects: ObjectFactory,
 ) : DefaultTask() {
 
     /** The MPS distribution. Relative [library]/[plugin] paths resolve against it. */
@@ -80,6 +83,30 @@ abstract class AbstractMpsWorkerTask @Inject constructor(
 
     fun macro(name: String, dir: Provider<Directory>) =
         macros.put(name, dir.map { it.asFile.absolutePath })
+
+    // --- Module contents, as task inputs ----------------------------------
+
+    /**
+     * The files behind a set of module descriptors: everything in each module's own
+     * directory, minus the directories named in [excludedDirNames].
+     *
+     * A `.mpl`/`.msd` descriptor names its module but holds none of it — the models are
+     * `.mps` files beside it — so a task whose only declared inputs are the descriptors is
+     * up to date however much of the language was rewritten. Subclasses declare this as an
+     * `@InputFiles` property rather than the caller listing source directories, because the
+     * caller forgetting to is the failure this exists to prevent.
+     *
+     * Resolved when the inputs are snapshotted, not at configuration time, so a descriptor
+     * added later is still covered.
+     */
+    protected fun moduleContents(descriptors: FileCollection, excludedDirNames: List<String>): FileCollection =
+        objects.fileCollection().from(
+            descriptors.files.map { descriptor ->
+                objects.fileTree().from(descriptor.parentFile).matching {
+                    excludedDirNames.forEach { exclude("$it/**", "**/$it/**") }
+                }
+            }
+        )
 
     // --- Extension points -------------------------------------------------
 

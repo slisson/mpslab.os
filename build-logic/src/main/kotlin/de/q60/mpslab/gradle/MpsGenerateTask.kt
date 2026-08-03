@@ -3,6 +3,9 @@ package de.q60.mpslab.gradle
 import org.gradle.api.Action
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.FileCollection
+import org.gradle.api.model.ObjectFactory
+import org.gradle.api.tasks.IgnoreEmptyDirectories
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
@@ -32,7 +35,8 @@ import javax.inject.Inject
  */
 abstract class MpsGenerateTask @Inject constructor(
     execOps: ExecOperations,
-) : AbstractMpsWorkerTask(execOps) {
+    objects: ObjectFactory,
+) : AbstractMpsWorkerTask(execOps, objects) {
 
     @get:Nested
     abstract val generatorSettings: MpsGeneratorSettings
@@ -41,6 +45,21 @@ abstract class MpsGenerateTask @Inject constructor(
     @get:InputFiles
     @get:PathSensitive(PathSensitivity.NAME_ONLY)
     abstract val modules: ConfigurableFileCollection
+
+    /**
+     * What the generator actually reads: the [modules]' directories, minus what it writes.
+     *
+     * The descriptors alone are not the input — they name the module and hold none of it —
+     * so without this the task stays up to date across any edit to a model, and the next
+     * `runTests` runs against the previous generation. That reports failures already fixed
+     * and passes already broken, which is worse than not running at all. CI never saw it,
+     * because a clean checkout has no output to be stale.
+     */
+    @get:InputFiles
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    @get:IgnoreEmptyDirectories
+    val moduleSources: FileCollection
+        get() = moduleContents(modules, GENERATED_DIR_NAMES)
 
     /** Where the modules' generated `source_gen` lands; cleaned before each run. */
     @get:OutputDirectory
@@ -79,5 +98,15 @@ abstract class MpsGenerateTask @Inject constructor(
             attr("bootstrap", "false")
             modules.files.forEach { element("module") { attr("path", it.absolutePath) } }
         }
+    }
+
+    companion object {
+        /**
+         * The directories MPS generates into, which are outputs rather than sources — and
+         * which must be excluded from [moduleSources] for the further reason that
+         * `generatedOutput` sits among them, and an output nested inside a declared input
+         * makes the task dirty on its own results.
+         */
+        val GENERATED_DIR_NAMES = listOf("source_gen", "source_gen.caches", "classes_gen", "test_gen")
     }
 }

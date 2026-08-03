@@ -2,6 +2,9 @@ package de.q60.mpslab.gradle
 
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.FileCollection
+import org.gradle.api.model.ObjectFactory
+import org.gradle.api.tasks.IgnoreEmptyDirectories
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
@@ -32,12 +35,29 @@ import javax.inject.Inject
  */
 abstract class MpsLaunchTestsTask @Inject constructor(
     execOps: ExecOperations,
-) : AbstractMpsWorkerTask(execOps) {
+    objects: ObjectFactory,
+) : AbstractMpsWorkerTask(execOps, objects) {
 
     /** Modules to load; JUnit tests found in them are run (deps may be listed too). */
     @get:InputFiles
     @get:PathSensitive(PathSensitivity.NAME_ONLY)
     abstract val testModules: ConfigurableFileCollection
+
+    /**
+     * What the launcher loads: the [testModules]' directories, **generated output included** —
+     * the tests it runs are the classes the generator just wrote, so unlike
+     * `MpsGenerateTask.moduleSources` this deliberately keeps `classes_gen` and `test_gen`.
+     * Only `source_gen.caches` is left out, being the generator's bookkeeping rather than
+     * anything the launcher reads.
+     *
+     * Without it the descriptors are the only inputs and a regeneration leaves this task
+     * UP-TO-DATE, which is the same stale-results failure one step further down the chain.
+     */
+    @get:InputFiles
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    @get:IgnoreEmptyDirectories
+    val moduleSources: FileCollection
+        get() = moduleContents(testModules, listOf("source_gen.caches"))
 
     /** Directory for the JUnit XML reports. */
     @get:OutputDirectory
