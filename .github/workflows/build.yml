@@ -33,12 +33,13 @@ jobs:
           java-version: '21'
 
       # The generated TypeScript is compiled with tsc and run with node's own test runner
-      # (`node --test`), so the job needs a Node as well as a JDK. 22 is the floor: the
-      # test runner only accepts glob patterns for test files from 22.0.
-      - name: Set up Node 22
+      # (`node --test`), so the job needs a Node as well as a JDK. 24 is the active LTS and
+      # the major @types/node is pinned to, so the types the sources are checked against and
+      # the runtime they are executed on describe the same API.
+      - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
           cache: npm
           cache-dependency-path: mps-typescript/package-lock.json
 

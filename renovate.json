@@ -7,7 +7,7 @@
   ],
   "labels": ["dependencies"],
   "timezone": "Europe/Berlin",
-  "enabledManagers": ["gradle", "gradle-wrapper"],
+  "enabledManagers": ["gradle", "gradle-wrapper", "npm"],
   "schedule": ["before 6am on monday"],
   "prConcurrentLimit": 5,
   "rangeStrategy": "bump",
@@ -24,6 +24,12 @@
       "description": "An MPS upgrade is never routine: it changes the bundled languages the models are generated against, the bundled Kotlin stdlib and the JDK the workers need (see mpsJdk in libs.versions.toml). Review it on its own.",
       "matchPackageNames": ["com.jetbrains:mps"],
       "groupName": "MPS",
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "@types/node describes the runtime the generated TypeScript is compiled against and run on. Its major has to move together with the Node in build.yml and the engines range in package.json, so it is never an automatic bump.",
+      "matchPackageNames": ["@types/node"],
+      "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
     },
     {
