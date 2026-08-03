@@ -16,7 +16,7 @@ pattern rather than a new one.
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
 | textgen     | 29 `ConceptTextGenDeclaration`s; the twenty-five binary operators share one on `TSBinaryOperation`, the six prefix operators one on `TSUnaryOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts`. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
 | intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty — and add a template-literal interpolation. Kept beside the side transforms, which are the primary way in for the first four: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. For the interpolation it is the *only* way in, which is a gap rather than a design — see *Cross-cutting*. |
-| tests       | 68 editor tests and 23 nodes tests — 125 JUnit tests between them — plus 23 TypeScript tests that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `caret{.expressions,.declarations,.types}`, `unit_test_language` — since the concept already says which kind a test is. |
+| tests       | 89 editor tests and 23 nodes tests — 146 JUnit tests between them — plus 45 TypeScript tests, in twelve `TSTestCase` roots, that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Seventeen more are about the **alias-collision families** — every operator whose alias is a prefix of another one, typed keystroke by keystroke — see *An operator whose alias is a prefix of another one* under **Cross-cutting**. And every expression concept phase 1 added is now *evaluated*, not merely typed: see *What the TypeScript tests run* below. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary,.operator_aliases,.templates}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `caret{.expressions,.declarations,.types}`, `unit_test_language` — since the concept already says which kind a test is. |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 The gap that dominates the ordering is now the standard library: `console` is still a
@@ -181,7 +181,7 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
      This is the one that catches what MPS is happy with and `tsc --strict` is not — `!(1 == 2)` was
      rejected as TS2367, comparing literal types with no overlap, and had to go through a `const`.
 
-  The 59 MPS tests and 20 TypeScript tests are the model to keep.
+  The 142 MPS tests and 45 TypeScript tests are the model to keep.
 
 ## Phase 1 — finish the expression language
 
@@ -323,14 +323,94 @@ rest of this document: see *What phase 1 learned about phase 5* below.
   rather than a claim, because the reasoning is about shadowing rather than about the tree, and a
   composite type added later without a delete story of its own is what would break it.
 
+- ✅ **The tests phase 1 owed**: `TSTestCase` roots running the new operators as real TypeScript, and
+  editor tests for every alias-collision group. *What the TypeScript tests run* below is what the
+  first of those found; the second is seventeen tests in `expressions.operator_aliases`.
+
 Still open, and the order they should be done in:
 
-1. **The tests phase 1 still owes**: `TSTestCase` roots running the new operators as real TypeScript,
-   and editor tests for the alias-collision groups (see *Cross-cutting* below).
-2. **Array literals** — moved to phase 5, see below. Until they exist nothing can *evaluate* an array,
+1. **Array literals** — moved to phase 5, see below. Until they exist nothing can *evaluate* an array,
    so the `arrays` sandbox module is annotations only: it proves the textgen against `tsc --strict`
    (`(number | string)[] | null`, `number[][] | null`) and nothing more.
-3. **Object literals** — moved to phase 5, see below.
+2. **Object literals** — moved to phase 5, see below.
+
+### What the TypeScript tests run
+
+Six new `TSTestCase` roots — `relational`, `equality`, `logical`, `bitwise`, `literals`, `sequence` —
+plus methods added to `arithmetic` (`%`) and to `unary` (`typeof`, `void`). Between them **every
+concrete expression concept the language has is now evaluated by `node --test` against a
+`tsc --strict` build**, with one exception named below. Three things that only running the output
+could have said:
+
+- **`const yes: boolean = true` is not of type `boolean` to `tsc`.** Control-flow analysis narrows
+  the `const` to the literal type `true` in spite of the annotation, so `yes !== no` is TS2367 — the
+  same no-overlap error the definition of done already recorded for `!(1 == 2)`, arriving from the
+  one direction an explicit annotation looked like it had closed off. The assertions about the
+  boolean literals go through `assert equals` rather than through a comparison.
+- **`in` is the one operator that cannot be evaluated**, and not for want of a rule: its right
+  operand has to be an object, and this language has no type that is one. It arrives with object
+  types in phase 5. Its MPS-side typing — `in` → `boolean`, overriding the overload table — is what
+  the nodes tests cover, and that is all that can be said about it here.
+- **`,` can be evaluated, but only just.** `tsc` reports TS2695 for a comma expression whose left
+  operand has no side effects, which rules out every literal and every identifier this language can
+  write. `void` happens to be the one prefix operator TypeScript's `isSideEffectFree` does not
+  answer for, so `(void 0, 42)` is the shape the test uses — inside explicit parentheses, since a
+  bare comma expression as an argument would be read as an argument separator. Worth knowing before
+  the next construct is written off as unevaluable.
+
+### The template literal was the concept nobody had ever instantiated
+
+Its textgen, its typing and its intention were all written in phase 1 and there was **not one
+`TSTemplateLiteral` node in the repository** until the test above wrote one. Writing it found three
+bugs, none of which the generated output could show — the `.ts` was right the whole time, which is
+the standing argument for the definition of done asking for an editor test as well as a
+`TSTestCase`.
+
+- **An empty `head` rendered as a red `<no head>`, and so did an empty `tail`.** Both are ordinary
+  TypeScript — `` `${x}` `` is a template literal with an empty head and one span with an empty
+  tail, and an empty head is the state *every* template literal starts in, so this was on the main
+  path rather than in a corner. A plain `CellModel_Property` shows `<no ROLE>` for an unset value;
+  the two properties that turn that off are `emptyNoTargetText` and `allowEmptyText`, and neither
+  has a slot in the editor's tailored notation — they are written from the generic syntax or from
+  `run_code`. `jetbrains.mps.lang.text`'s `Word_Editor` is the precedent, and it also shows the
+  other half of the recipe: a property cell that may be empty needs `first-position-allowed` and
+  `last-position-allowed`, because once the placeholder text is gone the cell has no width, and the
+  `punctuation-left`/`punctuation-right` that suppress the spaces around it would otherwise leave it
+  with no caret position at all — an empty head that can never be filled in.
+- **The caret could not reach either end of an interpolated expression.** `${` and `}` carry
+  punctuation on both sides and so did the expression cell between them, so `${1}` had no position
+  after the `1` — which means no operator could ever be typed inside an interpolation. The tell is
+  the same one the array suffix produced: `Position 1 is not allowed for EditorCell_Label: "1"`,
+  out of a test whose caret looked perfectly ordinary. The seam goes to the expression cell, by the
+  rule under *Cross-cutting*: a caret at the end of the expression is a RIGHT transform on the
+  expression, which is every operator in the language, while a caret at the start of `}` would be a
+  LEFT transform on the span, of which there are none. Three editor tests hold it: the rendering as
+  one string, typing the head while it is still empty, and `+2` after the interpolated `1`.
+- **A null obligatory child is not a hole, and the difference is invisible until you try to type.**
+  `AddTemplateInterpolation` did `new node<TSTemplateSpan>()` and added it, leaving `expression`
+  null — so a freshly added interpolation could not be typed into at all. Every other hole in this
+  language is a **placeholder node**, an instance of the abstract concept the role declares, and the
+  two render almost alike: `${ | }` for the placeholder against `$|{ _ }` for the null child, where
+  the caret has been pushed into the middle of the `${` token because the only cell that would take
+  it is not one the caret can enter. The comparison is the whole diagnosis — a hole made by
+  backspacing over `${1}` was always fine, which is why nothing else in the language had ever hit
+  this. The structure checker says the same thing more plainly (`No child in the obligatory role
+  'expression'`), and textgen fails on it, so a sandbox root holding one breaks the build.
+
+  **`set-new` cannot write the fix**, because its concept scope offers only instantiable concepts
+  and the placeholder's concept is abstract by definition. `concept/TSIExpression/.new-instance` can,
+  and it is plain `jetbrains.mps.lang.smodel` — no reaching into `SNodeFactoryOperations`, which is
+  what `set-new` compiles to anyway.
+
+  **And an intention that opens a hole owes a caret, exactly as a side transform does.** This one
+  now ends in a `SelectInEditorOperation` on the new placeholder, so the gesture is Alt+Enter and
+  then the expression, with no arrow key in between — which the test asserts by typing `1`
+  immediately after the intention and comparing the tree. Reaching `editorContext` from an
+  `ExecuteBlock` needs **two** language imports on the intentions model, and the error names
+  neither: `jetbrains.mps.lang.editor` for `SelectInEditorOperation`, and
+  `jetbrains.mps.lang.sharedConcepts` for the `editorContext` parameter itself. Without the second,
+  the writer reports `Cannot resolve editorContext as variableDeclaration ... (in scope: span…)` —
+  a scope list of locals, which reads like a typo rather than a missing import.
 
 ### The one subtyping rule
 
@@ -670,6 +750,17 @@ hangs.
   the parent, and a language with no LEFT sections has just made the difference between a useful
   position and a delete-only one. Enabling both sides is the flicker MPS's default exists to prevent.
 
+  **It has now happened three times, and the third says how to look for it rather than wait for it.**
+  The array suffix was found by an unreachable delete; the two ends of a template literal's
+  interpolation — `${` and `}` punctuated on both sides, and the expression cell between them
+  punctuated too — were found by an editor test that only wanted to park a caret somewhere ordinary,
+  and until then no operator could be typed inside an interpolation at all. The pattern to look for
+  is a **run of adjacent cells all carrying punctuation**, which is what any notation written to
+  suppress every space becomes; every seam in such a run is dead unless one of its two cells says
+  otherwise. `punctuation` and `first`/`last-position-allowed` are one decision per seam, not two
+  independent styles, and a notation that suppresses spacing owes that decision at every seam it
+  makes.
+
   **The operator cells cannot be tested.** `AnonymousCellAnnotation` places a caret only through
   `findCellWithId`, and a `component alias` cell produces no cell that carries an id — an
   `EditorCellId` on that cell model is dropped, and the test dies with `No cell with id operator
@@ -734,12 +825,27 @@ hangs.
   `# other child`, which does not parse back, so it has to be attached from `run_code` — and this
   editor root must not be rewritten from text afterwards or the child goes with it.
 - **An operator whose alias is a prefix of another one cannot be tested by typing it alone.** `?`
-  before `??`, `!` before `!=`/`!==`, `<` before `<=`/`<<`, `>` before `>=`/`>>`/`>>>`, `&` before
-  `&&`, `|` before `||` — MPS holds the side transform *pending* while a longer alias could still
-  match, and commits it when the edit ends. In the editor that is the next keystroke or the caret
-  leaving the cell; in an `EditorTestCase` it is `InvokeActionStatement` with `MoveRight`.
-  `PressKeyStatement` with `VK_RIGHT` does **not** work, and fails as though the keystroke did
-  nothing. Every operator added from here on is in one of those families.
+  before `??`, `=` before `==`/`===`, `!` before `!=`/`!==`, `<` before `<=`/`<<`, `>` before
+  `>=`/`>>`/`>>>`, `&` before `&&`, `|` before `||` — MPS holds the side transform *pending* while a
+  longer alias could still match, and commits it when the edit ends. In the editor that is the next
+  keystroke or the caret leaving the cell; in an `EditorTestCase` it is `InvokeActionStatement` with
+  `MoveRight`. `PressKeyStatement` with `VK_RIGHT` does **not** work, and fails as though the
+  keystroke did nothing. Every operator added from here on is in one of those families.
+
+  **All seven families are covered now**, in `expressions.operator_aliases`: sixteen tests, one per
+  operator, each typing the whole gesture a user types — `1`, the alias, `2` — so that what is
+  pinned is longest-match rather than the workaround. The operand is what ends the edit, which is
+  why none of the sixteen needs `MoveRight` at all: a digit cannot extend any of these aliases.
+  Only the seventeenth does, and it is there to say what the pending state *is* — after `<` alone
+  the editor reads `module m { 1 <| ; }`, the typed text sitting in the literal's own cell with no
+  node built yet, and `MoveRight` is what turns it into `1 < _`. That test asserts both strings
+  through `EditorText.withCaret` and carries no `testNodeResult`, because a tree with a placeholder
+  in it is what the writer refuses.
+
+  Note what the second string says: `module m { 1 < _ ;| }`. The transform puts the caret in the
+  hole it opens, and `MoveRight` — the keystroke that committed it — then carries the caret past
+  that hole to the end of the statement. It is the one gesture in the language that does not leave
+  the caret where the text ended, and it is correct anyway: moving right is what was asked for.
 - Intentions and quick fixes alongside each phase (the ternary paren quick fix is the model).
 - Migration scripts for every structural rename — the concept-prefix rename and the
   `TSConsoleLog` removal show the cost of not having them.
