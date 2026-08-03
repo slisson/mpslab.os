@@ -3023,7 +3023,7 @@
                           <ref role="3cqZAo" node="5TZAFSU__E5" resolve="wrapper" />
                         </node>
                         <node concept="3Tsc0h" id="5TZAFSU__Ev" role="2OqNvi">
-                          <ref role="3TtcxE" to="mo8k:6WKYICH1adp" />
+                          <ref role="3TtcxE" to="mo8k:6WKYICH1adp" resolve="types" />
                         </node>
                       </node>
                       <node concept="TSZUe" id="5TZAFSU__Ew" role="2OqNvi">
@@ -3040,7 +3040,7 @@
                           <ref role="3cqZAo" node="5TZAFSU__E5" resolve="wrapper" />
                         </node>
                         <node concept="3Tsc0h" id="5TZAFSU__EG" role="2OqNvi">
-                          <ref role="3TtcxE" to="mo8k:6WKYICH1adp" />
+                          <ref role="3TtcxE" to="mo8k:6WKYICH1adp" resolve="types" />
                         </node>
                       </node>
                       <node concept="TSZUe" id="5TZAFSU__EH" role="2OqNvi">
