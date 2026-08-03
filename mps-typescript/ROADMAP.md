@@ -9,14 +9,14 @@ pattern rather than a new one.
 | Aspect      | State                                                                                                                                                                          |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Expressions: identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts. All twenty-five binary operators, grouped under the abstract `TSArithmeticOperation` / `TSComparisonOperation` / `TSEqualityOperation` / `TSLogicalOperation` / `TSBitwiseOperation`; the prefix operators `! - + ~ typeof void` under `TSUnaryOperation`; parentheses; ternary. Literals: string, number (`TSNumberValue`-constrained text covering the decimal, hex, binary, octal, separator and bigint forms), `true`/`false`, `null`, `undefined`, template literals as a head plus a span per interpolation. `TSIBinaryLike` extends `TSIExpression`, which is what lets the precedence machinery ask a one-sided operator for its level. Types: `boolean`, `number`, `string`, `console`, `null`, `undefined`, union, array. |
-| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`, `else if`) render only when filled, and are reached by typing `:` / `=` / `else{` / `else if` — default transformation menus with RIGHT side-transform sections on `TSVariableDeclaration`, `TSIType` and `TSIfStatement`, plus one `TransformationMenuContribution` to `BaseConcept`'s default menu that hands a transform typed after a nested construct to whatever that construct closes. Types compose the same way: `|` on the `TSIType` menu wraps a type in a union — lengthening a union that is already there is MPS's own doing, since it binds a one-character list separator as an insert key on every element cell. And there is now a **delete story**, seven `CellActionMapDeclaration`s of it: a binary operation collapses to the operand the caret is not in, a prefix operation to its operand, parentheses unwrap rather than take the expression with them, an annotation or an initializer goes away rather than leaving a hole, and a union member takes the union with it when one member would be left. |
+| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`, `else if`) render only when filled, and are reached by typing `:` / `=` / `else{` / `else if` — default transformation menus with RIGHT side-transform sections on `TSVariableDeclaration`, `TSIType` and `TSIfStatement`, plus one `TransformationMenuContribution` to `BaseConcept`'s default menu that hands a transform typed after a nested construct to whatever that construct closes. Types compose the same way: `|` on the `TSIType` menu wraps a type in a union — lengthening a union that is already there is MPS's own doing, since it binds a one-character list separator as an insert key on every element cell. And there is now a **delete story**, seven `CellActionMapDeclaration`s of it, written so that deleting retraces typing: an operand, a union member, an annotation and an initializer each empty out first and take their construct with them only on the second keystroke, while parentheses unwrap and the operator cells collapse in one. See *What delete does* under **Cross-cutting**. |
 | behavior    | `TSPrecedence` — the whole precedence scale as instances carrying level *and* associativity, and the only place a priority number is written — the parenthesis machinery written against `TSIBinaryLike` rather than against binary operations, `TSTypeUtil.union` normalizing every union that is built — members deduplicated by structural match, ordered by presentation — `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope — `TSITrailingChildOwner.trailingChild` for the `else` side transforms, `needsSpaceBeforeOperand` and `needsParenthesesAsArrayElement` (each asked by both the editor and the textgen, so what is shown and what is generated cannot drift), and `TSNameUtil.isValidName`. Types present themselves through `BaseConcept.getPresentation`, overridden only where the notation is more than a keyword — the alias is already the default. |
 | typesystem  | Per-operator typing lives in an `OverloadedOpRulesContainer` table, which `typeof_TSBinaryOperation` consults through `operation-type` — so an operand combination with no row *is* the "cannot be applied" error, rather than a separate set of operand checks. Overriding rules for equality, `in`, `,` and `&& \|\| ??`, whose results do not depend on their operands. `typeof` rules for every literal, the prefix operators, the ternary, parens, declarations and identifiers. Non-typesystem checks: priority violations, a prefix operator immediately left of `**` (TS17006 — a syntax restriction, not a precedence one), `??` mixed with `\|\|`/`&&`, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, a number literal still in an intermediate typing state, and a union of fewer than two members — that last one written for the generator rather than for the editor, which can no longer build one. Two quick fixes. One subtyping relation, and it is the only one: `TSIType_subtypeOf_TSUnionType`, an `InequationReplacementRule` that makes every member of a union a subtype of it — see *The one subtyping rule* below for why it is a replacement rule rather than a `SubtypingRule`, and why its sub-type side is declared as `BaseConcept`. |
 | constraints | `TSIdentifier.declaration` declares the inherited scope, which is what makes the `ScopeProvider`s above take effect; `TSIDeclaration.name` is validated as a TypeScript identifier, which is what lets `:` and `=` leave the name cell instead of extending the name; the unitTest language restricts assertions to test methods. |
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
 | textgen     | 29 `ConceptTextGenDeclaration`s; the twenty-five binary operators share one on `TSBinaryOperation`, the six prefix operators one on `TSUnaryOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts`. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
 | intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty — and add a template-literal interpolation. Kept beside the side transforms, which are the primary way in for the first four: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. For the interpolation it is the *only* way in, which is a gap rather than a design — see *Cross-cutting*. |
-| tests       | 40 editor tests and 21 nodes tests — 95 JUnit tests between them — plus 23 TypeScript tests that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting a union member are two tests each way, since a delete that collapses and a delete that must not are different code paths. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `unit_test_language` — since the concept already says which kind a test is. |
+| tests       | 41 editor tests and 21 nodes tests — 96 JUnit tests between them — plus 23 TypeScript tests that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `unit_test_language` — since the concept already says which kind a test is. |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 The gap that dominates the ordering is now the standard library: `console` is still a
@@ -562,26 +562,43 @@ hangs.
   positive one, because `TSNumberValue` still admits a leading `-` from before `TSUnaryMinusExpression`
   existed; the output is identical either way, but two trees render the same text, and the `-?`
   should go the next time a migration is being written anyway.
-- **What delete does, and the one gesture no test can reach.** Until this was written the language
-  had no delete behaviour at all: every `Delete` fell through to MPS's default, which removes the
-  node under the caret and leaves a hole — so deleting the right operand of `1 + 2` lost the
-  operator *and* left `1 + <hole>`, deleting a bracket took the whole parenthesised expression, and
-  deleting a type annotation did nothing whatsoever, since a constant cell has no delete of its own.
-  Seven action maps now do what baseLanguage does, attached to cells through the `actionMap`
-  reference the notation prints only as `# other ref`:
+- **What delete does: it retraces what typing did.** Until this was written the language had no
+  delete behaviour at all — every `Delete` fell through to MPS's default, which removes the node
+  under the caret and leaves a hole, so deleting a bracket took the whole parenthesised expression
+  and deleting a type annotation did nothing whatsoever, a read-only label having no delete of its
+  own. Seven action maps now, attached to cells through the `actionMap` reference the notation
+  prints only as `# other ref`.
 
-  | cell | Delete | Backspace |
+  **The rule they all follow is that unbuilding retraces building.** Typing `+` after `1` gives
+  `1 + <hole>` and then `2` fills it; so deleting from the right gives `1 + <hole>` back *before* it
+  gives `1`. The first cut collapsed in one step and was wrong for exactly that reason — one
+  keystroke took away both the operand and the operator, with no state in between to type into. The
+  same two steps apply to a union member, a type annotation and an initializer, each of which was
+  also reached by a keystroke that created a hole first. An operand that is already a hole is the
+  state that says "now take the construct with me", and *is a hole* is
+  `operand.concept.isAbstract()` — a placeholder is an instance of the abstract concept the role
+  declares.
+
+  | cell | first keystroke | second |
   |---|---|---|
-  | binary operand | collapse to the *other* operand | same, from the left operand |
-  | binary operator | collapse to the left operand | collapse to the right operand |
+  | binary operand | empty it | collapse to the other operand |
+  | union member | empty it | remove it; collapse the union at one member |
+  | annotation / initializer | empty it | take the whole optional part away |
+  | binary operator | collapse to the left operand (backspace: to the right) | — |
   | prefix operator | collapse to the operand | — |
-  | `(` and `)` | unwrap | unwrap |
-  | type annotation / initializer | remove it, caret back to the name | — |
-  | union member | remove it; collapse the union at one member | same |
+  | `(` and `)` | unwrap | — |
 
-  Six editor tests cover the addressable ones, and three of them were watched failing first — the
-  annotation one reported `Different children count in role: declaredType [was: 1, expected: 0]`,
-  which is the default doing nothing, in one line.
+  Nine editor tests cover the addressable ones, four of them watched failing first. Two pin the
+  intermediate state by *typing into it*: backspace over `2` in `1 + 2` and type `3`, and you must
+  get `1 + 3` — if the operation had collapsed there would be nothing to type into, which is the
+  bug as a test.
+
+  **Which keystroke reaches which map is not a free choice.** Delete at the *end* of the left
+  operand never reaches the left operand's map: the caret there sits just before the operator, so
+  MPS routes the forward delete rightwards and the right operand's map answers — a delete-based
+  version of the left map passed its first step and then collapsed to the wrong side, which is how
+  this was found. The gesture that lands on the left operand is backspace at position 0, where
+  there is nothing to the left to route to.
 
   **The operator cells cannot be tested.** `AnonymousCellAnnotation` places a caret only through
   `findCellWithId`, and a `component alias` cell produces no cell that carries an id — an

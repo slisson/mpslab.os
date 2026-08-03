@@ -2634,7 +2634,7 @@
     </node>
   </node>
   <node concept="LiM7Y" id="30$vFINDpRM">
-    <property role="TrG5h" value="Deleting_a_member_of_a_two_member_union_leaves_the_type_it_wrapped" />
+    <property role="TrG5h" value="Deleting_a_member_of_a_two_member_union_twice_leaves_the_type_it_wrapped" />
     <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="30$vFINDpRN" role="25YQCW">
       <node concept="24Z7zp" id="30$vFINDpRP" role="1qenE9">
@@ -2657,6 +2657,11 @@
       </node>
     </node>
     <node concept="3clFbS" id="30$vFINDpRV" role="LjaKd">
+      <node concept="2HxZob" id="30$vFINPYW_" role="3cqZAp">
+        <node concept="1iFQzN" id="30$vFINPYWB" role="3iKnsn">
+          <ref role="1iFR8X" to="ekwn:7HPyHg84hwg" resolve="Delete" />
+        </node>
+      </node>
       <node concept="2HxZob" id="30$vFINDpRW" role="3cqZAp">
         <node concept="1iFQzN" id="30$vFINDpRY" role="3iKnsn">
           <ref role="1iFR8X" to="ekwn:7HPyHg84hwg" resolve="Delete" />
@@ -2674,7 +2679,7 @@
     </node>
   </node>
   <node concept="LiM7Y" id="30$vFINEe9B">
-    <property role="TrG5h" value="Deleting_a_member_of_a_longer_union_leaves_the_union" />
+    <property role="TrG5h" value="Deleting_a_member_of_a_longer_union_empties_it_before_it_goes" />
     <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="30$vFINEe9C" role="25YQCW">
       <node concept="24Z7zp" id="30$vFINEe9E" role="1qenE9">
@@ -2703,6 +2708,9 @@
           <ref role="1iFR8X" to="ekwn:7HPyHg84hwg" resolve="Delete" />
         </node>
       </node>
+      <node concept="2TK7Tu" id="30$vFINPZh6" role="3cqZAp">
+        <property role="2TTd_B" value="boolean" />
+      </node>
     </node>
     <node concept="1qefOq" id="30$vFINEe9P" role="25YQFr">
       <node concept="24Z7zp" id="30$vFINEe9R" role="1qenE9">
@@ -2712,6 +2720,7 @@
           <node concept="3pfgAg" id="30$vFINEe9T" role="19IeeE">
             <node concept="2Kh4GC" id="30$vFINEe9U" role="3KvU$C" />
             <node concept="3$6BPE" id="30$vFINEe9V" role="3KvU$C" />
+            <node concept="3$6BPE" id="30$vFINPZh7" role="3KvU$C" />
           </node>
         </node>
       </node>
@@ -2740,7 +2749,7 @@
     </node>
   </node>
   <node concept="LiM7Y" id="30$vFINH80h">
-    <property role="TrG5h" value="Deleting_the_right_operand_leaves_the_left_one" />
+    <property role="TrG5h" value="Deleting_the_right_operand_twice_leaves_the_left_one" />
     <property role="3GE5qa" value="expressions" />
     <node concept="1qefOq" id="30$vFINH80i" role="25YQCW">
       <node concept="24Z7zp" id="30$vFINH80k" role="1qenE9">
@@ -2767,7 +2776,12 @@
     <node concept="3clFbS" id="30$vFINH80t" role="LjaKd">
       <node concept="2HxZob" id="30$vFINH80u" role="3cqZAp">
         <node concept="1iFQzN" id="30$vFINH80w" role="3iKnsn">
-          <ref role="1iFR8X" to="ekwn:7HPyHg84hwg" resolve="Delete" />
+          <ref role="1iFR8X" to="ekwn:7HPyHg86S0x" resolve="Backspace" />
+        </node>
+      </node>
+      <node concept="2HxZob" id="30$vFINOjr0" role="3cqZAp">
+        <node concept="1iFQzN" id="30$vFINOjr2" role="3iKnsn">
+          <ref role="1iFR8X" to="ekwn:7HPyHg86S0x" resolve="Backspace" />
         </node>
       </node>
     </node>
@@ -2832,7 +2846,7 @@
     </node>
   </node>
   <node concept="LiM7Y" id="30$vFINH8zY">
-    <property role="TrG5h" value="Deleting_the_type_annotation_leaves_the_declaration" />
+    <property role="TrG5h" value="Deleting_the_type_annotation_twice_leaves_the_declaration" />
     <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="30$vFINH8zZ" role="25YQCW">
       <node concept="24Z7zp" id="30$vFINH8$1" role="1qenE9">
@@ -2855,6 +2869,11 @@
       </node>
     </node>
     <node concept="3clFbS" id="30$vFINH8$6" role="LjaKd">
+      <node concept="2HxZob" id="30$vFINQP1r" role="3cqZAp">
+        <node concept="1iFQzN" id="30$vFINQP1t" role="3iKnsn">
+          <ref role="1iFR8X" to="ekwn:7HPyHg84hwg" resolve="Delete" />
+        </node>
+      </node>
       <node concept="2HxZob" id="30$vFINH8$7" role="3cqZAp">
         <node concept="1iFQzN" id="30$vFINH8$9" role="3iKnsn">
           <ref role="1iFR8X" to="ekwn:7HPyHg84hwg" resolve="Delete" />
@@ -2874,7 +2893,7 @@
     </node>
   </node>
   <node concept="LiM7Y" id="30$vFINJvbL">
-    <property role="TrG5h" value="Backspacing_the_left_operand_leaves_the_right_one" />
+    <property role="TrG5h" value="Backspacing_the_left_operand_twice_leaves_the_right_one" />
     <property role="3GE5qa" value="expressions" />
     <node concept="1qefOq" id="30$vFINJvbM" role="25YQCW">
       <node concept="24Z7zp" id="30$vFINJvbO" role="1qenE9">
@@ -2903,6 +2922,11 @@
           <ref role="1iFR8X" to="ekwn:7HPyHg86S0x" resolve="Backspace" />
         </node>
       </node>
+      <node concept="2HxZob" id="30$vFINOjIo" role="3cqZAp">
+        <node concept="1iFQzN" id="30$vFINOjIq" role="3iKnsn">
+          <ref role="1iFR8X" to="ekwn:7HPyHg86S0x" resolve="Backspace" />
+        </node>
+      </node>
     </node>
     <node concept="1qefOq" id="30$vFINJvc1" role="25YQFr">
       <node concept="24Z7zp" id="30$vFINJvc3" role="1qenE9">
@@ -2916,7 +2940,7 @@
     </node>
   </node>
   <node concept="LiM7Y" id="30$vFINJvtM">
-    <property role="TrG5h" value="Deleting_the_initializer_leaves_the_annotated_declaration" />
+    <property role="TrG5h" value="Deleting_the_initializer_twice_leaves_the_annotated_declaration" />
     <property role="3GE5qa" value="declarations" />
     <node concept="1qefOq" id="30$vFINJvtN" role="25YQCW">
       <node concept="24Z7zp" id="30$vFINJvtP" role="1qenE9">
@@ -2938,6 +2962,11 @@
       </node>
     </node>
     <node concept="3clFbS" id="30$vFINJvtU" role="LjaKd">
+      <node concept="2HxZob" id="30$vFINQPl3" role="3cqZAp">
+        <node concept="1iFQzN" id="30$vFINQPl5" role="3iKnsn">
+          <ref role="1iFR8X" to="ekwn:7HPyHg84hwg" resolve="Delete" />
+        </node>
+      </node>
       <node concept="2HxZob" id="30$vFINJvtV" role="3cqZAp">
         <node concept="1iFQzN" id="30$vFINJvtX" role="3iKnsn">
           <ref role="1iFR8X" to="ekwn:7HPyHg84hwg" resolve="Delete" />
@@ -2998,6 +3027,57 @@
             </node>
             <node concept="24BhzH" id="30$vFINLSJs" role="GyX5B">
               <property role="2Hr5CV" value="2" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="LiM7Y" id="30$vFINMIet">
+    <property role="TrG5h" value="Deleting_the_right_operand_leaves_the_operation_with_a_hole" />
+    <property role="3GE5qa" value="expressions" />
+    <node concept="1qefOq" id="30$vFINMIeu" role="25YQCW">
+      <node concept="24Z7zp" id="30$vFINMIew" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="30$vFINMIex" role="1JIkAo">
+          <node concept="1rvuUm" id="30$vFINMIez" role="$a3P1">
+            <node concept="24BhzH" id="30$vFINMIeA" role="33kRt2">
+              <property role="2Hr5CV" value="1" />
+            </node>
+            <node concept="24BhzH" id="30$vFINMIeB" role="GyX5B">
+              <property role="2Hr5CV" value="2" />
+              <node concept="LIFWc" id="30$vFINMIeC" role="lGtFl">
+                <property role="LIFWd" value="value" />
+                <property role="ZRATv" value="true" />
+                <property role="p6zMs" value="1" />
+                <property role="p6zMq" value="1" />
+                <property role="OXtK3" value="true" />
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="30$vFINMIeD" role="LjaKd">
+      <node concept="2HxZob" id="30$vFINMIeE" role="3cqZAp">
+        <node concept="1iFQzN" id="30$vFINMIeG" role="3iKnsn">
+          <ref role="1iFR8X" to="ekwn:7HPyHg86S0x" resolve="Backspace" />
+        </node>
+      </node>
+      <node concept="2TK7Tu" id="30$vFINMIeH" role="3cqZAp">
+        <property role="2TTd_B" value="3" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="30$vFINMIeI" role="25YQFr">
+      <node concept="24Z7zp" id="30$vFINMIeK" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="30$vFINMIeL" role="1JIkAo">
+          <node concept="1rvuUm" id="30$vFINMIeN" role="$a3P1">
+            <node concept="24BhzH" id="30$vFINMIeQ" role="33kRt2">
+              <property role="2Hr5CV" value="1" />
+            </node>
+            <node concept="24BhzH" id="30$vFINMIeR" role="GyX5B">
+              <property role="2Hr5CV" value="3" />
             </node>
           </node>
         </node>
