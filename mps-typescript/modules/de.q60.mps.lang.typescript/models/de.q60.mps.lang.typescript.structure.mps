@@ -799,7 +799,7 @@
     <property role="R5$K7" value="true" />
     <property role="34LRSv" value="&lt;?&gt;" />
     <property role="R4oN_" value="abstract boolean literal" />
-    <ref role="1TJDcQ" to="tpck:gw2VY9q" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
     <node concept="PrWs8" id="6WKYICGXUWx" role="PzmwI">
       <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
     </node>
@@ -820,7 +820,7 @@
     <property role="EcuMT" value="1480635482070849035" />
     <property role="TrG5h" value="TSTemplateSpan" />
     <property role="R4oN_" value="an interpolation and the text that follows it" />
-    <ref role="1TJDcQ" to="tpck:gw2VY9q" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
     <node concept="1TJgyi" id="6WKYICGZscY" role="1TKVEl">
       <property role="IQ2nx" value="6377797546063508848" />
       <property role="TrG5h" value="tail" />
@@ -839,7 +839,7 @@
     <property role="TrG5h" value="TSTemplateLiteral" />
     <property role="34LRSv" value="`" />
     <property role="R4oN_" value="template literal" />
-    <ref role="1TJDcQ" to="tpck:gw2VY9q" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
     <node concept="PrWs8" id="6WKYICGZsfD" role="PzmwI">
       <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
     </node>
@@ -860,7 +860,8 @@
     <property role="EcuMT" value="2894647882240095206" />
     <property role="TrG5h" value="TSNullType" />
     <property role="34LRSv" value="null" />
-    <ref role="1TJDcQ" to="tpck:gw2VY9q" />
+    <property role="R4oN_" value="null type" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
     <node concept="PrWs8" id="6WKYICH1a86" role="PzmwI">
       <ref role="PrY4T" node="4Ul7eGthLpQ" resolve="TSIType" />
     </node>
@@ -869,7 +870,8 @@
     <property role="EcuMT" value="5086057359599138485" />
     <property role="TrG5h" value="TSUndefinedType" />
     <property role="34LRSv" value="undefined" />
-    <ref role="1TJDcQ" to="tpck:gw2VY9q" />
+    <property role="R4oN_" value="undefined type" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
     <node concept="PrWs8" id="6WKYICH1aaB" role="PzmwI">
       <ref role="PrY4T" node="4Ul7eGthLpQ" resolve="TSIType" />
     </node>
@@ -879,7 +881,7 @@
     <property role="TrG5h" value="TSUnionType" />
     <property role="34LRSv" value="|" />
     <property role="R4oN_" value="union type" />
-    <ref role="1TJDcQ" to="tpck:gw2VY9q" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
     <node concept="PrWs8" id="6WKYICH1ado" role="PzmwI">
       <ref role="PrY4T" node="4Ul7eGthLpQ" resolve="TSIType" />
     </node>
@@ -896,7 +898,7 @@
     <property role="TrG5h" value="TSArrayType" />
     <property role="34LRSv" value="[]" />
     <property role="R4oN_" value="array type" />
-    <ref role="1TJDcQ" to="tpck:gw2VY9q" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
     <node concept="PrWs8" id="6WKYICH1ag0" role="PzmwI">
       <ref role="PrY4T" node="4Ul7eGthLpQ" resolve="TSIType" />
     </node>
@@ -906,6 +908,26 @@
       <property role="20kJfa" value="elementType" />
       <property role="20lbJX" value="fLJekj4/_1" />
       <ref role="20lvS9" node="4Ul7eGthLpQ" resolve="TSIType" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5TZAFSUs1Ds">
+    <property role="EcuMT" value="1148579228915497614" />
+    <property role="TrG5h" value="TSNullLiteral" />
+    <property role="34LRSv" value="null" />
+    <property role="R4oN_" value="null literal" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5TZAFSUs1Dt" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5TZAFSUs1G7">
+    <property role="EcuMT" value="8023700100379537636" />
+    <property role="TrG5h" value="TSUndefinedLiteral" />
+    <property role="34LRSv" value="undefined" />
+    <property role="R4oN_" value="undefined literal" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5TZAFSUs1G8" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
     </node>
   </node>
 </model>

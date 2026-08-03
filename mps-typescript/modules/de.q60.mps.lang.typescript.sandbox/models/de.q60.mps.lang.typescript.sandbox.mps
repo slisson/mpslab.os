@@ -38,12 +38,16 @@
       <concept id="8057680275657749238" name="de.q60.mps.lang.typescript.structure.TSIdentifier" flags="ng" index="2v$HdM">
         <reference id="7745766023969360865" name="declaration" index="2oxrr9" />
       </concept>
+      <concept id="1148579228915497614" name="de.q60.mps.lang.typescript.structure.TSNullLiteral" flags="ng" index="C5IwR" />
+      <concept id="4042126980422580726" name="de.q60.mps.lang.typescript.structure.TSNullishCoalescingExpression" flags="ng" index="2H1bN$" />
       <concept id="3720627991746027321" name="de.q60.mps.lang.typescript.structure.TSElseIfClause" flags="ng" index="ILWLb">
         <child id="4391307923817728188" name="condition" index="1usCvQ" />
         <child id="1792031550624269005" name="block" index="1TBx7Y" />
       </concept>
       <concept id="5991954684290791457" name="de.q60.mps.lang.typescript.structure.TSStringType" flags="ng" index="2Kh4GC" />
       <concept id="4715308568151819694" name="de.q60.mps.lang.typescript.structure.TSConstDeclaration" flags="ng" index="2MuU66" />
+      <concept id="8023700100379537636" name="de.q60.mps.lang.typescript.structure.TSUndefinedLiteral" flags="ng" index="2OeDxu" />
+      <concept id="2894647882240095206" name="de.q60.mps.lang.typescript.structure.TSNullType" flags="ng" index="2UUy$f" />
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
         <property id="7217799321058434228" name="value" index="3b_9E9" />
       </concept>
@@ -54,9 +58,13 @@
       <concept id="7259284324402748763" name="de.q60.mps.lang.typescript.structure.TSExpressionStatement" flags="ng" index="3ja7nU">
         <child id="3951472244529450579" name="expression" index="$a3P1" />
       </concept>
+      <concept id="7106926194277792125" name="de.q60.mps.lang.typescript.structure.TSNumberType" flags="ng" index="1ku6r5" />
       <concept id="902545861387718385" name="de.q60.mps.lang.typescript.structure.TSAssignmentStatement" flags="ng" index="3p1v9s">
         <child id="488639419388104298" name="target" index="219B2s" />
         <child id="834448770786422024" name="expression" index="1IqeeO" />
+      </concept>
+      <concept id="4523838444874165896" name="de.q60.mps.lang.typescript.structure.TSUnionType" flags="ng" index="3pfgAg">
+        <child id="4870825102337838263" name="types" index="3KvU$C" />
       </concept>
       <concept id="6704462043861673507" name="de.q60.mps.lang.typescript.structure.TSPlusExpression" flags="ng" index="1rvuUm" />
       <concept id="6275768358144507624" name="de.q60.mps.lang.typescript.structure.TSEqualsExpression" flags="ng" index="1CNJNU" />
@@ -71,6 +79,7 @@
         <child id="264280299738157132" name="condition" index="18F3B4" />
         <child id="2578765457793828190" name="elseIfClauses" index="1X4dzr" />
       </concept>
+      <concept id="5086057359599138485" name="de.q60.mps.lang.typescript.structure.TSUndefinedType" flags="ng" index="3OJVyd" />
     </language>
     <language id="ceab5195-25ea-4f22-9b92-103b95ca8c0c" name="jetbrains.mps.lang.core">
       <concept id="1169194658468" name="jetbrains.mps.lang.core.structure.INamedConcept" flags="ngI" index="TrEIO">
@@ -351,6 +360,45 @@
               <node concept="33xXhr" id="6WKYICFNrpV" role="3gGa23">
                 <property role="3b_9E9" value="neither" />
               </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="24Z7zp" id="5TZAFSUwUpx">
+    <property role="TrG5h" value="nullish" />
+    <node concept="2swglJ" id="5TZAFSUwUpy" role="1JIkAo">
+      <property role="TrG5h" value="nullable" />
+      <node concept="3pfgAg" id="5TZAFSUwUpz" role="19IeeE">
+        <node concept="2UUy$f" id="5TZAFSUwUp$" role="3KvU$C" />
+        <node concept="1ku6r5" id="5TZAFSUwUp_" role="3KvU$C" />
+      </node>
+      <node concept="C5IwR" id="5TZAFSUwUpA" role="1bGQZ8" />
+    </node>
+    <node concept="3p1v9s" id="5TZAFSUwUpB" role="1JIkAo">
+      <node concept="2v$HdM" id="5TZAFSUwUpE" role="219B2s">
+        <ref role="2oxrr9" node="5TZAFSUwUpy" resolve="nullable" />
+      </node>
+      <node concept="24BhzH" id="5TZAFSUwUpF" role="1IqeeO">
+        <property role="2Hr5CV" value="42" />
+      </node>
+    </node>
+    <node concept="2MuU66" id="5TZAFSUwUpG" role="1JIkAo">
+      <property role="TrG5h" value="missing" />
+      <node concept="3OJVyd" id="5TZAFSUwUpH" role="19IeeE" />
+      <node concept="2OeDxu" id="5TZAFSUwUpI" role="1bGQZ8" />
+    </node>
+    <node concept="3ja7nU" id="5TZAFSUwUpJ" role="1JIkAo">
+      <node concept="hjOgg" id="5TZAFSUwUpL" role="$a3P1">
+        <node concept="3JZgZa" id="5TZAFSUwUpO" role="3DwI$f" />
+        <node concept="2hi8J1" id="5TZAFSUwUpP" role="CABlD">
+          <node concept="2H1bN$" id="5TZAFSUwUpQ" role="3gGa23">
+            <node concept="2v$HdM" id="5TZAFSUwUpT" role="33kRt2">
+              <ref role="2oxrr9" node="5TZAFSUwUpy" resolve="nullable" />
+            </node>
+            <node concept="24BhzH" id="5TZAFSUwUpU" role="GyX5B">
+              <property role="2Hr5CV" value="0" />
             </node>
           </node>
         </node>
