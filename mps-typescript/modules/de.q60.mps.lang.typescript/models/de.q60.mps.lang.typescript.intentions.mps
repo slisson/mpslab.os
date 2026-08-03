@@ -903,7 +903,7 @@
             <node concept="2OqwBi" id="6WKYICH0E_L" role="2Oq$k0">
               <node concept="2Sf5sV" id="6WKYICH0E_O" role="2Oq$k0" />
               <node concept="3Tsc0h" id="6WKYICH0E_P" role="2OqNvi">
-                <ref role="3TtcxE" to="mo8k:6WKYICGZsfF" />
+                <ref role="3TtcxE" to="mo8k:6WKYICGZsfF" resolve="spans" />
               </node>
             </node>
             <node concept="TSZUe" id="6WKYICH0E_Q" role="2OqNvi">

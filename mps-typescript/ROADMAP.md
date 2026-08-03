@@ -8,15 +8,15 @@ pattern rather than a new one.
 
 | Aspect      | State                                                                                                                                                                          |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Expressions: identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts. All twenty-five binary operators, grouped under the abstract `TSArithmeticOperation` / `TSComparisonOperation` / `TSEqualityOperation` / `TSLogicalOperation` / `TSBitwiseOperation`; the prefix operators `! - + ~ typeof void` under `TSUnaryOperation`; parentheses; ternary. Literals: string, number (`TSNumberValue`-constrained text covering the decimal, hex, binary, octal, separator and bigint forms), `true`/`false`, template literals as a head plus a span per interpolation. `TSIBinaryLike` extends `TSIExpression`, which is what lets the precedence machinery ask a one-sided operator for its level. Types: `boolean`, `number`, `string`, `console`, `null`, `undefined`, union, array. |
-| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`, `else if`) render only when filled, and are reached by typing `:` / `=` / `else{` / `else if` — default transformation menus with RIGHT side-transform sections on `TSVariableDeclaration`, `TSIType` and `TSIfStatement`, plus one `TransformationMenuContribution` to `BaseConcept`'s default menu that hands a transform typed after a nested construct to whatever that construct closes. |
-| behavior    | `TSPrecedence` — the whole precedence scale as instances carrying level *and* associativity, and the only place a priority number is written — the parenthesis machinery written against `TSIBinaryLike` rather than against binary operations, `TSTypeUtil.union` normalizing every union that is built, `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope — `TSITrailingChildOwner.trailingChild` for the `else` side transforms, `needsSpaceBeforeOperand` and `needsParenthesesAsArrayElement` (each asked by both the editor and the textgen, so what is shown and what is generated cannot drift), and `TSNameUtil.isValidName`. Types present themselves through `BaseConcept.getPresentation`, overridden only where the notation is more than a keyword — the alias is already the default. |
-| typesystem  | Per-operator typing lives in an `OverloadedOpRulesContainer` table, which `typeof_TSBinaryOperation` consults through `operation-type` — so an operand combination with no row *is* the "cannot be applied" error, rather than a separate set of operand checks. Overriding rules for equality, `in`, `,` and `&& \|\| ??`, whose results do not depend on their operands. `typeof` rules for every literal, the prefix operators, the ternary, parens, declarations and identifiers. Non-typesystem checks: priority violations, a prefix operator immediately left of `**` (TS17006 — a syntax restriction, not a precedence one), `??` mixed with `\|\|`/`&&`, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, and a number literal still in an intermediate typing state. Two quick fixes. **No subtyping rules at all yet** — which is what stops a union from being usable as an annotation. |
+| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Expressions: identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts. All twenty-five binary operators, grouped under the abstract `TSArithmeticOperation` / `TSComparisonOperation` / `TSEqualityOperation` / `TSLogicalOperation` / `TSBitwiseOperation`; the prefix operators `! - + ~ typeof void` under `TSUnaryOperation`; parentheses; ternary. Literals: string, number (`TSNumberValue`-constrained text covering the decimal, hex, binary, octal, separator and bigint forms), `true`/`false`, `null`, `undefined`, template literals as a head plus a span per interpolation. `TSIBinaryLike` extends `TSIExpression`, which is what lets the precedence machinery ask a one-sided operator for its level. Types: `boolean`, `number`, `string`, `console`, `null`, `undefined`, union, array. |
+| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`, `else if`) render only when filled, and are reached by typing `:` / `=` / `else{` / `else if` — default transformation menus with RIGHT side-transform sections on `TSVariableDeclaration`, `TSIType` and `TSIfStatement`, plus one `TransformationMenuContribution` to `BaseConcept`'s default menu that hands a transform typed after a nested construct to whatever that construct closes. Types compose the same way: `|` on the `TSIType` menu wraps a type in a union — lengthening a union that is already there is MPS's own doing, since it binds a one-character list separator as an insert key on every element cell. And there is now a **delete story**, seven `CellActionMapDeclaration`s of it, written so that deleting retraces typing: an operand, a union member, an annotation and an initializer each empty out first and take their construct with them only on the second keystroke, while parentheses unwrap and the operator cells collapse in one. See *What delete does* under **Cross-cutting**. |
+| behavior    | `TSPrecedence` — the whole precedence scale as instances carrying level *and* associativity, and the only place a priority number is written — the parenthesis machinery written against `TSIBinaryLike` rather than against binary operations, `TSTypeUtil.union` normalizing every union that is built — members deduplicated by structural match, ordered by presentation — `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope — `TSITrailingChildOwner.trailingChild` for the `else` side transforms, `needsSpaceBeforeOperand` and `needsParenthesesAsArrayElement` (each asked by both the editor and the textgen, so what is shown and what is generated cannot drift), and `TSNameUtil.isValidName`. Types present themselves through `BaseConcept.getPresentation`, overridden only where the notation is more than a keyword — the alias is already the default. |
+| typesystem  | Per-operator typing lives in an `OverloadedOpRulesContainer` table, which `typeof_TSBinaryOperation` consults through `operation-type` — so an operand combination with no row *is* the "cannot be applied" error, rather than a separate set of operand checks. Overriding rules for equality, `in`, `,` and `&& \|\| ??`, whose results do not depend on their operands. `typeof` rules for every literal, the prefix operators, the ternary, parens, declarations and identifiers. Non-typesystem checks: priority violations, a prefix operator immediately left of `**` (TS17006 — a syntax restriction, not a precedence one), `??` mixed with `\|\|`/`&&`, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, a number literal still in an intermediate typing state, and a union of fewer than two members — that last one written for the generator rather than for the editor, which can no longer build one. Two quick fixes. One subtyping relation, and it is the only one: `TSIType_subtypeOf_TSUnionType`, an `InequationReplacementRule` that makes every member of a union a subtype of it — see *The one subtyping rule* below for why it is a replacement rule rather than a `SubtypingRule`, and why its sub-type side is declared as `BaseConcept`. |
 | constraints | `TSIdentifier.declaration` declares the inherited scope, which is what makes the `ScopeProvider`s above take effect; `TSIDeclaration.name` is validated as a TypeScript identifier, which is what lets `:` and `=` leave the name cell instead of extending the name; the unitTest language restricts assertions to test methods. |
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
-| textgen     | 27 `ConceptTextGenDeclaration`s; the twenty-five binary operators share one on `TSBinaryOperation`, the six prefix operators one on `TSUnaryOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts`. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
+| textgen     | 29 `ConceptTextGenDeclaration`s; the twenty-five binary operators share one on `TSBinaryOperation`, the six prefix operators one on `TSUnaryOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts`. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
 | intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty — and add a template-literal interpolation. Kept beside the side transforms, which are the primary way in for the first four: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. For the interpolation it is the *only* way in, which is a gap rather than a design — see *Cross-cutting*. |
-| tests       | 28 editor tests and 17 nodes tests — 77 JUnit tests between them — plus 20 TypeScript tests that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), and the error when the table has no row. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `unit_test_language` — since the concept already says which kind a test is. |
+| tests       | 41 editor tests and 21 nodes tests — 96 JUnit tests between them — plus 23 TypeScript tests that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `unit_test_language` — since the concept already says which kind a test is. |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 The gap that dominates the ordering is now the standard library: `console` is still a
@@ -31,10 +31,17 @@ language is the one that is hardcoded.
    construction output and run `tsc --noEmit` in the build as the ground truth. Implement in
    MPS only the checks that make *editing* good: arity, obvious assignability, definite
    return. This caps phase 5 and lets narrowing stay approximate.
-2. **Who writes TypeScript here?** If the primary consumer is another MPS language
-   generating into TypeScript, then extensibility (open interface concepts, a verbatim
-   escape hatch, stable generator entry points) outranks editor polish for hand-written
-   code. Both are worth having; the answer decides whether phase 1 or phase 8 comes first.
+2. **Who writes TypeScript here?** ✅ **Decided: mostly a generation target.** The primary
+   consumer is another MPS language reducing into TypeScript, so extensibility — open
+   interface concepts, a verbatim escape hatch, stable generator entry points — outranks
+   hand-written code, and **phase 8 can be pulled ahead of phase 3**.
+   What this does *not* mean: it is not a licence to skip editor work. Being a generation
+   target says something narrower — that `tsc` is the backstop for *diagnostics*, so a check
+   MPS would only duplicate can be left to the compiler (decision 1 said the same thing from
+   the other side). Every construct still has to be typeable, and by the definition of done
+   in 0.4 a concept without a way to type it is not finished. The union annotation is the
+   case that made the distinction concrete: the subtyping rule made it *check*, and it took a
+   side transform before anyone could *write* one.
 3. **The standard library.** `console` cannot stay a concept. Decide between a hand-written
    ambient-declaration model (a small `lib.d.ts` equivalent, written in the language itself)
    and importing real `.d.ts` files. *Recommendation:* hand-written minimal lib in phase 3;
@@ -217,24 +224,94 @@ rest of this document: see *What phase 1 learned about phase 5* below.
 - ✅ **The types those rules needed**: `TSUnionType`, `TSNullType`, `TSUndefinedType`, `TSArrayType`.
   `TSTypeUtil.union` is the only place a union is constructed — it flattens, deduplicates and sorts,
   because MPS compares types as trees and `number|string` is only the same type as `string|number` if
-  both are always built the same way round.
+  both are always built the same way round. The two halves of that are deliberately different
+  questions: **whether two members are the same is a structural match** (`EqualsStructurallyExpression`,
+  which is `MatchingUtil.matchNodes` — the comparison the typesystem itself makes, so the dedup
+  cannot merge two types the solver keeps apart), and **what order the survivors read in is
+  `presentation`**, which is a question about text. An earlier cut had a private `key()` building an
+  ad-hoc string for both, which was a second definition of type identity kept in step with the first
+  by hand.
 - ✅ **Type syntax has a precedence of its own**, which nothing in phase 0 anticipated. The array
   suffix binds tighter than a union, so `number | string[]` is TypeScript for `number | (string[])`.
   `TSIType.needsParenthesesAsArrayElement` is the one virtual method that decides it, asked by both
   the presentation and the textgen. Function types will override it in phase 3. If a third such
   question appears, types want their own `TSPrecedence`.
 
+- ✅ **The member-of-union subtyping rule** — `let x: number | string = 1` type-checks, and so does
+  a union assigned to a wider union. *The one subtyping rule* below is what it cost.
+- ✅ **`null` and `undefined` literals**: `TSNullLiteral` and `TSUndefinedLiteral`, one editor, one
+  textgen and one inference rule each — no shared abstract superconcept, because the two have
+  different types and would share nothing but the alias-rendering their editors already do. The
+  four concepts that now spell `null` and `undefined` (literal and type) carry short-descriptions,
+  since each alias is a collision.
+
+- ✅ **A union annotation can be typed, and unmade again.** A RIGHT side transform on `TSIType` for
+  `|`, in the same default menu as the `=` one: it wraps the type it anchors on in a `TSUnionType`
+  and puts the caret in the new member. Which type gets wrapped is decided by where the caret is,
+  not by a flag — `string[]` with the caret after `string` is inside the array and unions the element
+  type, after the `[]` it is the array and unions that.
+
+  **Half of it MPS already did.** A first cut also appended a member when the anchor was already in
+  a union, and that branch was dead code: for a list whose separator is a single character, MPS
+  installs `RefNodeListHandlerElementKeyMap` on every element cell, binding that character to
+  insert-an-element, and it runs before a side transform would. The branch is gone and the menu now
+  declines inside a union outright, because the one case where it *had* fired would have nested a
+  union in a union — two trees reading the same, which is the thing this language keeps refusing to
+  allow. The test that types `|` on a member stays: it pins MPS's behaviour, which the language now
+  depends on.
+
+  **Deleting is the other half, and it does not fall out of anything.** MPS's built-in list delete
+  detaches the member and stops, which leaves a union of one — a tree that reads as the surviving
+  type, generates the same text as it, and *is not* that type. `TSUnionType_DeleteMember` on the
+  list's `elementActionMap` takes the union with it when one member would be left. Two editor tests,
+  one per branch; the collapsing one doubles as the proof that an `elementActionMap` beats the
+  built-in delete at all. A checking rule covers the way in that the editor no longer has —
+  see the typesystem row.
+
 Still open, and the order they should be done in:
 
-1. **The member-of-union subtyping rule.** Until a union member is a subtype of its union,
-   `let x: number | string = 1` does not type-check, which makes the unions above only half usable.
-   This is the one genuinely blocking item.
-2. **`null` and `undefined` literals.** Cheap now that the types exist — two concepts, two editors,
-   two textgens, two inference rules.
-3. **The tests phase 1 still owes**: `TSTestCase` roots running the new operators as real TypeScript,
+1. **`[]` for arrays**, the twin of the `|` transform above: a RIGHT side transform on `TSIType`
+   wrapping the type in a `TSArrayType`. Nothing new is needed for it — `needsParenthesesAsArrayElement`
+   already decides the bracketing both the editor and the textgen use.
+2. **The tests phase 1 still owes**: `TSTestCase` roots running the new operators as real TypeScript,
    and editor tests for the alias-collision groups (see *Cross-cutting* below).
-4. **Array literals** — moved to phase 5, see below.
-5. **Object literals** — moved to phase 5, see below.
+3. **Array literals** — moved to phase 5, see below.
+4. **Object literals** — moved to phase 5, see below.
+
+### The one subtyping rule
+
+Getting `number` to be a subtype of `number | string` is not a `SubtypingRule`, and the reason is
+worth writing down before someone tries it again. MPS's `SubtypingRule` answers *what are the
+supertypes of this type* — the solver walks **up** from the sub-type — and there is no rule kind that
+walks down from the super-type. From `number` the set of unions containing it is infinite, so there
+is nothing to return.
+
+`InequationReplacementRule` is the mechanism: it intercepts the inequation itself, and MPS's own
+`JoinType_supertypeOf_arguments` in `jetbrains.mps.lang.typesystem` is the exact precedent — a join
+*is* a union, and that rule is what our rule is shaped after.
+
+Three things it taught, none of them guessable:
+
+- **The rule is applicable only when it can say yes.** `isApplicableClause` does the whole membership
+  test, and the body then creates one `part :<=: member` inequation per part. A rule that claimed the
+  inequation and left the body empty would report *success* for a type the union does not cover —
+  silently, because the solver takes an unhandled-but-claimed inequation as satisfied. The negative
+  test is what pins this down: `let x: number | string = true` must still be an error.
+- **The sub-type side is `BaseConcept`, not `TSIType`, with an instance test in the clause.** MPS
+  looks a replacement rule up along the sub-type's **superconcept chain only, never along the
+  interfaces it implements** (`DoubleTermRules.allSuperConcepts` — MPS's own source carries a comment
+  admitting it does not know why). A rule declared on `TSIType` is found for nothing at all, and
+  nothing warns you: the write is accepted, the language builds, and the error stays exactly where it
+  was. The `JoinType` rule uses `BaseConcept` for this reason.
+- **`TSTypeUtil.parts` is now shared** with the rule — the sequence of a type's members, or the type
+  itself when it is not a union. Both the loop that builds a union and the loop that consumes one go
+  through it, so union-vs-union assignability is the same three lines as member-vs-union.
+
+One probe that lies, for the next person: `TypeChecker.getInstance().getSubtypingManager()
+.isSubtype(a, b)` from the console answers `false` for a pair the checker accepts, because the
+language scope is collected from the *type nodes handed in* and a bare leaf type carries none. Check
+the rule by writing the tree and reading what the checkers say about it, not by asking the subtyping
+manager.
 
 ### What phase 1 learned about phase 5
 
@@ -334,16 +411,17 @@ The second retrofit-expensive change. Mostly done; what remains is listed at the
 The largest and most open-ended phase; scope it by decision 1 above.
 
 - `any` / `unknown` / `never` / `void` with strict-null semantics. `null` and `undefined` are
-  already here as types — phase 1's `&& || ??` rules needed them — so what is left for them is the
-  *semantics*, not the concepts.
+  already here as types and as literals, and with only the union rule for subtyping the language is
+  *already* strict about them: `null` is assignable to nothing but a union that names it, which is
+  what `--strictNullChecks` means. What is left for them is narrowing, below.
 - Structural subtyping rule; object types, `interface`, `type` aliases, optional properties,
   index signatures. **The object literal lands here**, not in phase 1: `{a: 1}` needs a
   `TSObjectType` with property signatures, and no expression can read such a type until member
   access exists in phase 3.
 - Intersections and literal types. Unions themselves are already here from phase 1, normalized by
-  `TSTypeUtil.union`; what phase 5 owes them is the **member-of-union subtyping rule**, without
-  which `let x: number | string = 1` does not type-check — that one is small and blocking, so it
-  is listed as phase 1's next item rather than left to wait here.
+  `TSTypeUtil.union` and with the member-of-union subtyping rule that phase 5 owed them — that one
+  was small and blocking, so it was done with phase 1. What is left for phase 5 is the subtyping
+  *lattice* around it: everything above still has exactly one subtyping relation.
 - Arrays and tuples. **The array literal lands here too**, for one reason only: `[]` is `never[]`
   in TypeScript, and assigning it to `number[]` needs array covariance. The non-empty cases already
   work with what phase 1 built.
@@ -484,6 +562,63 @@ hangs.
   positive one, because `TSNumberValue` still admits a leading `-` from before `TSUnaryMinusExpression`
   existed; the output is identical either way, but two trees render the same text, and the `-?`
   should go the next time a migration is being written anyway.
+- **What delete does: it retraces what typing did.** Until this was written the language had no
+  delete behaviour at all — every `Delete` fell through to MPS's default, which removes the node
+  under the caret and leaves a hole, so deleting a bracket took the whole parenthesised expression
+  and deleting a type annotation did nothing whatsoever, a read-only label having no delete of its
+  own. Seven action maps now, attached to cells through the `actionMap` reference the notation
+  prints only as `# other ref`.
+
+  **The rule they all follow is that unbuilding retraces building.** Typing `+` after `1` gives
+  `1 + <hole>` and then `2` fills it; so deleting from the right gives `1 + <hole>` back *before* it
+  gives `1`. The first cut collapsed in one step and was wrong for exactly that reason — one
+  keystroke took away both the operand and the operator, with no state in between to type into. The
+  same two steps apply to a union member, a type annotation and an initializer, each of which was
+  also reached by a keystroke that created a hole first. An operand that is already a hole is the
+  state that says "now take the construct with me", and *is a hole* is
+  `operand.concept.isAbstract()` — a placeholder is an instance of the abstract concept the role
+  declares.
+
+  | cell | first keystroke | second |
+  |---|---|---|
+  | binary operand | empty it | collapse to the other operand |
+  | union member | empty it | remove it; collapse the union at one member |
+  | annotation / initializer | empty it | take the whole optional part away |
+  | binary operator | collapse to the left operand (backspace: to the right) | — |
+  | prefix operator | collapse to the operand | — |
+  | `(` and `)` | unwrap | — |
+
+  Nine editor tests cover the addressable ones, four of them watched failing first. Two pin the
+  intermediate state by *typing into it*: backspace over `2` in `1 + 2` and type `3`, and you must
+  get `1 + 3` — if the operation had collapsed there would be nothing to type into, which is the
+  bug as a test.
+
+  **Which keystroke reaches which map is not a free choice.** Delete at the *end* of the left
+  operand never reaches the left operand's map: the caret there sits just before the operator, so
+  MPS routes the forward delete rightwards and the right operand's map answers — a delete-based
+  version of the left map passed its first step and then collapsed to the wrong side, which is how
+  this was found. The gesture that lands on the left operand is backspace at position 0, where
+  there is nothing to the left to route to.
+
+  **The operator cells cannot be tested.** `AnonymousCellAnnotation` places a caret only through
+  `findCellWithId`, and a `component alias` cell produces no cell that carries an id — an
+  `EditorCellId` on that cell model is dropped, and the test dies with `No cell with id operator
+  found`. baseLanguage does not hit this because its `UnaryMinus_Editor` writes the `-` as a plain
+  constant; ours is the alias component, and that is not negotiable — the whole precedence-typing
+  machinery reads the operator from it. The action maps are there anyway, because the gesture exists
+  whether or not a test can press the key, and an editor where the operand collapses and the
+  operator does not is worse than either. An attempt to dodge it by putting the prefix action on the
+  *operand* cell as a backspace failed honestly: at position 0 of a label with cells in front of it,
+  MPS backspaces into the previous cell rather than consulting the action map, and the test said so.
+- **A list separator is styled through `separatorStyle`, a child the notation does not print.** The
+  union rendered as `null| number` because the generator gives every separator cell
+  `punctuation-left`, which is right for a comma and wrong for an operator. The fix is not the
+  separator *text*: `CellModel_ListWithRole` has a `separatorStyle` child holding an
+  `InlineStyleDeclaration`, and its items are applied after the defaults — so one
+  `punctuation-left` item set to false undoes it. baseLanguage's `AlternativeType` (Java's `A | B`)
+  is written exactly that way. The catch is that the editor notation prints the child only as
+  `# other child`, which does not parse back, so it has to be attached from `run_code` — and this
+  editor root must not be rewritten from text afterwards or the child goes with it.
 - **An operator whose alias is a prefix of another one cannot be tested by typing it alone.** `?`
   before `??`, `!` before `!=`/`!==`, `<` before `<=`/`<<`, `>` before `>=`/`>>`/`>>>`, `&` before
   `&&`, `|` before `||` — MPS holds the side transform *pending* while a longer alias could still
