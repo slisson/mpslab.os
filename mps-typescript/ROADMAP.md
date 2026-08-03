@@ -486,7 +486,7 @@ structure cannot hold the type, `typeToString`.
 
 ### The parser: a Node subprocess
 
-`typescript` is Apache 2.0 and already a dependency here (`typescript@5.9.3` in
+`typescript` is Apache 2.0 and already a dependency here (`typescript@7.0.2` in
 `package.json`), and the project already requires Node to run `npm test`, so the sidecar adds
 no dependency a contributor does not already have. The extractor is a small TS program living
 beside the existing npm project; it speaks a request/response JSON protocol over stdio, and it

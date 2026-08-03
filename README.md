@@ -72,7 +72,7 @@ cd mps-typescript && npm ci && npm test
 `*.test.js`. `tsc --strict` is deliberately the ground truth for whether the language emits
 well-typed TypeScript — it is what catches, say, a ternary whose condition is a number.
 `./gradlew generate` has to have run first: there are no hand-written TypeScript sources
-here, and `npm ci` needs Node 22 or newer. The two steps run one after the other in
+here, and `npm ci` needs Node 24 or newer. The two steps run one after the other in
 [`build.yml`](.github/workflows/build.yml).
 
 ### The MPS distribution
