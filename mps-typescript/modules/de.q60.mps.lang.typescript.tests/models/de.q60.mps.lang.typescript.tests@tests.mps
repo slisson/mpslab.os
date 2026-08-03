@@ -8296,5 +8296,97 @@
       </node>
     </node>
   </node>
+  <node concept="LiM7Y" id="1dYSrZvBhfG">
+    <property role="TrG5h" value="Typing_a_quote_in_an_empty_hole_makes_a_string_literal" />
+    <property role="3GE5qa" value="expressions" />
+    <node concept="1qefOq" id="1dYSrZvBhfH" role="25YQCW">
+      <node concept="24Z7zp" id="1dYSrZvBhfJ" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="1dYSrZvBhfK" role="1JIkAo">
+          <node concept="24BhzH" id="1dYSrZvBhfM" role="$a3P1">
+            <property role="2Hr5CV" value="1" />
+            <node concept="LIFWc" id="1dYSrZvBhfN" role="lGtFl">
+              <property role="LIFWd" value="value" />
+              <property role="ZRATv" value="true" />
+              <property role="p6zMs" value="1" />
+              <property role="p6zMq" value="1" />
+              <property role="OXtK3" value="true" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="1dYSrZvBhfO" role="LjaKd">
+      <node concept="2HxZob" id="1dYSrZvBhfP" role="3cqZAp">
+        <node concept="1iFQzN" id="1dYSrZvBhfR" role="3iKnsn">
+          <ref role="1iFR8X" to="ekwn:6KwcZ1G3Pjm" resolve="Insert" />
+        </node>
+      </node>
+      <node concept="2TK7Tu" id="1dYSrZvBhfS" role="3cqZAp">
+        <property role="2TTd_B" value="&quot;hi" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="1dYSrZvBhfT" role="25YQFr">
+      <node concept="24Z7zp" id="1dYSrZvBhfV" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="1dYSrZvBhfW" role="1JIkAo">
+          <node concept="24BhzH" id="1dYSrZvBhfY" role="$a3P1">
+            <property role="2Hr5CV" value="1" />
+          </node>
+        </node>
+        <node concept="3ja7nU" id="1dYSrZvBhfZ" role="1JIkAo">
+          <node concept="33xXhr" id="1dYSrZvBhg1" role="$a3P1">
+            <property role="3b_9E9" value="hi" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="LiM7Y" id="1dYSrZvBjwm">
+    <property role="TrG5h" value="Typing_the_closing_quote_of_a_string_puts_it_in_the_text" />
+    <property role="3GE5qa" value="expressions" />
+    <node concept="1qefOq" id="1dYSrZvBjwn" role="25YQCW">
+      <node concept="24Z7zp" id="1dYSrZvBjwp" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="1dYSrZvBjwq" role="1JIkAo">
+          <node concept="24BhzH" id="1dYSrZvBjws" role="$a3P1">
+            <property role="2Hr5CV" value="1" />
+            <node concept="LIFWc" id="1dYSrZvBjwt" role="lGtFl">
+              <property role="LIFWd" value="value" />
+              <property role="ZRATv" value="true" />
+              <property role="p6zMs" value="1" />
+              <property role="p6zMq" value="1" />
+              <property role="OXtK3" value="true" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="1dYSrZvBjwu" role="LjaKd">
+      <node concept="2HxZob" id="1dYSrZvBjwv" role="3cqZAp">
+        <node concept="1iFQzN" id="1dYSrZvBjwx" role="3iKnsn">
+          <ref role="1iFR8X" to="ekwn:6KwcZ1G3Pjm" resolve="Insert" />
+        </node>
+      </node>
+      <node concept="2TK7Tu" id="1dYSrZvBjwy" role="3cqZAp">
+        <property role="2TTd_B" value="&quot;hi&quot;" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="1dYSrZvBjwz" role="25YQFr">
+      <node concept="24Z7zp" id="1dYSrZvBjw_" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="1dYSrZvBjwA" role="1JIkAo">
+          <node concept="24BhzH" id="1dYSrZvBjwC" role="$a3P1">
+            <property role="2Hr5CV" value="1" />
+          </node>
+        </node>
+        <node concept="3ja7nU" id="1dYSrZvBjwD" role="1JIkAo">
+          <node concept="33xXhr" id="1dYSrZvBjwF" role="$a3P1">
+            <property role="3b_9E9" value="hi&quot;" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 
