@@ -64,7 +64,7 @@
       <concept id="3854180306267379657" name="de.q60.mps.lang.typescript.structure.TSTypeofExpression" flags="ng" index="128PHo" />
       <concept id="8939379926891817692" name="de.q60.mps.lang.typescript.structure.TSLeftShiftExpression" flags="ng" index="12EYhM" />
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
-        <property id="7217799321058434228" name="value" index="3b_9E9" />
+        <property id="7217799321058434228" name="escapedValue" index="3b_9E9" />
       </concept>
       <concept id="3355733505089403539" name="de.q60.mps.lang.typescript.structure.TSAssignmentExpression" flags="ng" index="35aKX4" />
       <concept id="4112825962079110083" name="de.q60.mps.lang.typescript.structure.TSExponentExpression" flags="ng" index="35EnaC" />
@@ -417,10 +417,10 @@
       <property role="TrG5h" value="strings compare by value" />
       <node concept="174eko" id="6WKYICFB5Vt" role="1OrNMJ">
         <node concept="33xXhr" id="6WKYICFB5Vw" role="1s_IBt">
-          <property role="3b_9E9" value="a &quot;quoted&quot; word" />
+          <property role="3b_9E9" value="a \&quot;quoted\&quot; word" />
         </node>
         <node concept="33xXhr" id="6WKYICFB5Vx" role="3SOflj">
-          <property role="3b_9E9" value="a &quot;quoted&quot; word" />
+          <property role="3b_9E9" value="a \&quot;quoted\&quot; word" />
         </node>
       </node>
     </node>

@@ -472,7 +472,7 @@
         </node>
       </node>
       <node concept="3F0A7n" id="1dYSrZvI8Ag" role="3EZMnx">
-        <ref role="1NtTu8" to="mo8k:1TCdlWHrFuK" resolve="value" />
+        <ref role="1NtTu8" to="mo8k:1TCdlWHrFuK" resolve="escapedValue" />
         <node concept="2SqB2G" id="1dYSrZvI8Ah" role="2SqHTX">
           <property role="TrG5h" value="value" />
         </node>

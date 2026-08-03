@@ -16,7 +16,7 @@
   <imports>
     <import index="tpck" ref="r:00000000-0000-4000-0000-011c89590288(jetbrains.mps.lang.core.structure)" />
     <import index="tw2a" ref="r:be5843eb-913c-45bb-b8ba-0d0c040265ce(de.q60.mps.lang.typescript.behavior)" />
-    <import index="mo8k" ref="r:f9bfdcd6-cf4c-4a53-9757-ba9616b08727(de.q60.mps.lang.typescript.structure)" implicit="true" />
+    <import index="mo8k" ref="r:f9bfdcd6-cf4c-4a53-9757-ba9616b08727(de.q60.mps.lang.typescript.structure)" />
   </imports>
   <registry>
     <language id="f3061a53-9226-4cc5-a443-f952ceaf5816" name="jetbrains.mps.baseLanguage">
@@ -78,6 +78,23 @@
               <ref role="37wK5l" to="tw2a:6WKYICG81rF" resolve="isValidName" />
               <ref role="1Pybhc" to="tw2a:6WKYICG81rx" resolve="TSNameUtil" />
               <node concept="1Wqviy" id="6WKYICG9K0A" role="37wK5m" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="1M2fIO" id="465JEkTd3J$">
+    <ref role="1M2myG" to="mo8k:1TCdlWHrFuI" resolve="TSStringLiteral" />
+    <node concept="EnEH3" id="465JEkTd3J_" role="1MhHOB">
+      <ref role="EomxK" to="mo8k:1TCdlWHrFuK" resolve="escapedValue" />
+      <node concept="QB0g5" id="465JEkTd3JA" role="QCWH9">
+        <node concept="3clFbS" id="465JEkTd3JB" role="2VODD2">
+          <node concept="3clFbF" id="465JEkTd3JC" role="3cqZAp">
+            <node concept="2YIFZM" id="465JEkTd3JD" role="3clFbG">
+              <ref role="37wK5l" to="tw2a:1dYSrZvLegT" resolve="isValidWhileTyping" />
+              <ref role="1Pybhc" to="tw2a:1dYSrZvFRsW" resolve="TSStringUtil" />
+              <node concept="1Wqviy" id="465JEkTd3JE" role="37wK5m" />
             </node>
           </node>
         </node>

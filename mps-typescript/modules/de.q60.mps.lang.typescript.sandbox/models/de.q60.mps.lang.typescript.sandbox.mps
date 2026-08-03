@@ -52,7 +52,7 @@
       <concept id="8023700100379537636" name="de.q60.mps.lang.typescript.structure.TSUndefinedLiteral" flags="ng" index="2OeDxu" />
       <concept id="2894647882240095206" name="de.q60.mps.lang.typescript.structure.TSNullType" flags="ng" index="2UUy$f" />
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
-        <property id="7217799321058434228" name="value" index="3b_9E9" />
+        <property id="7217799321058434228" name="escapedValue" index="3b_9E9" />
       </concept>
       <concept id="3355733505089403539" name="de.q60.mps.lang.typescript.structure.TSAssignmentExpression" flags="ng" index="35aKX4" />
       <concept id="3894583660651454994" name="de.q60.mps.lang.typescript.structure.TSBinaryOperation" flags="ng" index="1f9ZkA">
@@ -264,7 +264,7 @@
         <node concept="3JZgZa" id="6QS6LNPtLwk" role="3DwI$f" />
         <node concept="2hi8J1" id="6QS6LNPtLwl" role="CABlD">
           <node concept="33xXhr" id="6QS6LNPtLwm" role="3gGa23">
-            <property role="3b_9E9" value="a &quot;quote&quot;, a \backslash and a&#10;newline" />
+            <property role="3b_9E9" value="a \&quot;quote\&quot;, a \\backslash and a\nnewline" />
           </node>
         </node>
       </node>

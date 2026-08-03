@@ -112,7 +112,7 @@
       <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
     </node>
     <node concept="1TJgyi" id="1TCdlWHrFuK" role="1TKVEl">
-      <property role="TrG5h" value="unescapedValue" />
+      <property role="TrG5h" value="escapedValue" />
       <property role="IQ2nx" value="7217799321058434228" />
       <ref role="AX2Wp" to="tpck:fKAOsGN" resolve="string" />
     </node>

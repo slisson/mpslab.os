@@ -266,7 +266,7 @@
       <concept id="3854180306267379657" name="de.q60.mps.lang.typescript.structure.TSTypeofExpression" flags="ng" index="128PHo" />
       <concept id="8939379926891817692" name="de.q60.mps.lang.typescript.structure.TSLeftShiftExpression" flags="ng" index="12EYhM" />
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
-        <property id="7217799321058434228" name="value" index="3b_9E9" />
+        <property id="7217799321058434228" name="escapedValue" index="3b_9E9" />
       </concept>
       <concept id="3355733505089403539" name="de.q60.mps.lang.typescript.structure.TSAssignmentExpression" flags="ng" index="35aKX4" />
       <concept id="4112825962079110083" name="de.q60.mps.lang.typescript.structure.TSExponentExpression" flags="ng" index="35EnaC" />
@@ -8343,7 +8343,7 @@
     </node>
   </node>
   <node concept="LiM7Y" id="1dYSrZvBjwm">
-    <property role="TrG5h" value="Typing_the_closing_quote_of_a_string_puts_it_in_the_text" />
+    <property role="TrG5h" value="Typing_the_closing_quote_of_a_string_types_over_it" />
     <property role="3GE5qa" value="expressions" />
     <node concept="1qefOq" id="1dYSrZvBjwn" role="25YQCW">
       <node concept="24Z7zp" id="1dYSrZvBjwp" role="1qenE9">
@@ -8382,7 +8382,43 @@
         </node>
         <node concept="3ja7nU" id="1dYSrZvBjwD" role="1JIkAo">
           <node concept="33xXhr" id="1dYSrZvBjwF" role="$a3P1">
-            <property role="3b_9E9" value="hi&quot;" />
+            <property role="3b_9E9" value="hi" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="LiM7Y" id="465JEkTeisR">
+    <property role="TrG5h" value="A_backslash_cannot_yet_be_typed_into_a_string" />
+    <property role="3GE5qa" value="expressions" />
+    <node concept="1qefOq" id="465JEkTeisS" role="25YQCW">
+      <node concept="24Z7zp" id="465JEkTeisU" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="465JEkTeisV" role="1JIkAo">
+          <node concept="33xXhr" id="465JEkTeoNp" role="$a3P1">
+            <property role="3b_9E9" value="a" />
+            <node concept="LIFWc" id="465JEkTeoNq" role="lGtFl">
+              <property role="LIFWd" value="value" />
+              <property role="ZRATv" value="true" />
+              <property role="p6zMs" value="1" />
+              <property role="p6zMq" value="1" />
+              <property role="OXtK3" value="true" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="465JEkTeisZ" role="LjaKd">
+      <node concept="2TK7Tu" id="465JEkTeit3" role="3cqZAp">
+        <property role="2TTd_B" value="\&quot;b" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="465JEkTeit4" role="25YQFr">
+      <node concept="24Z7zp" id="465JEkTeit6" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="465JEkTeit7" role="1JIkAo">
+          <node concept="33xXhr" id="465JEkTeoNr" role="$a3P1">
+            <property role="3b_9E9" value="a" />
           </node>
         </node>
       </node>
