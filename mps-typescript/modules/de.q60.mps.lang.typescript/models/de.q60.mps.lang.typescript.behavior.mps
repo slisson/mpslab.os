@@ -17034,5 +17034,27 @@
       </node>
     </node>
   </node>
+  <node concept="13h7C7" id="1dYSrZvxftM">
+    <ref role="13h7C2" to="mo8k:1dYSrZvw$Fg" resolve="TSAssignmentExpression" />
+    <node concept="13hLZK" id="1dYSrZvxftP" role="13h7CW">
+      <node concept="3clFbS" id="1dYSrZvxftR" role="2VODD2" />
+    </node>
+    <node concept="13i0hz" id="1dYSrZvxftS" role="13h7CS">
+      <property role="TrG5h" value="getPrecedence" />
+      <ref role="13i0hy" node="5YMdeQZxA0" resolve="getPrecedence" />
+      <node concept="3Tm1VV" id="1dYSrZvxftW" role="1B3o_S" />
+      <node concept="3uibUv" id="1dYSrZvxftX" role="3clF45">
+        <ref role="3uigEE" node="6WKYICGkpN1" resolve="TSPrecedence" />
+      </node>
+      <node concept="3clFbS" id="1dYSrZvxftY" role="3clF47">
+        <node concept="3clFbF" id="1dYSrZvxftZ" role="3cqZAp">
+          <node concept="10M0yZ" id="1dYSrZvxfu1" role="3clFbG">
+            <ref role="1PxDUh" node="6WKYICGkpN1" resolve="TSPrecedence" />
+            <ref role="3cqZAo" node="6WKYICGkpNa" resolve="ASSIGNMENT" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 

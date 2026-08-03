@@ -1976,27 +1976,6 @@
       </node>
     </node>
   </node>
-  <node concept="24kQdi" id="6WKYICFK95C">
-    <ref role="1XX52x" to="mo8k:6WKYICFF5r1" resolve="TSAssignmentStatement" />
-    <node concept="3EZMnI" id="6WKYICFK95E" role="2wV5jI">
-      <node concept="l2Vlx" id="6WKYICFK95F" role="2iSdaV" />
-      <node concept="3F1sOY" id="6WKYICFK95G" role="3EZMnx">
-        <ref role="1NtTu8" to="mo8k:6WKYICFF5r3" resolve="target" />
-      </node>
-      <node concept="3F0ifn" id="6WKYICFK95H" role="3EZMnx">
-        <property role="3F0ifm" value="=" />
-      </node>
-      <node concept="3F1sOY" id="6WKYICFK95I" role="3EZMnx">
-        <ref role="1NtTu8" to="mo8k:6WKYICFF5r4" resolve="expression" />
-      </node>
-      <node concept="3F0ifn" id="6WKYICFK95J" role="3EZMnx">
-        <property role="3F0ifm" value=";" />
-        <node concept="11L4FC" id="6WKYICFK95K" role="3F10Kt">
-          <property role="VOm3f" value="true" />
-        </node>
-      </node>
-    </node>
-  </node>
   <node concept="24kQdi" id="6WKYICFKo9P">
     <ref role="1XX52x" to="mo8k:6WKYICFF5pj" resolve="TSIfStatement" />
     <node concept="3EZMnI" id="6WKYICFKo9R" role="2wV5jI">
@@ -9486,7 +9465,7 @@
               <node concept="2OqwBi" id="30$vFION4ef" role="3uHU7B">
                 <node concept="0IXxy" id="30$vFION4ei" role="2Oq$k0" />
                 <node concept="3TrEf2" id="30$vFION4ej" role="2OqNvi">
-                  <ref role="3Tt5mk" to="mo8k:6WKYICFF5hV" />
+                  <ref role="3Tt5mk" to="mo8k:6WKYICFF5hV" resolve="declaredType" />
                 </node>
               </node>
               <node concept="10Nm6u" id="30$vFION4ek" role="3uHU7w" />
@@ -9497,7 +9476,7 @@
                   <node concept="2OqwBi" id="30$vFION4er" role="2Oq$k0">
                     <node concept="0IXxy" id="30$vFION4eu" role="2Oq$k0" />
                     <node concept="3TrEf2" id="30$vFION4ev" role="2OqNvi">
-                      <ref role="3Tt5mk" to="mo8k:6WKYICFF5hV" />
+                      <ref role="3Tt5mk" to="mo8k:6WKYICFF5hV" resolve="declaredType" />
                     </node>
                   </node>
                   <node concept="1OKiuA" id="30$vFION4ew" role="2OqNvi">

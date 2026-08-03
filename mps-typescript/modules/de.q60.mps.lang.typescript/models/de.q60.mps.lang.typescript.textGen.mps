@@ -678,37 +678,6 @@
       </node>
     </node>
   </node>
-  <node concept="WtQ9Q" id="6WKYICFM4Z1">
-    <ref role="WuzLi" to="mo8k:6WKYICFF5r1" resolve="TSAssignmentStatement" />
-    <node concept="11bSqf" id="6WKYICFM4Z2" role="11c4hB">
-      <node concept="3clFbS" id="6WKYICFM4Z4" role="2VODD2">
-        <node concept="lc7rE" id="6WKYICFM4Z5" role="3cqZAp">
-          <node concept="l9hG8" id="6WKYICFM4Z7" role="lcghm">
-            <node concept="2OqwBi" id="6WKYICFM4Z9" role="lb14g">
-              <node concept="117lpO" id="6WKYICFM4Zc" role="2Oq$k0" />
-              <node concept="3TrEf2" id="6WKYICFM4Zd" role="2OqNvi">
-                <ref role="3Tt5mk" to="mo8k:6WKYICFF5r3" resolve="target" />
-              </node>
-            </node>
-          </node>
-          <node concept="la8eA" id="6WKYICFM4Ze" role="lcghm">
-            <property role="lacIc" value=" = " />
-          </node>
-          <node concept="l9hG8" id="6WKYICFM4Zf" role="lcghm">
-            <node concept="2OqwBi" id="6WKYICFM4Zh" role="lb14g">
-              <node concept="117lpO" id="6WKYICFM4Zk" role="2Oq$k0" />
-              <node concept="3TrEf2" id="6WKYICFM4Zl" role="2OqNvi">
-                <ref role="3Tt5mk" to="mo8k:6WKYICFF5r4" resolve="expression" />
-              </node>
-            </node>
-          </node>
-          <node concept="la8eA" id="6WKYICFM4Zm" role="lcghm">
-            <property role="lacIc" value=";" />
-          </node>
-        </node>
-      </node>
-    </node>
-  </node>
   <node concept="WtQ9Q" id="6WKYICFM6ox">
     <ref role="WuzLi" to="mo8k:6WKYICFF5hS" resolve="TSVariableDeclaration" />
     <node concept="11bSqf" id="6WKYICFM6oy" role="11c4hB">

@@ -54,6 +54,7 @@
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
         <property id="7217799321058434228" name="value" index="3b_9E9" />
       </concept>
+      <concept id="3355733505089403539" name="de.q60.mps.lang.typescript.structure.TSAssignmentExpression" flags="ng" index="35aKX4" />
       <concept id="3894583660651454994" name="de.q60.mps.lang.typescript.structure.TSBinaryOperation" flags="ng" index="1f9ZkA">
         <child id="7602522883118221103" name="rightExpression" index="GyX5B" />
         <child id="5707686448369938903" name="leftExpression" index="33kRt2" />
@@ -62,10 +63,6 @@
         <child id="3951472244529450579" name="expression" index="$a3P1" />
       </concept>
       <concept id="7106926194277792125" name="de.q60.mps.lang.typescript.structure.TSNumberType" flags="ng" index="1ku6r5" />
-      <concept id="902545861387718385" name="de.q60.mps.lang.typescript.structure.TSAssignmentStatement" flags="ng" index="3p1v9s">
-        <child id="488639419388104298" name="target" index="219B2s" />
-        <child id="834448770786422024" name="expression" index="1IqeeO" />
-      </concept>
       <concept id="4523838444874165896" name="de.q60.mps.lang.typescript.structure.TSUnionType" flags="ng" index="3pfgAg">
         <child id="4870825102337838263" name="types" index="3KvU$C" />
       </concept>
@@ -288,16 +285,18 @@
         <property role="2Hr5CV" value="0" />
       </node>
     </node>
-    <node concept="3p1v9s" id="6WKYICFNrp2" role="1JIkAo">
-      <node concept="2v$HdM" id="6WKYICFNrp5" role="219B2s">
-        <ref role="2oxrr9" node="6WKYICFNrp0" resolve="counter" />
-      </node>
-      <node concept="1rvuUm" id="6WKYICFNrp6" role="1IqeeO">
-        <node concept="2v$HdM" id="6WKYICFNrp9" role="33kRt2">
+    <node concept="3ja7nU" id="1dYSrZvz9ah" role="1JIkAo">
+      <node concept="35aKX4" id="1dYSrZvz9ag" role="$a3P1">
+        <node concept="2v$HdM" id="6WKYICFNrp5" role="33kRt2">
           <ref role="2oxrr9" node="6WKYICFNrp0" resolve="counter" />
         </node>
-        <node concept="24BhzH" id="6WKYICFNrpa" role="GyX5B">
-          <property role="2Hr5CV" value="1" />
+        <node concept="1rvuUm" id="6WKYICFNrp6" role="GyX5B">
+          <node concept="2v$HdM" id="6WKYICFNrp9" role="33kRt2">
+            <ref role="2oxrr9" node="6WKYICFNrp0" resolve="counter" />
+          </node>
+          <node concept="24BhzH" id="6WKYICFNrpa" role="GyX5B">
+            <property role="2Hr5CV" value="1" />
+          </node>
         </node>
       </node>
     </node>
@@ -379,12 +378,14 @@
       </node>
       <node concept="C5IwR" id="5TZAFSUwUpA" role="1bGQZ8" />
     </node>
-    <node concept="3p1v9s" id="5TZAFSUwUpB" role="1JIkAo">
-      <node concept="2v$HdM" id="5TZAFSUwUpE" role="219B2s">
-        <ref role="2oxrr9" node="5TZAFSUwUpy" resolve="nullable" />
-      </node>
-      <node concept="24BhzH" id="5TZAFSUwUpF" role="1IqeeO">
-        <property role="2Hr5CV" value="42" />
+    <node concept="3ja7nU" id="1dYSrZvz9aj" role="1JIkAo">
+      <node concept="35aKX4" id="1dYSrZvz9ai" role="$a3P1">
+        <node concept="2v$HdM" id="5TZAFSUwUpE" role="33kRt2">
+          <ref role="2oxrr9" node="5TZAFSUwUpy" resolve="nullable" />
+        </node>
+        <node concept="24BhzH" id="5TZAFSUwUpF" role="GyX5B">
+          <property role="2Hr5CV" value="42" />
+        </node>
       </node>
     </node>
     <node concept="2MuU66" id="5TZAFSUwUpG" role="1JIkAo">

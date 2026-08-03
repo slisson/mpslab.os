@@ -1174,7 +1174,7 @@
                 <ref role="3cqZAo" node="6WKYICH0E_$" resolve="span" />
               </node>
               <node concept="3TrEf2" id="1dYSrZvssOH" role="2OqNvi">
-                <ref role="3Tt5mk" to="mo8k:6WKYICGZscZ" />
+                <ref role="3Tt5mk" to="mo8k:6WKYICGZscZ" resolve="expression" />
               </node>
             </node>
             <node concept="2OqwBi" id="1dYSrZvssOI" role="37vLTx">
@@ -1360,7 +1360,7 @@
                 <ref role="3cqZAo" node="6WKYICH0E_$" resolve="span" />
               </node>
               <node concept="3TrEf2" id="1dYSrZvsNcu" role="2OqNvi">
-                <ref role="3Tt5mk" to="mo8k:6WKYICGZscZ" />
+                <ref role="3Tt5mk" to="mo8k:6WKYICGZscZ" resolve="expression" />
               </node>
             </node>
             <node concept="1OKiuA" id="1dYSrZvsNcv" role="2OqNvi">

@@ -543,30 +543,6 @@
       <ref role="PrY4T" node="6WKYICGeLHG" resolve="TSITrailingChildOwner" />
     </node>
   </node>
-  <node concept="1TIwiD" id="6WKYICFF5r1">
-    <property role="EcuMT" value="902545861387718385" />
-    <property role="TrG5h" value="TSAssignmentStatement" />
-    <property role="34LRSv" value="=" />
-    <property role="R4oN_" value="assignment" />
-    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
-    <node concept="PrWs8" id="6WKYICFF5r2" role="PzmwI">
-      <ref role="PrY4T" node="1TCdlWHrFuz" resolve="TSIStatement" />
-    </node>
-    <node concept="1TJgyj" id="6WKYICFF5r3" role="1TKVEi">
-      <property role="IQ2ns" value="488639419388104298" />
-      <property role="20lmBu" value="fLJjDmT/aggregation" />
-      <property role="20kJfa" value="target" />
-      <property role="20lbJX" value="fLJekj4/_1" />
-      <ref role="20lvS9" node="1UjCfdjUYX7" resolve="TSIdentifier" />
-    </node>
-    <node concept="1TJgyj" id="6WKYICFF5r4" role="1TKVEi">
-      <property role="IQ2ns" value="834448770786422024" />
-      <property role="20lmBu" value="fLJjDmT/aggregation" />
-      <property role="20kJfa" value="expression" />
-      <property role="20lbJX" value="fLJekj4/_1" />
-      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
-    </node>
-  </node>
   <node concept="Az7Fb" id="6WKYICG4pvG">
     <property role="3F6X1D" value="8012179620760754156" />
     <property role="FLfZY" value="-?(0[xX][0-9a-fA-F_]*n?|0[bB][01_]*n?|0[oO][0-7_]*n?|[0-9][0-9_]*n|([0-9][0-9_]*([.][0-9_]*)?|[.][0-9][0-9_]*)([eE][-+]?[0-9_]*)?n?)" />
@@ -929,6 +905,13 @@
     <node concept="PrWs8" id="5TZAFSUs1G8" role="PzmwI">
       <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
     </node>
+  </node>
+  <node concept="1TIwiD" id="1dYSrZvw$Fg">
+    <property role="EcuMT" value="3355733505089403539" />
+    <property role="TrG5h" value="TSAssignmentExpression" />
+    <property role="34LRSv" value="=" />
+    <property role="R4oN_" value="assignment" />
+    <ref role="1TJDcQ" node="5YMdeQYNS_" resolve="TSBinaryOperation" />
   </node>
 </model>
 

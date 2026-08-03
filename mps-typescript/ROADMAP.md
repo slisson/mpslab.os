@@ -8,15 +8,15 @@ pattern rather than a new one.
 
 | Aspect      | State                                                                                                                                                                          |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, assignment, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Expressions: identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts. All twenty-five binary operators, grouped under the abstract `TSArithmeticOperation` / `TSComparisonOperation` / `TSEqualityOperation` / `TSLogicalOperation` / `TSBitwiseOperation`; the prefix operators `! - + ~ typeof void` under `TSUnaryOperation`; parentheses; ternary. Literals: string, number (`TSNumberValue`-constrained text covering the decimal, hex, binary, octal, separator and bigint forms), `true`/`false`, `null`, `undefined`, template literals as a head plus a span per interpolation. `TSIBinaryLike` extends `TSIExpression`, which is what lets the precedence machinery ask a one-sided operator for its level. Types: `boolean`, `number`, `string`, `console`, `null`, `undefined`, union, array. |
+| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Expressions: identifier (a reference to a `TSIDeclaration`), dot expression, call operation, `console` + `console.log` as bespoke concepts. All twenty-five binary operators, grouped under the abstract `TSArithmeticOperation` / `TSComparisonOperation` / `TSEqualityOperation` / `TSLogicalOperation` / `TSBitwiseOperation`; the prefix operators `! - + ~ typeof void` under `TSUnaryOperation`; parentheses; ternary. Literals: string, number (`TSNumberValue`-constrained text covering the decimal, hex, binary, octal, separator and bigint forms), `true`/`false`, `null`, `undefined`, template literals as a head plus a span per interpolation. `TSIBinaryLike` extends `TSIExpression`, which is what lets the precedence machinery ask a one-sided operator for its level. Types: `boolean`, `number`, `string`, `console`, `null`, `undefined`, union, array. |
 | editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`, `else if`) render only when filled, and are reached by typing `:` / `=` / `else{` / `else if` — default transformation menus with RIGHT side-transform sections on `TSVariableDeclaration`, `TSIType` and `TSIfStatement`, plus one `TransformationMenuContribution` to `BaseConcept`'s default menu that hands a transform typed after a nested construct to whatever that construct closes. Types compose the same way: `|` and `[]` on the `TSIType` menu wrap a type in a union and in an array — lengthening a union that is already there is MPS's own doing, since it binds a one-character list separator as an insert key on every element cell. `TSArrayType`'s editor brackets an element that binds looser than the suffix, through the same `needsParenthesesAsArrayElement` the presentation and the textgen ask, so `(number \| string)[]` reads in the editor as it generates. And there is now a **delete story**, eight `CellActionMapDeclaration`s of it, written so that deleting retraces typing: an operand, a union member, an annotation and an initializer each empty out first and take their construct with them only on the second keystroke, while parentheses, the array suffix and the operator cells collapse in one. See *What delete does* under **Cross-cutting**. Every one of them, and every side transform beside them, also says where the **caret** goes — the caret ends where the text the edit produced ends, so the next keystroke carries on rather than being corrected first. That is asserted rather than assumed now: `EditorText.withCaret` renders the whole editor with a `\|` in it. See *Where the caret lands* under **Cross-cutting**. |
 | behavior    | `TSPrecedence` — the whole precedence scale as instances carrying level *and* associativity, and the only place a priority number is written — the parenthesis machinery written against `TSIBinaryLike` rather than against binary operations, `TSTypeUtil.union` normalizing every union that is built — members deduplicated by structural match, ordered by presentation — `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope — `TSITrailingChildOwner.trailingChild` for the `else` side transforms, `needsSpaceBeforeOperand` and `needsParenthesesAsArrayElement` (each asked by both the editor and the textgen, so what is shown and what is generated cannot drift), and `TSNameUtil.isValidName`. Types present themselves through `BaseConcept.getPresentation`, overridden only where the notation is more than a keyword — the alias is already the default. |
-| typesystem  | Per-operator typing lives in an `OverloadedOpRulesContainer` table, which `typeof_TSBinaryOperation` consults through `operation-type` — so an operand combination with no row *is* the "cannot be applied" error, rather than a separate set of operand checks. Overriding rules for equality, `in`, `,` and `&& \|\| ??`, whose results do not depend on their operands. `typeof` rules for every literal, the prefix operators, the ternary, parens, declarations and identifiers. Non-typesystem checks: priority violations, a prefix operator immediately left of `**` (TS17006 — a syntax restriction, not a precedence one), `??` mixed with `\|\|`/`&&`, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, a number literal still in an intermediate typing state, and a union of fewer than two members — that last one written for the generator rather than for the editor, which can no longer build one. Two quick fixes. One subtyping relation, and it is the only one: `TSIType_subtypeOf_TSUnionType`, an `InequationReplacementRule` that makes every member of a union a subtype of it — see *The one subtyping rule* below for why it is a replacement rule rather than a `SubtypingRule`, and why its sub-type side is declared as `BaseConcept`. |
+| typesystem  | Per-operator typing lives in an `OverloadedOpRulesContainer` table, which `typeof_TSBinaryOperation` consults through `operation-type` — so an operand combination with no row *is* the "cannot be applied" error, rather than a separate set of operand checks. Overriding rules for equality, `in`, `,`, `&& \|\| ??` and assignment, whose results do not depend on their operands. `typeof` rules for every literal, the prefix operators, the ternary, parens, declarations and identifiers. Non-typesystem checks: priority violations, a prefix operator immediately left of `**` (TS17006 — a syntax restriction, not a precedence one), `??` mixed with `\|\|`/`&&`, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, a number literal still in an intermediate typing state, and a union of fewer than two members — that last one written for the generator rather than for the editor, which can no longer build one. Two quick fixes. One subtyping relation, and it is the only one: `TSIType_subtypeOf_TSUnionType`, an `InequationReplacementRule` that makes every member of a union a subtype of it — see *The one subtyping rule* below for why it is a replacement rule rather than a `SubtypingRule`, and why its sub-type side is declared as `BaseConcept`. |
 | constraints | `TSIdentifier.declaration` declares the inherited scope, which is what makes the `ScopeProvider`s above take effect; `TSIDeclaration.name` is validated as a TypeScript identifier, which is what lets `:` and `=` leave the name cell instead of extending the name; the unitTest language restricts assertions to test methods. |
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
 | textgen     | 29 `ConceptTextGenDeclaration`s; the twenty-five binary operators share one on `TSBinaryOperation`, the six prefix operators one on `TSUnaryOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts`. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
 | intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty — and add a template-literal interpolation. Kept beside the side transforms, which are the primary way in for the first four: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. For the interpolation it is the *only* way in, which is a gap rather than a design — see *Cross-cutting*. |
-| tests       | 90 editor tests and 23 nodes tests — 147 JUnit tests between them — plus 45 TypeScript tests, in twelve `TSTestCase` roots, that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Seventeen more are about the **alias-collision families** — every operator whose alias is a prefix of another one, typed keystroke by keystroke — see *An operator whose alias is a prefix of another one* under **Cross-cutting**. And every expression concept phase 1 added is now *evaluated*, not merely typed: see *What the TypeScript tests run* below. One of them, in `programs`, is different in kind from the other 89: it starts from an empty `TSModule` and types a whole program in, keystroke by keystroke, which is the only test that asks what using this editor is actually like — see *What typing a whole program costs today* below. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary,.operator_aliases,.templates}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `caret{.expressions,.declarations,.types}`, `programs`, `unit_test_language` — since the concept already says which kind a test is. |
+| tests       | 91 editor tests and 24 nodes tests — 149 JUnit tests between them — plus 46 TypeScript tests, in twelve `TSTestCase` roots, that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Seventeen more are about the **alias-collision families** — every operator whose alias is a prefix of another one, typed keystroke by keystroke — see *An operator whose alias is a prefix of another one* under **Cross-cutting**. And every expression concept phase 1 added is now *evaluated*, not merely typed: see *What the TypeScript tests run* below. One of them, in `programs`, is different in kind from the other 90: it starts from an empty `TSModule` and types a whole program in, keystroke by keystroke, which is the only test that asks what using this editor is actually like — see *What typing a whole program costs today* below. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary,.operator_aliases,.templates}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `caret{.expressions,.declarations,.types}`, `programs`, `unit_test_language` — since the concept already says which kind a test is. |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 The gap that dominates the ordering is now the standard library: `console` is still a
@@ -181,7 +181,7 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
      This is the one that catches what MPS is happy with and `tsc --strict` is not — `!(1 == 2)` was
      rejected as TS2367, comparing literal types with no overlap, and had to go through a `const`.
 
-  The 142 MPS tests and 45 TypeScript tests are the model to keep.
+  The 149 MPS tests and 46 TypeScript tests are the model to keep.
 
 ## Phase 1 — finish the expression language
 
@@ -508,14 +508,71 @@ The second retrofit-expensive change. Mostly done; what remains is listed at the
   initializer; `const` reassignment check; a declaration must have an annotation or an
   initializer, since the language has no `any` to fall back on and `--strict` rejects the
   implicit one.
-- ✅ Assignment `=`. The target is a `TSIdentifier`, not an arbitrary expression, so the
-  "is assignable target" predicate is one `isInstanceOf` rather than a design. It becomes a
-  real question with property access and element access.
+- ✅ Assignment `=`, **as an expression**. It began as `TSAssignmentStatement`, a statement
+  with a `TSIdentifier` target — which made the "is assignable target" predicate one link
+  type rather than a design, and avoided the precedence question. That shortcut is what
+  *An assignment was a statement, and that was the whole bug* below is about; it is now
+  `TSAssignmentExpression`, a `TSBinaryOperation` at the `ASSIGNMENT` level, and the
+  assignable-target question is the checking rule it always should have been.
 - ✅ Type annotations are writable: `boolean` / `number` / `string` have editors and textgen,
   and the built-in subconcept substitution offers them. `TSTypeReference` waits for
   something to reference.
-- Still open: compound assignment and `++`/`--`; assignment as an *expression* (it is a
-  statement here, which is where the precedence question was avoided); TDZ proper.
+- Still open: compound assignment and `++`/`--` — both much cheaper now that assignment is
+  an operator with a precedence level rather than a statement; TDZ proper.
+
+### An assignment was a statement, and that was the whole bug
+
+The `programs` test could not type `total = 1`, and the first reading was that a transform
+somewhere forgot to build a placeholder. It was not. **Nothing in the editor model creates a
+`TSAssignmentStatement` at all** — its own editor declaration was the only mention of it anywhere
+outside structure and typesystem. It existed solely through the default subconcept substitution,
+matched on its alias `=`. So the character `=` was claimed by two mechanisms at once: statement-level
+*substitution*, and the RIGHT side transform on `TSIExpression` that owns `==` and `===`. That is why
+nothing committed it — the side-transform machinery held it pending for the longer aliases while the
+substitution never got its turn — and why the value that did eventually appear was a null child:
+`TSPrecedenceUtil` builds a proper placeholder for every operator hole, and generic substitution
+builds nothing.
+
+Modelling it as a statement was also a deviation from the language being modelled, which is the
+part that should have been the tell. In JavaScript and TypeScript assignment **is** an expression —
+`x = y = 0`, `while ((m = re.exec(s)))`, `f(a = 1)` — and baseLanguage models Java's the same way for
+the same reason. Phase 2 took the shortcut knowingly and wrote it down; the cost only showed up when
+something tried to *type* one.
+
+`TSAssignmentExpression extends TSBinaryOperation` is the whole fix, and almost all of it is deletion:
+
+- **The precedence level was already there.** `TSPrecedence.ASSIGNMENT = rightAssociative(20)` had sat
+  in the table unoccupied since phase 0.3 — the scale was built from MDN's, which has assignment in
+  it, so the row existed before the concept that fills it. One behavior root names it.
+- **Editor and textgen are gone, not rewritten.** Both are inherited from `TSBinaryOperation`, which
+  writes the concept alias, so `=` needs neither — the same property that let phase 1 add
+  twenty-five operators with no textgen at all.
+- **The `=`/`==`/`===` collision is now the already-solved case.** It is one more alias-prefix family
+  reached by the same side transform as `<`/`<=`/`<<`, so `total=1` commits on the `1` exactly as
+  `1<2` does, with the hole and the caret coming from the shared machinery.
+- **The typesystem is two rules.** `typeof_TSAssignmentExpression` overrides
+  `typeof_TSBinaryOperation` rather than adding a row — assignment is a fifth operator whose result
+  does not come from the overload table — keeping the comparability check between the two operands
+  and typing the whole expression by its **right** operand, which is what TypeScript does and what
+  makes `first = second = 7` mean what it reads as. `check_TSAssignmentExpression` is the
+  assignable-target rule that the old link type made unnecessary: the left operand must be a
+  `TSIdentifier`, and it must not resolve to a `const`. That second half is the old
+  `check_TSAssignmentStatement` moved across.
+- **`x = 1;` is now an expression statement wrapping an operator**, which is how TypeScript's own AST
+  models it, and the `;` comes from `TSExpressionStatement` rather than from the assignment.
+
+**No migration script.** Every one of the eleven `TSAssignmentStatement` instances was in this
+repository — two sandbox modules, one nodes test, five `TSTestCase` methods — and they were converted
+in place. The language version has no consumer outside this repository to migrate, which is the same
+reason phase 2 gave for the `TSIdentifier` change; it is written down here rather than left implicit,
+because the next structural change may not have that excuse.
+
+The proof is three tests and a program. `Typing_an_equals_sign_after_an_identifier_makes_an_assignment`
+types `total=1` in one go, which is the gesture that could not be made at all before.
+`The_left_hand_side_of_an_assignment_must_be_a_variable` is the new checking rule, and
+`Assigning_to_a_const_is_an_error` is the old one, still passing through the new concept. And the
+`programs` test now types the program anyone would have written in the first place — `total = x * 2`
+in the branches, rather than the unused constants it was declaring to route around this.
 
 ## Phase 3 — functions
 
@@ -754,15 +811,10 @@ What else costs keystrokes nobody would guess:
 
 What cannot be typed at all, and is the real output of this exercise:
 
-- **An assignment's value.** `total` gives an expression statement holding an identifier, and then
-  `=` is where it stops. The alias collides with `==` and `===`, so MPS holds it pending — and
-  unlike every other pending alias in the language, **nothing commits it**: `total=1` leaves `=1`
-  sitting in the cell as unmatched text, and so does `total="big"`. `MoveRight` does commit it, and
-  produces `total = ;` — an assignment whose `expression` is **null**, rendering as no cell at all,
-  so the caret cannot get to it and `MoveRight` has already carried the caret past the `;`. This is
-  the null-obligatory-child bug from `AddTemplateInterpolation` a second time, in a construct phase
-  2 called done. The program above routes around it with nested declarations, which is why the
-  branches declare rather than assign.
+- ✅ **An assignment's value** — the first thing this test could not type, and the reason the
+  program above assigns in its branches today rather than declaring unused constants to route
+  around it. It was not a missing placeholder but a misplaced concept: see *An assignment was a
+  statement, and that was the whole bug* under phase 2.
 - **An initializer after a union type.** `let label:string` then `|null` builds
   `string | null` correctly, and then `=` does nothing. A union owns no cell of its own past its
   last member — the roadmap already knew that about the `[]` suffix — so the caret sitting after
