@@ -16,7 +16,7 @@ pattern rather than a new one.
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
 | textgen     | 29 `ConceptTextGenDeclaration`s; the twenty-five binary operators share one on `TSBinaryOperation`, the six prefix operators one on `TSUnaryOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts`. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
 | intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty — and add a template-literal interpolation. Kept beside the side transforms, which are the primary way in for the first four: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. For the interpolation it is the *only* way in, which is a gap rather than a design — see *Cross-cutting*. |
-| tests       | 89 editor tests and 23 nodes tests — 146 JUnit tests between them — plus 45 TypeScript tests, in twelve `TSTestCase` roots, that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Seventeen more are about the **alias-collision families** — every operator whose alias is a prefix of another one, typed keystroke by keystroke — see *An operator whose alias is a prefix of another one* under **Cross-cutting**. And every expression concept phase 1 added is now *evaluated*, not merely typed: see *What the TypeScript tests run* below. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary,.operator_aliases,.templates}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `caret{.expressions,.declarations,.types}`, `unit_test_language` — since the concept already says which kind a test is. |
+| tests       | 90 editor tests and 23 nodes tests — 147 JUnit tests between them — plus 45 TypeScript tests, in twelve `TSTestCase` roots, that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Seventeen more are about the **alias-collision families** — every operator whose alias is a prefix of another one, typed keystroke by keystroke — see *An operator whose alias is a prefix of another one* under **Cross-cutting**. And every expression concept phase 1 added is now *evaluated*, not merely typed: see *What the TypeScript tests run* below. One of them, in `programs`, is different in kind from the other 89: it starts from an empty `TSModule` and types a whole program in, keystroke by keystroke, which is the only test that asks what using this editor is actually like — see *What typing a whole program costs today* below. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary,.operator_aliases,.templates}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `caret{.expressions,.declarations,.types}`, `programs`, `unit_test_language` — since the concept already says which kind a test is. |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 The gap that dominates the ordering is now the standard library: `console` is still a
@@ -686,6 +686,68 @@ hangs.
    it, the importer reads the `.d.ts` back, and the result is asserted against the nodes it
    came from. A `@types` package is the second corpus.
 4. Only then the model-root plumbing, once the schema has stopped moving.
+
+## What typing a whole program costs today
+
+Every editor test up to now takes a tree that is nearly finished and asks what one gesture does to
+it. None of them asks the question a user asks, which is whether a program can be *written*. The
+test in `programs` does: it starts from `module m { }` with nothing in it and types
+
+```typescript
+const x: number = 1 + 2 * 3;
+let total: number = 0;
+if (total < x) {
+  const doubled: number = x * 2;
+} else {
+  const halved: number = x / 2;
+}
+```
+
+with no mouse and no editing of an existing tree. It asserts the whole editor with the caret in it
+through `EditorText.withCaret` **and** the resulting tree, because the point of this one is the
+gesture as much as the result. It is green — but it is green over the keystrokes that work, not the
+keystrokes anyone would guess, and the gap between those two lists is the value of having written
+it. **Nothing below is fixed yet**; this is the inventory.
+
+What already reads exactly like typing TypeScript, and is worth knowing is free: `x:number=1+2*3`
+is one uninterrupted run — the `:` leaves the name, the `=` leaves the type, and the precedence
+machinery does the rest with no arrow key anywhere. So is `total<x`, and so is `doubled:number=x*2`
+inside a nested block. `else{` opens the else branch **and lands the caret inside it**, so the next
+`const` follows immediately. Those are the parts that are done.
+
+What costs keystrokes nobody would guess:
+
+- **Getting into an empty module body takes three `MoveRight`s.** There is no way to type at the
+  module level at all: the caret starts on the module's name, and the statement list's own cell is a
+  collection rather than a label, so placing the caret on it selects the collection and typing does
+  nothing. Three arrow presses walk through the two positions of the `{` and into the empty-list
+  placeholder. A user would click, which is why nobody noticed; a test cannot, which is why it shows
+  up here. The two `EditorCellId`s this test needed — `name` and `statements` on the `TSModule`
+  editor — are the affordance that made it addressable at all.
+- **A new statement is `Insert`, not Enter typed into anything.** That is MPS's own convention and
+  fine, but it means the run of keystrokes is not a run of characters.
+
+What cannot be typed at all, and is the real output of this exercise:
+
+- **An assignment's value.** `total` gives an expression statement holding an identifier, and then
+  `=` is where it stops. The alias collides with `==` and `===`, so MPS holds it pending — and
+  unlike every other pending alias in the language, **nothing commits it**: `total=1` leaves `=1`
+  sitting in the cell as unmatched text, and so does `total="big"`. `MoveRight` does commit it, and
+  produces `total = ;` — an assignment whose `expression` is **null**, rendering as no cell at all,
+  so the caret cannot get to it and `MoveRight` has already carried the caret past the `;`. This is
+  the null-obligatory-child bug from `AddTemplateInterpolation` a second time, in a construct phase
+  2 called done. The program above routes around it with nested declarations, which is why the
+  branches declare rather than assign.
+- **An initializer after a union type.** `let label:string` then `|null` builds
+  `string | null` correctly, and then `=` does nothing. A union owns no cell of its own past its
+  last member — the roadmap already knew that about the `[]` suffix — so the caret sitting after
+  `null` is inside the *member*, and the `=` transform on `TSIType` is asked of a type that is not
+  the declaration's `declaredType`. The order that works is `=` first and the union afterwards,
+  which is not the order anyone writes in.
+
+Both of those are one-line concept fixes rather than design work, and both want a test in `programs`
+beside this one once they are done: the point of that group is the gesture end to end, so it is the
+group that should grow whenever the answer to "can this be written?" changes.
 
 ## Cross-cutting, ongoing
 
