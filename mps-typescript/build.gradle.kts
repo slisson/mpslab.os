@@ -50,6 +50,10 @@ val tsTestsModule = tsTestsDir.file("test.ex.de.q60.mps.lang.typescript.msd")
 // `generatedOutput` (the one it cleans before each run), but a language module generates
 // into three places — itself, its generator, and the sandbox that uses it — so the rest is
 // declared and cleaned here.
+//
+// These are the concrete directories; the *names* they are built from are
+// `MpsGenerateTask.GENERATED_DIR_NAMES`, which is what that task subtracts from the module
+// directories it takes as inputs. A new generated directory has to be added to both.
 val generatedDirs = listOf(
     languageDir.dir("source_gen"),
     languageDir.dir("source_gen.caches"),
