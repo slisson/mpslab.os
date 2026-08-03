@@ -8118,5 +8118,88 @@
       </node>
     </node>
   </node>
+  <node concept="LiM7Y" id="1dYSrZv_yBA">
+    <property role="TrG5h" value="An_initializer_can_be_typed_after_a_union_annotation" />
+    <property role="3GE5qa" value="declarations" />
+    <node concept="1qefOq" id="1dYSrZv_yBB" role="25YQCW">
+      <node concept="24Z7zp" id="1dYSrZv_yBD" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="2swglJ" id="1dYSrZv_yBE" role="1JIkAo">
+          <property role="TrG5h" value="label" />
+          <node concept="2Kh4GC" id="1dYSrZv_yBF" role="19IeeE">
+            <node concept="LIFWc" id="1dYSrZv_yBG" role="lGtFl">
+              <property role="LIFWd" value="typeKeyword" />
+              <property role="ZRATv" value="true" />
+              <property role="p6zMs" value="6" />
+              <property role="p6zMq" value="6" />
+              <property role="OXtK3" value="true" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="1dYSrZv_yBH" role="LjaKd">
+      <node concept="2TK7Tu" id="1dYSrZv_yBI" role="3cqZAp">
+        <property role="2TTd_B" value="|null" />
+      </node>
+      <node concept="2TK7Tu" id="1dYSrZv_yBJ" role="3cqZAp">
+        <property role="2TTd_B" value="=null" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="1dYSrZv_yBK" role="25YQFr">
+      <node concept="24Z7zp" id="1dYSrZv_yBM" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="2swglJ" id="1dYSrZv_yBN" role="1JIkAo">
+          <property role="TrG5h" value="label" />
+          <node concept="3pfgAg" id="1dYSrZv_yBO" role="19IeeE">
+            <node concept="2Kh4GC" id="1dYSrZv_yBP" role="3KvU$C" />
+            <node concept="2UUy$f" id="1dYSrZv_yBQ" role="3KvU$C" />
+          </node>
+          <node concept="C5IwR" id="1dYSrZv_yBR" role="1bGQZ8" />
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="LiM7Y" id="1dYSrZv_$8H">
+    <property role="TrG5h" value="Typing_an_equals_sign_after_a_union_member_that_is_not_the_last_does_nothing" />
+    <property role="3GE5qa" value="declarations" />
+    <node concept="1qefOq" id="1dYSrZv_$8I" role="25YQCW">
+      <node concept="24Z7zp" id="1dYSrZv_$8K" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="2swglJ" id="1dYSrZv_$8L" role="1JIkAo">
+          <property role="TrG5h" value="label" />
+          <node concept="3pfgAg" id="1dYSrZv_$8M" role="19IeeE">
+            <node concept="2Kh4GC" id="1dYSrZv_$8N" role="3KvU$C">
+              <node concept="LIFWc" id="1dYSrZv_$8O" role="lGtFl">
+                <property role="LIFWd" value="typeKeyword" />
+                <property role="ZRATv" value="true" />
+                <property role="p6zMs" value="6" />
+                <property role="p6zMq" value="6" />
+                <property role="OXtK3" value="true" />
+              </node>
+            </node>
+            <node concept="2UUy$f" id="1dYSrZv_$8P" role="3KvU$C" />
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="1dYSrZv_$8Q" role="LjaKd">
+      <node concept="2TK7Tu" id="1dYSrZv_$8R" role="3cqZAp">
+        <property role="2TTd_B" value="=" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="1dYSrZv_$8S" role="25YQFr">
+      <node concept="24Z7zp" id="1dYSrZv_$8U" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="2swglJ" id="1dYSrZv_$8V" role="1JIkAo">
+          <property role="TrG5h" value="label" />
+          <node concept="3pfgAg" id="1dYSrZv_$8W" role="19IeeE">
+            <node concept="2Kh4GC" id="1dYSrZv_$8X" role="3KvU$C" />
+            <node concept="2UUy$f" id="1dYSrZv_$8Y" role="3KvU$C" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 
