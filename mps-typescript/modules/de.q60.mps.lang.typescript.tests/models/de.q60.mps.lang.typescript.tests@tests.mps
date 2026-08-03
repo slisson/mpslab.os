@@ -7950,17 +7950,7 @@
       </node>
       <node concept="2HxZob" id="1dYSrZvuSx_" role="3cqZAp">
         <node concept="1iFQzN" id="1dYSrZvuSxB" role="3iKnsn">
-          <ref role="1iFR8X" to="ekwn:R3$tg1aBNW" resolve="MoveRight" />
-        </node>
-      </node>
-      <node concept="2HxZob" id="1dYSrZvuSxC" role="3cqZAp">
-        <node concept="1iFQzN" id="1dYSrZvuSxE" role="3iKnsn">
-          <ref role="1iFR8X" to="ekwn:R3$tg1aBNW" resolve="MoveRight" />
-        </node>
-      </node>
-      <node concept="2HxZob" id="1dYSrZvuSxF" role="3cqZAp">
-        <node concept="1iFQzN" id="1dYSrZvuSxH" role="3iKnsn">
-          <ref role="1iFR8X" to="ekwn:R3$tg1aBNW" resolve="MoveRight" />
+          <ref role="1iFR8X" to="ekwn:R3$tg1aBO2" resolve="MoveDown" />
         </node>
       </node>
       <node concept="2TK7Tu" id="1dYSrZvtW3y" role="3cqZAp">

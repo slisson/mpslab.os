@@ -715,11 +715,15 @@ machinery does the rest with no arrow key anywhere. So is `total<x`, and so is `
 inside a nested block. `else{` opens the else branch **and lands the caret inside it**, so the next
 `const` follows immediately. Those are the parts that are done.
 
-**Tab is the navigation, and it is worth knowing before writing the next one of these.** A first
-cut walked into the module body with three `MoveRight`s and into the then-block with four, which is
-an arrow-key count nobody would put up with and is also simply not how MPS is used: **Tab** goes to
-the next editable cell, and one press does each of those hops. Ten navigation keystrokes became
-five. Two traps around it:
+**The navigation is Tab and Down, and it is worth knowing before writing the next one of these.** A
+first cut walked into the module body with three `MoveRight`s, into the then-block with four, and
+back out to the `else` position with three more — ten arrow presses, which is not a count anybody
+would put up with and is also simply not how MPS is used. **Tab** goes to the next editable cell and
+does each of the two hops *into* a body in one press; **Down** does the hop back out in one, because
+the line below the last statement of a block is the block's `}` and the caret clamps to the end of
+it, which is exactly the position the `else` transform anchors on. Ten navigation keystrokes became
+three, and the run now reads as what a person does rather than as a way of getting a caret
+somewhere. Three traps around it:
 
 - **`SelectNext` is not Tab.** The name reads like it, and it is in
   `jetbrains.mps.ide.editor.actions` beside the arrow actions, but it selects the next *node* — and
@@ -727,17 +731,19 @@ five. Two traps around it:
   the whole `if` statement and left the typed characters as raw text where it had been. A test that
   reaches for it by name gets a diff that looks like the editor lost its mind.
 - **Tab has to be sent as a key, not as an action**: `PressKeyStatement` with `VK_TAB`, which is how
-  the third-party suites in the repository drive it. That cuts against the standing rule in *An
+  the third-party suites in the repository drive it. `MoveDown` is the opposite — a registered
+  action, invoked by name like every other one here. That cuts against the standing rule in *An
   operator whose alias is a prefix of another one* — prefer the registered action over a raw key
-  chord — and the two are about different jobs: a raw key goes to the component, which is exactly
-  right for moving a caret and exactly wrong for committing a pending side transform, where the
-  commit hangs off the action system.
+  chord — and the resolution is that they are different jobs: a raw key goes to the component, which
+  is exactly right for moving a caret and exactly wrong for committing a pending side transform,
+  where the commit hangs off the action system. Tab has no action to prefer; Down has one.
+- **Tab cannot reach the `else` position, and that is not a defect to fix.** There is no editable
+  cell after a block's `}` — the last position of the closing brace is a constant cell, which is
+  precisely why the `else` transform anchors there. Down is the gesture for it, and a language whose
+  blocks end on their own line gets that for free.
 
-What Tab still cannot do, and what else costs keystrokes nobody would guess:
+What else costs keystrokes nobody would guess:
 
-- **There is no editable cell after a block's `}`**, so Tab cannot reach the one place `else` can be
-  typed — the last position of the then-block's closing brace. That hop is still three `MoveRight`s,
-  and it is the only arrow run left in the test.
 - **Nothing can be typed at the module level.** The caret starts on the module's name, and the
   statement list's own cell is a collection rather than a label, so placing the caret on it selects
   the collection and typing does nothing at all. Tab from the name cell is what gets you in. The two
