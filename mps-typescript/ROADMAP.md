@@ -753,12 +753,21 @@ test in `programs` does: it starts from `module m { }` with nothing in it and ty
 ```typescript
 const x: number = 1 + 2 * 3;
 let total: number = 0;
+let label: string | null = null;
+const ready: boolean = x > 0;
 if (total < x) {
-  const doubled: number = x * 2;
+  total = x * 2;
+} else if (total > x) {
+  total = x / 2 - 1;
 } else {
-  const halved: number = x / 2;
+  total = x % 2;
 }
 ```
+
+Four declaration forms, four types including a union, the `null` literal, seven operators across four
+precedence levels, an assignment, and an `if`/`else if`/`else` chain with three blocks — chosen to be
+what a person would write rather than to tick concepts off, but the coverage is the point of growing
+it.
 
 with no mouse and no editing of an existing tree. It asserts the whole editor with the caret in it
 through `EditorText.withCaret` **and** the resulting tree, because the point of this one is the
@@ -798,6 +807,29 @@ somewhere. Three traps around it:
   cell after a block's `}` — the last position of the closing brace is a constant cell, which is
   precisely why the `else` transform anchors there. Down is the gesture for it, and a language whose
   blocks end on their own line gets that for free.
+
+**A binary operator is never substituted into an empty hole, and saying so is what makes the prefix
+operators typeable.** Growing the program hit `total = -x`: `-` in an empty operand did nothing,
+because `TSMinusExpression` and `TSUnaryMinusExpression` share the alias and the completion had two
+entries to choose between — the ambiguous-match symptom, which reads as "this concept cannot be
+typed". The observation that fixes it is that a binary operator is *always* reached by a side
+transform on an expression that becomes its left operand, and never wanted with two empty holes. So
+`TSBinaryOperation` now declares an **empty default substitute menu**, which removes all twenty-six
+of them from every hole's completion at once.
+
+That cannot be the whole change, and the tests said so immediately: the side transforms consume the
+same menu — `TransformationMenuPart_WrapSubstituteMenu` with
+`SubstituteMenuReference_Default { concept -> TSBinaryOperation }` is how the RIGHT transform offers
+the operators — so emptying the default alone fails **32 tests**, every operator gesture in the
+language. The menu has to be split in two: a named `TSBinaryOperation_Operators` holding the
+`SubstituteMenuPart_Subconcepts` that the five wrap-references now point at, and the empty default
+that the holes see. The two audiences were one menu by accident, and only one of them ever wanted it.
+
+`-` in a hole now unambiguously means unary minus. Its caret does not land in the operand yet
+(`total = - _ x` rather than `total = -x`), so the program above still uses `%` where it wanted a
+negation — the next thing for this group to pick up, along with the ternary, which types correctly
+in isolation (`label = ready ? "yes" : "no"`, with Tab committing the `?` *and* landing in the first
+branch) but loses its second branch when an `Insert` follows it.
 
 What else costs keystrokes nobody would guess:
 
