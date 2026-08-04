@@ -34,6 +34,24 @@ question really is bigger than the code. Do not repeat the roadmap's argument in
 Existing over-commented code is not a licence to add more. When you touch such a method, cutting
 its comments down is a welcome part of the change.
 
+### Editor tests take no comments at all
+
+An `EditorTestCase` is a sequence of inputs and the tree they produce. Both are right there, so
+there is nothing left to explain — and explaining *why* the sequence is what it is gets it exactly
+backwards: **the sequence is not a design, it is whatever reaches the result today.** It is
+legitimate to change it the moment the editor gets easier to use, and a comment justifying it
+turns a free change into a documentation edit.
+
+Such comments also go stale silently, because nothing checks them. Two in this repository ended up
+describing a keystroke that had been removed and a gesture that no longer happened, and both were
+found by reading, not by a failing test.
+
+`A_whole_program_can_be_typed_into_an_empty_module` is the model: no comments, and none missing.
+
+If a keystroke is genuinely surprising — a gesture the language had no way to make until recently,
+a limit of MPS the test exists to pin — that belongs in ROADMAP.md, where it is written once for
+all the tests that share it.
+
 ## Dispatch, not type tests
 
 **A chain of `isInstanceOf` is a polymorphic method written the wrong way round.** It is not an MPS
