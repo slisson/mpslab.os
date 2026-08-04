@@ -34,6 +34,7 @@
       <concept id="83412354109643915" name="de.q60.mps.lang.typescript.structure.TSParenthesizedExpression" flags="ng" index="pJsIj">
         <child id="7350906890408026229" name="expression" index="3tJ$EF" />
       </concept>
+      <concept id="8753009674359597755" name="de.q60.mps.lang.typescript.structure.TSVoidType" flags="ng" index="qIwln" />
       <concept id="8640047791204011315" name="de.q60.mps.lang.typescript.structure.TSBlock" flags="ng" index="qYD23">
         <child id="7935308623531745380" name="statements" index="6EW52" />
       </concept>
@@ -50,6 +51,13 @@
       <concept id="5991954684290791457" name="de.q60.mps.lang.typescript.structure.TSStringType" flags="ng" index="2Kh4GC" />
       <concept id="4715308568151819694" name="de.q60.mps.lang.typescript.structure.TSConstDeclaration" flags="ng" index="2MuU66" />
       <concept id="8023700100379537636" name="de.q60.mps.lang.typescript.structure.TSUndefinedLiteral" flags="ng" index="2OeDxu" />
+      <concept id="2484694207365394374" name="de.q60.mps.lang.typescript.structure.TSCallExpression" flags="ng" index="2R1OvL">
+        <child id="3404169969160214164" name="arguments" index="DTHKp" />
+        <child id="1900045458059135536" name="callee" index="3yUXHQ" />
+      </concept>
+      <concept id="5643999388749572804" name="de.q60.mps.lang.typescript.structure.TSParameter" flags="ng" index="SCM_e">
+        <child id="7998306445341946095" name="declaredType" index="2xFk6U" />
+      </concept>
       <concept id="2894647882240095206" name="de.q60.mps.lang.typescript.structure.TSNullType" flags="ng" index="2UUy$f" />
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
         <property id="7217799321058434228" name="escapedValue" index="3b_9E9" />
@@ -67,7 +75,17 @@
         <child id="4870825102337838263" name="types" index="3KvU$C" />
       </concept>
       <concept id="6704462043861673507" name="de.q60.mps.lang.typescript.structure.TSPlusExpression" flags="ng" index="1rvuUm" />
+      <concept id="2766191210374331012" name="de.q60.mps.lang.typescript.structure.TSIFunctionLike" flags="ngI" index="3ti0qV">
+        <child id="2122589399313796228" name="returnType" index="jrNXk" />
+        <child id="6735212671840276135" name="parameters" index="3qLSqq" />
+      </concept>
+      <concept id="6565583381729432161" name="de.q60.mps.lang.typescript.structure.TSReturnStatement" flags="ng" index="3wbn4H">
+        <child id="9210120436657261188" name="expression" index="qlm4T" />
+      </concept>
       <concept id="6275768358144507624" name="de.q60.mps.lang.typescript.structure.TSEqualsExpression" flags="ng" index="1CNJNU" />
+      <concept id="3288523768773114486" name="de.q60.mps.lang.typescript.structure.TSFunctionDeclaration" flags="ng" index="3Gxli7">
+        <child id="6635070173404449213" name="body" index="1PAOym" />
+      </concept>
       <concept id="2676595144476088988" name="de.q60.mps.lang.typescript.structure.TSVariableDeclaration" flags="ng" index="1Jbnu6">
         <child id="7603193039132759139" name="declaredType" index="19IeeE" />
         <child id="8956598854396892412" name="initializer" index="1bGQZ8" />
@@ -488,6 +506,67 @@
               <property role="3b_9E9" value="none" />
             </node>
           </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="24Z7zp" id="465JEkTqYfp">
+    <property role="TrG5h" value="functions" />
+    <node concept="3Gxli7" id="465JEkTqYfq" role="1JIkAo">
+      <property role="TrG5h" value="double" />
+      <node concept="SCM_e" id="465JEkTqYfs" role="3qLSqq">
+        <property role="TrG5h" value="value" />
+        <node concept="1ku6r5" id="465JEkTqYfu" role="2xFk6U" />
+      </node>
+      <node concept="1ku6r5" id="465JEkTqYfv" role="jrNXk" />
+      <node concept="qYD23" id="465JEkTqYfw" role="1PAOym">
+        <node concept="3wbn4H" id="465JEkTqYfx" role="6EW52">
+          <node concept="mk1J3" id="465JEkTqYfy" role="qlm4T">
+            <node concept="2v$HdM" id="465JEkTqYf_" role="33kRt2">
+              <ref role="2oxrr9" node="465JEkTqYfs" resolve="value" />
+            </node>
+            <node concept="24BhzH" id="465JEkTqYfA" role="GyX5B">
+              <property role="2Hr5CV" value="2" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3Gxli7" id="465JEkTqYkR" role="1JIkAo">
+      <property role="TrG5h" value="greet" />
+      <node concept="qIwln" id="465JEkTqYkT" role="jrNXk" />
+      <node concept="qYD23" id="465JEkTqYkU" role="1PAOym">
+        <node concept="3ja7nU" id="465JEkTqYkV" role="6EW52">
+          <node concept="hjOgg" id="465JEkTqYkX" role="$a3P1">
+            <node concept="3JZgZa" id="465JEkTqYl0" role="3DwI$f" />
+            <node concept="2hi8J1" id="465JEkTqYl1" role="CABlD">
+              <node concept="33xXhr" id="465JEkTqYl2" role="3gGa23">
+                <property role="3b_9E9" value="hi" />
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="465JEkTqYl3" role="1JIkAo">
+      <node concept="hjOgg" id="465JEkTqYl5" role="$a3P1">
+        <node concept="3JZgZa" id="465JEkTqYl8" role="3DwI$f" />
+        <node concept="2hi8J1" id="465JEkTqYl9" role="CABlD">
+          <node concept="2R1OvL" id="465JEkTqYla" role="3gGa23">
+            <node concept="2v$HdM" id="465JEkTqYlc" role="3yUXHQ">
+              <ref role="2oxrr9" node="465JEkTqYfq" resolve="double" />
+            </node>
+            <node concept="24BhzH" id="465JEkTqYld" role="DTHKp">
+              <property role="2Hr5CV" value="21" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="465JEkTqYle" role="1JIkAo">
+      <node concept="2R1OvL" id="465JEkTqYlg" role="$a3P1">
+        <node concept="2v$HdM" id="465JEkTqYli" role="3yUXHQ">
+          <ref role="2oxrr9" node="465JEkTqYkR" resolve="greet" />
         </node>
       </node>
     </node>
