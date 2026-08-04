@@ -910,7 +910,6 @@
       <property role="IQ2ns" value="7998306445341946095" />
       <property role="20lmBu" value="fLJjDmT/aggregation" />
       <property role="20kJfa" value="declaredType" />
-      <property role="20lbJX" value="fLJekj4/_1" />
       <ref role="20lvS9" node="4Ul7eGthLpQ" resolve="TSIType" />
     </node>
     <node concept="1TJgyi" id="465JEkTAOPF" role="1TKVEl">
