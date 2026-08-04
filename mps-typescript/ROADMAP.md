@@ -155,8 +155,15 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
     `TSBinaryOperation.leftExpression`/`rightExpression`, which is what lets a prefix operator — left
     side `null`, throwing setter — take part. Two new statics, `isBadlyPlaced` and
     `rotateTreeToMatchText`, are the single predicate and the single repair that the checking rule,
-    the quick fix and the editor now all go through; the typesystem model cannot call behavior
-    methods, so keeping the side-picking inside the util is what made that possible at all.
+    the quick fix and the editor now all go through; keeping the side-picking in one util is what
+    made that possible at all.
+    **A correction, because this sentence used to give the wrong reason.** It said the typesystem
+    model *cannot* call behavior methods. It can — it needs `jetbrains.mps.lang.behavior` among its
+    used languages, which the textGen model has had all along and the typesystem model simply did
+    not. The statics are still the right shape here, because the question is about two nodes rather
+    than about one, but "cannot" was never true and phase 3 believed it long enough to build a
+    pointless delegate on the strength of it. `check_TSIFunctionLike` now calls
+    `hasStatementBody()` directly.
   - **The proof.** `**` for right-associativity — the editor test types `2**3**4` and gets
     `2 ** (3 ** 4)`, with `*3*4` beside it as the left-associative control so the pair cannot pass
     vacuously — and `!`, unary `-`, unary `+` for the one-sided case. `2 ** 3 ** 2 === 512` and
