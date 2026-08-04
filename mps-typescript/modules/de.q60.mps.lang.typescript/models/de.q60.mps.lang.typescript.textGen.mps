@@ -4068,5 +4068,38 @@
       </node>
     </node>
   </node>
+  <node concept="WtQ9Q" id="5OpYk6hoUpw">
+    <ref role="WuzLi" to="mo8k:5OpYk6gCUJW" resolve="TSPropertyAccess" />
+    <node concept="11bSqf" id="5OpYk6hoUpx" role="11c4hB">
+      <node concept="3clFbS" id="5OpYk6hoUpz" role="2VODD2">
+        <node concept="lc7rE" id="5OpYk6hoUp$" role="3cqZAp">
+          <node concept="l9hG8" id="5OpYk6hoUpA" role="lcghm">
+            <node concept="2OqwBi" id="5OpYk6hoUpC" role="lb14g">
+              <node concept="117lpO" id="5OpYk6hoUpF" role="2Oq$k0" />
+              <node concept="3TrEf2" id="5OpYk6hoUpG" role="2OqNvi">
+                <ref role="3Tt5mk" to="mo8k:5OpYk6gCUJY" resolve="operand" />
+              </node>
+            </node>
+          </node>
+          <node concept="la8eA" id="5OpYk6hoUpH" role="lcghm">
+            <property role="lacIc" value="." />
+          </node>
+          <node concept="l9hG8" id="5OpYk6hoUpI" role="lcghm">
+            <node concept="2OqwBi" id="5OpYk6hoUpK" role="lb14g">
+              <node concept="2OqwBi" id="5OpYk6hoUpN" role="2Oq$k0">
+                <node concept="117lpO" id="5OpYk6hoUpQ" role="2Oq$k0" />
+                <node concept="3TrEf2" id="5OpYk6hoUpR" role="2OqNvi">
+                  <ref role="3Tt5mk" to="mo8k:5OpYk6gCUJZ" resolve="property" />
+                </node>
+              </node>
+              <node concept="3TrcHB" id="5OpYk6hoUpS" role="2OqNvi">
+                <ref role="3TsBF5" to="tpck:h0TrG11" resolve="name" />
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 
