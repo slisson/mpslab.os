@@ -106,5 +106,22 @@
     <ref role="1M2myG" to="mo8k:465JEkTIpO7" resolve="TSIConciseBody" />
     <ref role="1MND4H" to="mo8k:465JEkTIpRg" resolve="TSExpressionBody" />
   </node>
+  <node concept="1M2fIO" id="5OpYk6fQO0b">
+    <ref role="1M2myG" to="mo8k:5OpYk6fOBiT" resolve="TSMemberAccess" />
+    <node concept="EnEH3" id="5OpYk6fQO0c" role="1MhHOB">
+      <ref role="EomxK" to="mo8k:5OpYk6fOBiV" resolve="name" />
+      <node concept="QB0g5" id="5OpYk6fQO0d" role="QCWH9">
+        <node concept="3clFbS" id="5OpYk6fQO0e" role="2VODD2">
+          <node concept="3clFbF" id="5OpYk6fQO0f" role="3cqZAp">
+            <node concept="2YIFZM" id="5OpYk6fQO0g" role="3clFbG">
+              <ref role="37wK5l" to="tw2a:6WKYICG81rF" resolve="isValidName" />
+              <ref role="1Pybhc" to="tw2a:6WKYICG81rx" resolve="TSNameUtil" />
+              <node concept="1Wqviy" id="5OpYk6fQO0h" role="37wK5m" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 
