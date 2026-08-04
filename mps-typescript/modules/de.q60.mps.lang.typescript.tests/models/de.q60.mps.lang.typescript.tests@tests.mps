@@ -8389,7 +8389,7 @@
     </node>
   </node>
   <node concept="LiM7Y" id="465JEkTeisR">
-    <property role="TrG5h" value="A_backslash_cannot_yet_be_typed_into_a_string" />
+    <property role="TrG5h" value="A_backslash_in_a_string_is_typed_as_two" />
     <property role="3GE5qa" value="expressions" />
     <node concept="1qefOq" id="465JEkTeisS" role="25YQCW">
       <node concept="24Z7zp" id="465JEkTeisU" role="1qenE9">
@@ -8410,7 +8410,7 @@
     </node>
     <node concept="3clFbS" id="465JEkTeisZ" role="LjaKd">
       <node concept="2TK7Tu" id="465JEkTeit3" role="3cqZAp">
-        <property role="2TTd_B" value="\&quot;b" />
+        <property role="2TTd_B" value="\\\\" />
       </node>
     </node>
     <node concept="1qefOq" id="465JEkTeit4" role="25YQFr">
@@ -8418,7 +8418,43 @@
         <property role="TrG5h" value="m" />
         <node concept="3ja7nU" id="465JEkTeit7" role="1JIkAo">
           <node concept="33xXhr" id="465JEkTeoNr" role="$a3P1">
+            <property role="3b_9E9" value="a\\" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="LiM7Y" id="465JEkTgmZf">
+    <property role="TrG5h" value="A_quote_inside_a_string_is_typed_as_an_escape" />
+    <property role="3GE5qa" value="expressions" />
+    <node concept="1qefOq" id="465JEkTgmZg" role="25YQCW">
+      <node concept="24Z7zp" id="465JEkTgmZi" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="465JEkTgmZj" role="1JIkAo">
+          <node concept="33xXhr" id="465JEkTgmZl" role="$a3P1">
             <property role="3b_9E9" value="a" />
+            <node concept="LIFWc" id="465JEkTgmZm" role="lGtFl">
+              <property role="LIFWd" value="value" />
+              <property role="ZRATv" value="true" />
+              <property role="p6zMs" value="1" />
+              <property role="p6zMq" value="1" />
+              <property role="OXtK3" value="true" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3clFbS" id="465JEkTgmZn" role="LjaKd">
+      <node concept="2TK7Tu" id="465JEkTgmZo" role="3cqZAp">
+        <property role="2TTd_B" value="\\\&quot;" />
+      </node>
+    </node>
+    <node concept="1qefOq" id="465JEkTgmZp" role="25YQFr">
+      <node concept="24Z7zp" id="465JEkTgmZr" role="1qenE9">
+        <property role="TrG5h" value="m" />
+        <node concept="3ja7nU" id="465JEkTgmZs" role="1JIkAo">
+          <node concept="33xXhr" id="465JEkTgmZu" role="$a3P1">
+            <property role="3b_9E9" value="a\&quot;" />
           </node>
         </node>
       </node>
