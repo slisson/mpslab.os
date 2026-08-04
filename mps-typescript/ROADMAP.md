@@ -16,7 +16,7 @@ pattern rather than a new one.
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
 | textgen     | 43 `ConceptTextGenDeclaration`s; the forty-one binary operators share one on `TSBinaryOperation`, the eight prefix operators one on `TSUnaryOperation`, the two postfix ones one on `TSPostfixOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts`. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
 | intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty — add a template-literal interpolation, and swap an arrow function between a block body and an expression body, which is the one construct in the language whose two forms no keystroke can reach. Kept beside the side transforms, which are the primary way in for the first four: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. For the interpolation it is the *only* way in, which is a gap rather than a design — see *Cross-cutting*. |
-| tests       | 129 editor tests and 47 nodes tests — 246 JUnit tests between them — plus 72 TypeScript tests, in eighteen `TSTestCase` roots, that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Thirty-two more are about the **alias-collision families** — every operator whose alias is a prefix of another one, typed keystroke by keystroke, which after compound assignment is very nearly every operator there is — see *An operator whose alias is a prefix of another one* under **Cross-cutting**. And every expression concept phase 1 added is now *evaluated*, not merely typed: see *What the TypeScript tests run* below. Two of them, in `programs`, are different in kind from the rest: they start from an empty `TSModule` and type keystroke by keystroke, which is the only way to ask what using this editor is actually like — see *What typing a whole program costs today* below. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary,.operator_aliases,.increments,.templates}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `functions{,.calls,.parameters,.arrows,.scopes}`, `caret{.expressions,.declarations,.types,.functions}`, `types.objects`, `programs`, `unit_test_language` — since the concept already says which kind a test is. The function tests cover the gestures one by one — the open paren that makes a call, the value typed after `return`, `?` and `...` and `=` on a parameter, `=>` in an empty hole — the type of a function and of a call, wrong arity in both directions and against a rest parameter, an argument of the wrong type, calling something that is not a function, the three return shapes, the four parameter-list shapes the grammar refuses, a function fitting a function type whose parameter is named differently with the void-result escape beside it and the negative that must still fail, hoisting in both of its forms, and an arrow function both inferring its return type and being passed to something that calls it. |
+| tests       | 130 editor tests and 47 nodes tests — 247 JUnit tests between them — plus 72 TypeScript tests, in eighteen `TSTestCase` roots, that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Thirty-two more are about the **alias-collision families** — every operator whose alias is a prefix of another one, typed keystroke by keystroke, which after compound assignment is very nearly every operator there is — see *An operator whose alias is a prefix of another one* under **Cross-cutting**. And every expression concept phase 1 added is now *evaluated*, not merely typed: see *What the TypeScript tests run* below. Three of them, in `programs`, are different in kind from the rest: they start from an empty `TSModule` and type keystroke by keystroke, which is the only way to ask what using this editor is actually like — see *What typing a whole program costs today* below, and *What the second program test says about navigation* under phase 5. That second one is what found that an object type's properties could not be typed at all, which is the standing argument for writing them. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary,.operator_aliases,.increments,.templates}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `functions{,.calls,.parameters,.arrows,.scopes}`, `caret{.expressions,.declarations,.types,.functions}`, `types.objects`, `programs`, `unit_test_language` — since the concept already says which kind a test is. The function tests cover the gestures one by one — the open paren that makes a call, the value typed after `return`, `?` and `...` and `=` on a parameter, `=>` in an empty hole — the type of a function and of a call, wrong arity in both directions and against a rest parameter, an argument of the wrong type, calling something that is not a function, the three return shapes, the four parameter-list shapes the grammar refuses, a function fitting a function type whose parameter is named differently with the void-result escape beside it and the negative that must still fail, hoisting in both of its forms, and an arrow function both inferring its return type and being passed to something that calls it. |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
 **Object types are here**, which closes the gap that dominated the ordering for three phases:
@@ -209,7 +209,7 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
      This is the one that catches what MPS is happy with and `tsc --strict` is not — `!(1 == 2)` was
      rejected as TS2367, comparing literal types with no overlap, and had to go through a `const`.
 
-  The 246 MPS tests and 72 TypeScript tests are the model to keep.
+  The 247 MPS tests and 72 TypeScript tests are the model to keep.
 
 ## Phase 1 — finish the expression language
 
@@ -920,13 +920,18 @@ the list cell, and `value:number` ends up as one unmatched token. Committing fir
 parameter but lands the caret in the body, past the annotation it was going to write. So the
 annotation is reachable by going back to it, and not by typing forwards.
 
-That is the same shape as the `${` debt phase 1 recorded: a cell that accepts the keystroke as text
-is a cell where no side transform ever fires. The fix is likelier to be a **node factory** in the
-actions aspect — the language has no such aspect yet — so that a parameter arrives with its
-annotation already open as a hole, the way `AddTemplateInterpolation` learned to build a placeholder
-rather than leave a null child. Recorded rather than worked around, because the workaround would be
-to make `declaredType` mandatory again, and that was tried: a mandatory child is created **null** by
-generic substitution, which renders as nothing at all and is strictly worse.
+**That diagnosis was wrong, and phase 5 found out how.** Nothing is pending, because nothing is
+matching: Tab does not commit it either, and no node is created however the edit ends. The reason is
+in *A name-first concept in a list needs a menu of its own* under phase 5 — MPS offers a concrete
+concept under its **alias**, and a concept written name-first has none — and the fix is the
+substitute menu written there, not the node factory guessed at here. The two property concepts have
+it; **`TSParameter` still does not**, so this bullet stays open, but it is now three parts of a
+known shape rather than an unexplained one.
+
+The `${` debt phase 1 recorded is *not* the same shape after all, and telling them apart is the
+useful part: there the cell genuinely swallows the keystroke as text, so no side transform can ever
+fire in it; here the cell offers a substitution that simply matches nothing, and giving it something
+to match is all it takes.
 
 So the `programs` test asserts the function that *can* be typed straight through —
 `function greet() { return; }`, which is four keystrokes of navigation and two words — and the
@@ -1142,6 +1147,65 @@ editor against `{ x: number }` in the output, the same read-as-a-different-type 
 suffix, the template interpolation and the function arrow each produced once. Found by the standing
 rule, which has now earned itself four times over: **write the notation into the sandbox and read it
 back before believing an editor.**
+
+### A name-first concept in a list needs a menu of its own
+
+Writing the second `programs` test found that a property of an object type **could not be typed at
+all** — not awkwardly, at all. The gap is general and has nothing to do with objects:
+
+> A list whose element concept has no **alias** has no way in. MPS's default substitution offers a
+> concrete concept under its alias, and a concept whose notation starts with a name — `x: number`,
+> `x: 1`, a function parameter — has none to offer. The typed text sits in the empty-list cell, no
+> substitution matches it, and neither Tab nor MoveRight commits anything, because there is nothing
+> to commit.
+
+The fix is a default `SubstituteMenu` with a `SubstituteMenuPart_Action` whose
+`SubstituteFeature_MatchingText` **is the pattern**, guarded by a `SubstituteFeature_CanSubstitute`
+that accepts any valid identifier. `TSNumberLiteral` has carried exactly this shape since phase 1 —
+it is how a digit starts a literal — which is the only reason it was reachable at all. Three parts,
+each found by trying it:
+
+- **The handler gives the new node a hole, not a null child.** An obligatory child left null renders
+  as nothing and cannot be typed into, which is the trap `AddTemplateInterpolation` had to learn, and
+  `set new` cannot write one because its concept scope offers only instantiable concepts while a
+  placeholder's concept is abstract by definition. `concept/TSIType/.new-instance(model)` can.
+- **The caret stays at the end of the name.** Parking it in the type hole instead was the first cut,
+  and it made `x:number` type as `x` with `:number` sitting in the hole as unmatched text — the colon
+  has to be *consumed* by something, not merely survived.
+- **So `:` is a side transform that changes no tree at all**, the first in this language: the type is
+  an obligatory child that already has its hole, so what the colon owes is the caret and nothing
+  else. It needs the name validator beside it, or the colon extends the name instead and the
+  transform is never consulted.
+
+`TSParameter` has the same gap and not yet the same menu — see phase 3's open bullet, whose
+explanation this corrects.
+
+**Two more things `applicableProperty` cost, both worth knowing.** It resolves by neither name nor
+node id (the list under *The reference that cannot be written from text*), so each validator has to
+be **copied** from one that already exists and repointed from `run_code`. And `INamedConcept.name` is
+*inherited*, so `concept.propertyDeclaration` does not list it: the first copy repointed at null,
+smodel being null-safe said nothing, and the make failed with
+`Argument for @NotNull parameter 'conceptDeclaration' of MetaIdByDeclaration.getConceptId must not be
+null` — a message that names neither the constraint nor the property.
+
+### What the second program test says about navigation
+
+`A_program_with_objects_and_compound_assignment_can_be_typed_into_an_empty_module` types six
+statements with no mouse, and two of its four navigation keystrokes are there for reasons worth
+having written down:
+
+- **The caret must reach the *last* position of a closing brace** before `=` will open an
+  initializer, because that brace is the only cell belonging to the object type itself and
+  `declarationToInitialize` asks what the caret is behind. Tab cannot get there — a constant is not
+  editable — so this is MoveRight's job, the same way the `else` position is Down's.
+- **`Insert` offers a new element of the list the caret's own node is in.** Inside an object literal
+  that is the property list, so the caret has to leave the literal before Insert means "new
+  statement". The first cut of this test grew the literal six properties long.
+
+Everything else is one uninterrupted run: `origin:{` opens the annotation and fills it,
+`x:number;y:number` writes both members with MPS's own list-separator insert key doing the `;`,
+`total:number=origin.x` reads a member in the middle of a declaration, and `moved||=total>0` is
+longest-match over `|` and `||` with the comparison binding tighter than the assignment.
 
 ## Phase 6 — classes and modules
 
@@ -1387,7 +1451,10 @@ Both are fixed, and neither was the one-line concept fix this section first gues
 concept in the wrong place and the other was a question asked of the wrong node. What is left is
 the entry friction at the top of this section, which is Tab's job rather than a defect. The
 `programs` group is the one that should grow whenever the answer to "can this be written?"
-changes.
+changes — and it has, twice since: once for functions, and once for objects. That second run is
+the one that earns the whole group its keep, because what it found was not friction but a class of
+concept with **no way in at all**: see *A name-first concept in a list needs a menu of its own*
+under phase 5.
 
 ### A union owns no cell past its last member, and only `=` should care
 
