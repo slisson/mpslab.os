@@ -8,23 +8,29 @@ pattern rather than a new one.
 
 | Aspect      | State                                                                                                                                                                          |
 |-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Functions: `TSFunctionDeclaration` (statement, declaration, scope provider and trailing-child owner) and `TSArrowFunction`, sharing the parameter list and return type through `TSIFunctionLike`; `TSParameter` (a `TSIDeclaration`, so identifiers bind to one for free) with `isOptional`, `isRest` and a default value; `TSReturnStatement`; `TSIConciseBody` with `TSBlock` and `TSExpressionBody` under it. Expressions: identifier (a reference to a `TSIDeclaration`), dot expression, `TSCallExpression` on any callee, `console` + `console.log` as bespoke concepts still, awaiting object types. All twenty-five binary operators, grouped under the abstract `TSArithmeticOperation` / `TSComparisonOperation` / `TSEqualityOperation` / `TSLogicalOperation` / `TSBitwiseOperation`; the prefix operators `! - + ~ typeof void` under `TSUnaryOperation`; parentheses; ternary. Writing to a variable is sixteen operators under `TSAssignmentOperation` — `=` and the fifteen compound ones, grouped again under `TSCompoundAssignmentOperation` as arithmetic, bitwise and logical — plus `++`/`--` in both positions: `TSPrefixIncrementOperation` under `TSUnaryOperation`, and `TSPostfixOperation`, which is the first concept to implement `TSIBinaryLike` with a syntactic *left* side and a null right one. Literals: string — whose `escapedValue` holds the source text between the quotes rather than the string it means, see *A string literal stores its own spelling* below — number (`TSNumberValue`-constrained text covering the decimal, hex, binary, octal, separator and bigint forms), `true`/`false`, `null`, `undefined`, template literals as a head plus a span per interpolation. `TSIBinaryLike` extends `TSIExpression`, which is what lets the precedence machinery ask a one-sided operator for its level. Types: `boolean`, `number`, `string`, `console`, `null`, `undefined`, `void`, union, array, function type, and `TSObjectType` over `TSPropertySignature`s — optional ones included — under a `TSITypeMember` interface that index and call signatures can join. `TSObjectLiteral` over `TSPropertyAssignment`s produces one; `TSMemberAccess` reads a member off one, by *name* rather than by reference, for the reason under *Reading a member off a type*. |
-| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`, `else if`) render only when filled, and are reached by typing `:` / `=` / `else{` / `else if` — default transformation menus with RIGHT side-transform sections on `TSVariableDeclaration`, `TSIType` and `TSIfStatement`, plus one `TransformationMenuContribution` to `BaseConcept`'s default menu that hands a transform typed after a nested construct to whatever that construct closes. A second contribution puts `++`/`--` after an expression, written as two spelled-out actions because a named substitute menu cannot be referenced from text at all — see *The reference that cannot be written from text* under phase 2. Types compose the same way: `|` and `[]` on the `TSIType` menu wrap a type in a union and in an array — lengthening a union that is already there is MPS's own doing, since it binds a one-character list separator as an insert key on every element cell. `TSArrayType`'s editor brackets an element that binds looser than the suffix, through the same `needsParenthesesAsArrayElement` the presentation and the textgen ask, so `(number \| string)[]` reads in the editor as it generates. And there is now a **delete story**, nine `CellActionMapDeclaration`s of it, written so that deleting retraces typing: an operand, a union member, an annotation and an initializer each empty out first and take their construct with them only on the second keystroke, while parentheses, the array suffix and the operator cells collapse in one. See *What delete does* under **Cross-cutting**. Every one of them, and every side transform beside them, also says where the **caret** goes — the caret ends where the text the edit produced ends, so the next keystroke carries on rather than being corrected first. That is asserted rather than assumed now: `EditorText.withCaret` renders the whole editor with a `\|` in it. See *Where the caret lands* under **Cross-cutting**. |
-| behavior    | `TSPrecedence` — the whole precedence scale as instances carrying level *and* associativity, and the only place a priority number is written — the parenthesis machinery written against `TSIBinaryLike` rather than against binary operations, `TSTypeUtil.union` normalizing every union that is built — members deduplicated by structural match, ordered by presentation — `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope — `TSITrailingChildOwner.trailingChild` for the `else` side transforms, `TSTypeUtil.declarationToInitialize` for the one behind a union annotation, `needsSpaceBeforeOperand` and `needsParenthesesAsArrayElement` (each asked by both the editor and the textgen, so what is shown and what is generated cannot drift), and `TSNameUtil.isValidName`. Types present themselves through `BaseConcept.getPresentation`, overridden only where the notation is more than a keyword — the alias is already the default, and `TSFunctionType` is the third to need it. `TSFunctionUtil` is the signature side: which function a `return` belongs to, the returns that belong to one function rather than to a nested one, the `TSFunctionType` a function's signature comes to, and the three questions a call asks — how many arguments are required, whether a count is admissible, and what type the argument in position *n* must have. `TSScopeUtil.declarationsVisibleIn` now exempts function declarations from the position rule, because they hoist. `TSAssignmentUtil` is what may be written to, asked once by all twenty operators that write — see *What may be written to is one method* below. `TSTypeUtil.memberNamed` and `.propertiesOf` are the object-type half: one lookup that member access, the structural subtyping rule and the duplicate-name check all go through. `TSTypeUtil.typeTheCaretIsBehind` is the union-climb that `declarationToInitialize` and `parameterToDefault` both needed. |
-| typesystem  | Per-operator typing lives in an `OverloadedOpRulesContainer` table, which `typeof_TSBinaryOperation` consults through `operation-type` — so an operand combination with no row *is* the "cannot be applied" error, rather than a separate set of operand checks. Overriding rules for equality, `in`, `,`, `&& \|\| ??`, assignment and the three logical compound assignments, whose results do not depend on their operands. The twelve arithmetic and bitwise compound assignments need no rule at all — four more rows in the same table are the whole of their typing, see *A compound assignment is a row in the table, not a rule of its own* below — and `++`/`--` are `typeof_TSUnaryOperation` and a mirror of it on `TSPostfixOperation`, plus one checking rule each for what may be written to. `typeof` rules for every literal, the prefix operators, the ternary, parens, declarations and identifiers. Non-typesystem checks: priority violations, a prefix operator immediately left of `**` (TS17006 — a syntax restriction, not a precedence one), `??` mixed with `\|\|`/`&&`, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, a number literal still in an intermediate typing state, a string literal ending in an unfinished escape, and a union of fewer than two members — that last one written for the generator rather than for the editor, which can no longer build one. Functions add: the type of a declaration and of an arrow, of a parameter and of a `return`; `typeof_TSCallExpression`, which is the whole call story — a `when concrete` on the callee, a not-a-function-type gate, arity before assignability, and a result type outside the arity branch; and the checking rules for a return in the wrong place or shape, a function that promises a value and never returns one, and the four parameter-list shapes TypeScript's grammar refuses. Two quick fixes. Three subtyping relations, and every assignment-shaped rule now says `:<<=:` rather than `:~:` — see *Assignability is not comparability* under phase 5, which is the correction to know about before reading any of them. `TSIType_subtypeOf_TSUnionType` is an `InequationReplacementRule` that makes every member of a union a subtype of it — see *The one subtyping rule* below for why it is a replacement rule rather than a `SubtypingRule`, and why its sub-type side is declared as `BaseConcept`. |
-| constraints | `TSIdentifier.declaration` declares the inherited scope, which is what makes the `ScopeProvider`s above take effect; `TSIDeclaration.name` is validated as a TypeScript identifier, which is what lets `:` and `=` leave the name cell instead of extending the name; `TSStringLiteral.escapedValue` is validated as text that may still be *being* typed, which is a weaker question than whether it is finished — see *A string literal stores its own spelling* below; `TSIConciseBody` names `TSExpressionBody` as its `defaultConcreteConcept`, so a fresh arrow function opens with the body form that can be typed into; the unitTest language restricts assertions to test methods. |
+| structure   | `TSModule` (root, named) → `TSIStatement*`: expression statement, `TSBlock`, `let`/`const`/`var` declarations, `if`/`else if`/`else`. `TSITrailingChildOwner` (`TSIfStatement`, `TSElseIfClause`) declares which child a construct's notation ends with, which is what lets a nested block hand a side transform back to the construct it closes without knowing what that is. Functions: `TSFunctionDeclaration` (statement, declaration, scope provider and trailing-child owner) and `TSArrowFunction`, sharing the parameter list and return type through `TSIFunctionLike`; `TSParameter` (a `TSIDeclaration`, so identifiers bind to one for free) with `isOptional`, `isRest` and a default value; `TSReturnStatement`; `TSIConciseBody` with `TSBlock` and `TSExpressionBody` under it. Expressions: identifier (a reference to a `TSIDeclaration`), `TSMemberAccess`, `TSCallExpression` on any callee. All twenty-five binary operators, grouped under the abstract `TSArithmeticOperation` / `TSComparisonOperation` / `TSEqualityOperation` / `TSLogicalOperation` / `TSBitwiseOperation`; the prefix operators `! - + ~ typeof void` under `TSUnaryOperation`; parentheses; ternary. Writing to a variable is sixteen operators under `TSAssignmentOperation` — `=` and the fifteen compound ones, grouped again under `TSCompoundAssignmentOperation` as arithmetic, bitwise and logical — plus `++`/`--` in both positions: `TSPrefixIncrementOperation` under `TSUnaryOperation`, and `TSPostfixOperation`, which is the first concept to implement `TSIBinaryLike` with a syntactic *left* side and a null right one. Literals: string — whose `escapedValue` holds the source text between the quotes rather than the string it means, see *A string literal stores its own spelling* below — number (`TSNumberValue`-constrained text covering the decimal, hex, binary, octal, separator and bigint forms), `true`/`false`, `null`, `undefined`, template literals as a head plus a span per interpolation. `TSIBinaryLike` extends `TSIExpression`, which is what lets the precedence machinery ask a one-sided operator for its level. Types: `boolean`, `number`, `string`, `null`, `undefined`, `void`, `unknown`, union, array, function type, and `TSObjectType` over `TSPropertySignature`s — optional ones included — under a `TSITypeMember` interface that index and call signatures can join. `TSObjectLiteral` over `TSPropertyAssignment`s produces one; `TSMemberAccess` reads a member off one, by *name* rather than by reference, for the reason under *Reading a member off a type*. And `TSAmbientDeclaration` is a root: `declare const <name>: <type>`, which is what the standard library is written in now that `TSConsole`, `TSConsoleOp_Log`, `TSConsoleType`, `TSDotExpression` and `TSIOperation` are gone — see *The standard library is a model, not a concept* under phase 5. |
+| editor      | The real investment so far: precedence-aware typing, tree rebalancing on operator entry, incomplete-paren concepts (`TSIncompleteLeftParen`/`RightParen`) that resolve into `TSParenthesizedExpression`, ternary insertion and wrapping. Optional cells (type annotation, initializer, `else`, `else if`) render only when filled, and are reached by typing `:` / `=` / `else{` / `else if` — default transformation menus with RIGHT side-transform sections on `TSVariableDeclaration`, `TSIType` and `TSIfStatement`, plus one `TransformationMenuContribution` to `BaseConcept`'s default menu that hands a transform typed after a nested construct to whatever that construct closes. A second contribution puts `++`/`--` after an expression, written as two spelled-out actions because a named substitute menu cannot be referenced from text at all — see *The reference that cannot be written from text* under phase 2. Types compose the same way: `|` and `[]` on the `TSIType` menu wrap a type in a union and in an array — lengthening a union that is already there is MPS's own doing, since it binds a one-character list separator as an insert key on every element cell. `TSArrayType`'s editor brackets an element that binds looser than the suffix, through the same `needsParenthesesAsArrayElement` the presentation and the textgen ask, so `(number \| string)[]` reads in the editor as it generates. And there is now a **delete story**, nine `CellActionMapDeclaration`s of it, written so that deleting retraces typing: an operand, a union member, an annotation and an initializer each empty out first and take their construct with them only on the second keystroke, while parentheses, the array suffix and the operator cells collapse in one. See *What delete does* under **Cross-cutting**. Four **name-first** concepts — `TSPropertySignature`, `TSPropertyAssignment`, `TSParameter` and `TSFunctionTypeParameter` — carry a default `SubstituteMenu` whose matching text *is* the pattern, which is the only way a concept with no alias can be reached from a list at all; the last two arrived together with the name validator without which the `:` after them is swallowed as text. See *A name-first concept in a list needs a menu of its own* under phase 5. Every one of them, and every side transform beside them, also says where the **caret** goes — the caret ends where the text the edit produced ends, so the next keystroke carries on rather than being corrected first. That is asserted rather than assumed now: `EditorText.withCaret` renders the whole editor with a `\|` in it. See *Where the caret lands* under **Cross-cutting**. |
+| behavior    | `TSPrecedence` — the whole precedence scale as instances carrying level *and* associativity, and the only place a priority number is written — the parenthesis machinery written against `TSIBinaryLike` rather than against binary operations, `TSTypeUtil.union` normalizing every union that is built — members deduplicated by structural match, ordered by presentation — `ScopeProvider.getScope` on `TSModule` and `TSBlock` — the declarations of a statement list that precede the referring statement, composed with the enclosing scope — `TSITrailingChildOwner.trailingChild` for the `else` side transforms, `TSTypeUtil.declarationToInitialize` for the one behind a union annotation, `needsSpaceBeforeOperand` and `needsParenthesesAsArrayElement` (each asked by both the editor and the textgen, so what is shown and what is generated cannot drift), and `TSNameUtil.isValidName`. Types present themselves through `BaseConcept.getPresentation`, overridden only where the notation is more than a keyword — the alias is already the default, and `TSFunctionType` is the third to need it. `TSFunctionUtil` is the signature side: which function a `return` belongs to, the returns that belong to one function rather than to a nested one, the `TSFunctionType` a function's signature comes to, and the three questions a call asks — how many arguments are required, whether a count is admissible, and what type the argument in position *n* must have. `TSScopeUtil.declarationsVisibleIn` now exempts function declarations from the position rule, because they hoist, and `TSScopeUtil.ambientDeclarationsVisibleFrom` is the other half of `TSModule`'s scope — what the *environment* declares, reached through MPS's own `ModelPlusImportedScope`. `TSAssignmentUtil` is what may be written to, asked once by all twenty operators that write, and it refuses an ambient declaration for the same reason it refuses a `const` — see *What may be written to is one method* below. `TSTypeUtil.memberNamed` and `.propertiesOf` are the object-type half: one lookup that member access, the structural subtyping rule and the duplicate-name check all go through. `TSTypeUtil.typeTheCaretIsBehind` is the union-climb that `declarationToInitialize` and `parameterToDefault` both needed. |
+| typesystem  | Per-operator typing lives in an `OverloadedOpRulesContainer` table, which `typeof_TSBinaryOperation` consults through `operation-type` — so an operand combination with no row *is* the "cannot be applied" error, rather than a separate set of operand checks. Overriding rules for equality, `in`, `,`, `&& \|\| ??`, assignment and the three logical compound assignments, whose results do not depend on their operands. The twelve arithmetic and bitwise compound assignments need no rule at all — four more rows in the same table are the whole of their typing, see *A compound assignment is a row in the table, not a rule of its own* below — and `++`/`--` are `typeof_TSUnaryOperation` and a mirror of it on `TSPostfixOperation`, plus one checking rule each for what may be written to. `typeof` rules for every literal, the prefix operators, the ternary, parens, declarations and identifiers. Non-typesystem checks: priority violations, a prefix operator immediately left of `**` (TS17006 — a syntax restriction, not a precedence one), `??` mixed with `\|\|`/`&&`, stray incomplete parens, `const` reassignment, a declaration with neither annotation nor initializer, a number literal still in an intermediate typing state, a string literal ending in an unfinished escape, and a union of fewer than two members — that last one written for the generator rather than for the editor, which can no longer build one. Functions add: the type of a declaration and of an arrow, of a parameter and of a `return`; `typeof_TSCallExpression`, which is the whole call story — a `when concrete` on the callee, a not-a-function-type gate, arity before assignability, and a result type outside the arity branch; and the checking rules for a return in the wrong place or shape, a function that promises a value and never returns one, and the four parameter-list shapes TypeScript's grammar refuses. Two quick fixes. Four subtyping relations, and every assignment-shaped rule now says `:<<=:` rather than `:~:` — see *Assignability is not comparability* under phase 5, which is the correction to know about before reading any of them. `TSIType_subtypeOf_TSUnionType` is an `InequationReplacementRule` that makes every member of a union a subtype of it — see *The one subtyping rule* below for why it is a replacement rule rather than a `SubtypingRule`, and why its sub-type side is declared as `BaseConcept`. `TSIType_subtypeOf_TSUnknownType` is the same shape with the *opposite* division of labour: its clause decides everything and its body is deliberately empty, which is right exactly once — see *`unknown` is the rule whose body should be empty* under phase 5. `typeof_TSAmbientDeclaration` is the last inference rule, and the simplest: a declaration that describes the environment has nothing to infer from. |
+| constraints | `TSIdentifier.declaration` declares the inherited scope, which is what makes the `ScopeProvider`s above take effect; `TSIDeclaration.name` is validated as a TypeScript identifier, which is what lets `:` and `=` leave the name cell instead of extending the name; `TSStringLiteral.escapedValue` is validated as text that may still be *being* typed, which is a weaker question than whether it is finished — see *A string literal stores its own spelling* below; `TSIConciseBody` names `TSExpressionBody` as its `defaultConcreteConcept`, so a fresh arrow function opens with the body form that can be typed into; the unitTest language restricts assertions to test methods. Five name validators now: the one on `TSIDeclaration`, and four for the concepts that carry a `name` without being one — `TSMemberAccess`, `TSPropertySignature`, `TSPropertyAssignment` and `TSFunctionTypeParameter`. Each of the four is a literal **copy** of the first, repointed from `run_code`, because `applicableProperty` resolves by neither name nor node id. |
 | generator   | Empty (`main` mapping configuration only).                                                                                                                                       |
-| textgen     | 43 `ConceptTextGenDeclaration`s; the forty-one binary operators share one on `TSBinaryOperation`, the eight prefix operators one on `TSUnaryOperation`, the two postfix ones one on `TSPostfixOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts`. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
+| textgen     | 42 `ConceptTextGenDeclaration`s; the forty-one binary operators share one on `TSBinaryOperation`, the eight prefix operators one on `TSUnaryOperation`, the two postfix ones one on `TSPostfixOperation`, `true`/`false` one on `TSBooleanLiteral` and the three declaration kinds one on `TSVariableDeclaration` — all writing the concept alias, so an operator added later needs no textgen at all. `TSModule` writes `<name>.ts` and `TSAmbientDeclaration` writes `<name>.d.ts`, though nothing in this repository generates the second: the accessory model that ships `console` is marked do-not-generate, `console` being a global TypeScript declares for itself. The model uses `jetbrains.mps.lang.behavior`, since two of these ask a behavior method rather than deciding spacing or bracketing for themselves. |
 | intentions  | Add a type annotation, an initializer, an `else` branch, an `else if` branch — the four optional cells the editor hides when empty — add a template-literal interpolation, and swap an arrow function between a block body and an expression body, which is the one construct in the language whose two forms no keystroke can reach. Kept beside the side transforms, which are the primary way in for the first four: Alt+Enter still lists them, and it is the only way in when the caret is not at the anchor cell. For the interpolation it is the *only* way in, which is a gap rather than a design — see *Cross-cutting*. |
-| tests       | 129 editor tests and 48 nodes tests — 247 JUnit tests between them — plus 72 TypeScript tests, in eighteen `TSTestCase` roots, that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Thirty-two more are about the **alias-collision families** — every operator whose alias is a prefix of another one, typed keystroke by keystroke, which after compound assignment is very nearly every operator there is — see *An operator whose alias is a prefix of another one* under **Cross-cutting**. And every expression concept phase 1 added is now *evaluated*, not merely typed: see *What the TypeScript tests run* below. Three of them, in `programs`, are different in kind from the rest: they start from an empty `TSModule` and type keystroke by keystroke, which is the only way to ask what using this editor is actually like — see *What typing a whole program costs today* below, and *What the second program test says about navigation* under phase 5. That second one is what found that an object type's properties could not be typed at all, which is the standing argument for writing them. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary,.operator_aliases,.increments,.templates}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `functions{,.calls,.parameters,.arrows,.scopes}`, `caret{.expressions,.declarations,.types,.functions}`, `types.objects`, `programs`, `unit_test_language` — since the concept already says which kind a test is. The function tests cover the gestures one by one — the open paren that makes a call, the value typed after `return`, `?` and `...` and `=` on a parameter, `=>` in an empty hole — the type of a function and of a call, wrong arity in both directions and against a rest parameter, an argument of the wrong type, calling something that is not a function, the three return shapes, the four parameter-list shapes the grammar refuses, a function fitting a function type whose parameter is named differently with the void-result escape beside it and the negative that must still fail, hoisting in both of its forms, and an arrow function both inferring its return type and being passed to something that calls it. |
+| tests       | 132 editor tests and 51 nodes tests — 253 JUnit tests between them — plus 72 TypeScript tests, in eighteen `TSTestCase` roots, that run the generated output. They cover precedence, parens and the ternary, left- and right-associativity, the two ways a pending side transform commits, typing `const` and an identifier, decimal points and exponents, the optional-cell side transforms and the one case that must not forward; and on the types side every operator result the overload table produces, the union of `&&`/`\|\|` in both operand orders (which is the normalization check), the error when the table has no row, and — for the subtyping rule — a member and a narrower union assigned to a union written in a different member order, against a non-member that must still be an error. Typing and deleting are covered gesture by gesture, including the intermediate state a two-step delete leaves — pinned by typing into it rather than by asserting a tree with a placeholder in it, which the writer refuses. Twenty-one of them are about **where the caret ends up** rather than what the tree becomes: seventeen assert the whole editor with the caret written into it, four chain a further keystroke that only a correct caret makes meaningful, and four were watched failing against the two placement bugs they were written for. Thirty-two more are about the **alias-collision families** — every operator whose alias is a prefix of another one, typed keystroke by keystroke, which after compound assignment is very nearly every operator there is — see *An operator whose alias is a prefix of another one* under **Cross-cutting**. And every expression concept phase 1 added is now *evaluated*, not merely typed: see *What the TypeScript tests run* below. Three of them, in `programs`, are different in kind from the rest: they start from an empty `TSModule` and type keystroke by keystroke, which is the only way to ask what using this editor is actually like — see *What typing a whole program costs today* below, and *What the second program test says about navigation* under phase 5. That second one is what found that an object type's properties could not be typed at all, which is the standing argument for writing them, and the first has since grown a parameter for the same reason. Grouped by feature rather than by test kind with `virtualPackage` — `expressions{,.precedence,.ternary,.numbers,.unary,.operator_aliases,.increments,.templates}`, `statements{,.control_flow}`, `declarations{,.scopes}`, `functions{,.calls,.parameters,.arrows,.scopes}`, `caret{.expressions,.declarations,.types,.functions}`, `types{.objects,.unknown}`, `programs`, `unit_test_language` — since the concept already says which kind a test is. The function tests cover the gestures one by one — the open paren that makes a call, the value typed after `return`, `?` and `...` and `=` on a parameter, `=>` in an empty hole — the type of a function and of a call, wrong arity in both directions and against a rest parameter, an argument of the wrong type, calling something that is not a function, the three return shapes, the four parameter-list shapes the grammar refuses, a function fitting a function type whose parameter is named differently with the void-result escape beside it and the negative that must still fail, hoisting in both of its forms, and an arrow function both inferring its return type and being passed to something that calls it. |
 | unit tests  | A second language, `de.q60.mps.lang.typescript.unitTest`: `TSTestCase` (root) → `TSTestMethod` → `TSAssertTrue`/`False`/`Equals`/`NotEquals`/`TSFail`. Done in phase 0.2.          |
 
-**Object types are here**, which closes the gap that dominated the ordering for three phases:
-`TSObjectType` with property signatures, `TSObjectLiteral` to produce a value of one,
-`TSMemberAccess` to read a member off one, and the structural subtyping rule that makes any of it
-mean anything. What is left before `console` can stop being a concept is `unknown` — an ambient
-`declare const console` needs a type for `log`'s parameter, and none of the three primitives phase 5
-owns has arrived yet. See *Reading a member off a type* under phase 5.
+**`console` is no longer a concept**, which closes decision 3 and, with it, the last thing the
+language had been carrying since before it had a type system. Six concepts went — `TSConsole`,
+`TSConsoleType`, `TSConsoleOp_Base`, `TSConsoleOp_Log` and the `TSDotExpression`/`TSIOperation` pair
+that only ever existed to hold them — and what replaced them is not a concept at all but a *model*:
+an accessory model shipping `declare const console: { log(...data: unknown[]): void }`, read by
+rules that were all already here. The one piece that had to be built for it was `unknown`. See
+*The standard library is a model, not a concept* under phase 5.
+
+**Object types** arrived the phase before, which is what made that possible: `TSObjectType` with
+property signatures, `TSObjectLiteral` to produce a value of one, `TSMemberAccess` to read a member
+off one, and the structural subtyping rule that makes any of it mean anything. See *Reading a member
+off a type* under phase 5.
 
 That work also found a bug older than itself, and it is the one to know about before reading any
 type rule here: **assignability is not comparability, and MPS's weak subtyping is not assignability
@@ -49,20 +55,20 @@ either**. See *Assignability is not comparability* under phase 5.
    in 0.4 a concept without a way to type it is not finished. The union annotation is the
    case that made the distinction concrete: the subtyping rule made it *check*, and it took a
    side transform before anyone could *write* one.
-3. **The standard library.** `console` cannot stay a concept. Decide between a hand-written
-   ambient-declaration model (a small `lib.d.ts` equivalent, written in the language itself)
-   and importing real `.d.ts` files. *Recommendation:* hand-written minimal lib, then real
-   `.d.ts` import in phase 9, which subsumes it once it works.
-   **The decision stands; only its phase has moved.** It was to land in phase 3 and now lands with
-   object types in phase 5 — not because the machinery is missing, since phase 3 built all of it,
-   but because an ambient declaration has to *say* something and `{ log(…): void }` is a type this
-   language cannot yet write. The mechanism to use when it does is an **accessory model**: a model
-   listed in the language's `.mpl` that is implicitly imported into every model using the language.
-   That is exactly how `java.lang` reaches every baseLanguage model and how `jetbrains.mps.kotlin`
-   ships the Kotlin stdlib, and `jetbrains.mps.kotlin.sourceSets` is the precedent for one written
-   in the language's own concepts rather than derived from bytecode. It costs a `TSModule.getScope`
-   that also offers what the model imports, and a `.model/.isReadOnly()` guard on any quick fix, so
-   that none of them offers to edit the lib.
+3. **The standard library.** ✅ **Done, as recommended: a hand-written minimal lib in an accessory
+   model**, with the real `.d.ts` import of phase 9 to subsume it once that works.
+   `de.q60.mps.lang.typescript.lib` is listed in the language's `.mpl` as an accessory model, which
+   is what makes MPS import it implicitly into every model using the language — the same mechanism
+   that reaches `java.lang` from every baseLanguage model, and `jetbrains.mps.kotlin.sourceSets` is
+   the precedent for one written in the language's own concepts rather than derived from bytecode.
+   It holds one root, `console`, and it is marked **do-not-generate**: `console` is a global
+   TypeScript declares for itself, and emitting a second declaration of it would collide with the
+   one `tsc` already has.
+   What it cost was one method — `TSScopeUtil.ambientDeclarationsVisibleFrom` — and not the two
+   this bullet predicted. The `isReadOnly` guard on quick fixes turned out to be unnecessary rather
+   than merely cheap, and the reason is worth keeping: the lib holds nothing but a name and a type,
+   and both quick fixes act on expressions. It becomes owed the moment a quick fix acts on a
+   *type*. See *The standard library is a model, not a concept* under phase 5.
 
 ## Phase 0 — foundations (before any new syntax)
 
@@ -209,7 +215,7 @@ Everything here gets cheaper the earlier it happens, and more expensive per conc
      This is the one that catches what MPS is happy with and `tsc --strict` is not — `!(1 == 2)` was
      rejected as TS2367, comparing literal types with no overlap, and had to go through a `const`.
 
-  The 247 MPS tests and 72 TypeScript tests are the model to keep.
+  The 253 MPS tests and 72 TypeScript tests are the model to keep.
 
 ## Phase 1 — finish the expression language
 
@@ -728,8 +734,8 @@ in the branches, rather than the unused constants it was declaring to route arou
 
 ## Phase 3 — functions
 
-Three of the four bullets are done. The fourth turned out to belong to phase 5, and *What the
-console bullet was really waiting for* below says why.
+All four bullets are done. The fourth belonged to phase 5 in the end, and *What the console bullet
+was really waiting for* below says why.
 
 - ✅ **`TSFunctionDeclaration`**: `TSIStatement` and `TSIDeclaration` and `ScopeProvider` and
   `TSITrailingChildOwner`, with the parameter list and the return type on a `TSIFunctionLike`
@@ -737,8 +743,11 @@ console bullet was really waiting for* below says why.
 - ✅ **`return`**, function types `(a: number) => string`, and arrow functions with either body form.
 - ✅ **A real call on any callable expression**, checked for arity and argument assignability.
   `TSCallOperation` is deleted rather than migrated — see below.
-- **Retire `TSConsole` / `TSConsoleOp_Log`** — moved to phase 5. It needs member access to read a
-  member off a type, which needs an object type, which is phase 5's.
+- ✅ **`TSConsole` / `TSConsoleOp_Log` are retired**, in phase 5 rather than here, and with them
+  `TSConsoleType`, `TSDotExpression` and `TSIOperation`. All twenty-one instances were in the
+  sandbox and were converted in place to `TSMemberAccess` over an identifier bound to the ambient
+  declaration; nothing outside this repository has ever held one, which is the same reason phase 2
+  gave for not writing a migration script.
 
 ### The dead concept, and the shape it had wrong
 
@@ -913,29 +922,38 @@ and being on the interface means an arrow function gets the same gesture from th
 would have caught this except trying to write a whole function: the sandbox roots were all built as
 trees, and a tree does not care that its notation is unreachable.
 
-**A parameter's annotation cannot be typed in one run, and this is the open one.** `value` typed into
-the empty parameter list is a *pending* substitution — the node does not exist until something
-commits it — so the `:` that should open the annotation arrives while the text is still free text in
-the list cell, and `value:number` ends up as one unmatched token. Committing first (Tab) creates the
-parameter but lands the caret in the body, past the annotation it was going to write. So the
-annotation is reachable by going back to it, and not by typing forwards.
+**A parameter's annotation could not be typed in one run**, and the first diagnosis of it was wrong
+in a way worth keeping. It said `value` typed into the empty parameter list was a *pending*
+substitution which the `:` then arrived too early for. It was not pending: nothing was matching.
+Tab did not commit it either, and no node was created however the edit ended, because MPS offers a
+concrete concept under its **alias** and a concept written name-first has none. See *A name-first
+concept in a list needs a menu of its own* under phase 5.
 
-**That diagnosis was wrong, and phase 5 found out how.** Nothing is pending, because nothing is
-matching: Tab does not commit it either, and no node is created however the edit ends. The reason is
-in *A name-first concept in a list needs a menu of its own* under phase 5 — MPS offers a concrete
-concept under its **alias**, and a concept written name-first has none — and the fix is the
-substitute menu written there, not the node factory guessed at here. The two property concepts have
-it; **`TSParameter` still does not**, so this bullet stays open, but it is now three parts of a
-known shape rather than an unexplained one.
+✅ **Fixed, with the menu written there rather than the node factory guessed at here.** `TSParameter`
+now carries a default `SubstituteMenu` whose matching text is the pattern, and `value:number` is one
+uninterrupted run: the colon stops the substitution matching, which commits the name, and the `:`
+side transform this phase already had opens the annotation. Its handler differs from the property
+signature's in the one way the concepts differ — a parameter's annotation is an **optional** child
+the editor hides while it is null, so the handler must *not* create a hole; the `:` transform is
+what creates it, and creating one here would render an annotation nobody asked for and leave the
+colon with nothing to do.
+
+`TSFunctionTypeParameter` had the identical gap and now has the identical menu, plus the `:`
+transform and the name validator that `TSParameter` already had by implementing `TSIDeclaration`.
+That third part is what the first attempt at it left out, and the failure is the useful part: with
+the menu but no validator, `a:string` typed into a function type's parameter list produced a
+parameter **named `a:string`** with its type still a hole. The name cell simply swallowed the colon,
+so the side transform was never consulted. **A name-first substitute menu is three parts, not one,
+and the validator is the part whose absence looks like the menu working.**
 
 The `${` debt phase 1 recorded is *not* the same shape after all, and telling them apart is the
 useful part: there the cell genuinely swallows the keystroke as text, so no side transform can ever
-fire in it; here the cell offers a substitution that simply matches nothing, and giving it something
-to match is all it takes.
+fire in it; here the cell offered a substitution that simply matched nothing, and giving it
+something to match was all it took. The validator failure above is what shows the two are neighbours
+rather than strangers — a name-first concept without one *becomes* the `${` case.
 
-So the `programs` test asserts the function that *can* be typed straight through —
-`function greet() { return; }`, which is four keystrokes of navigation and two words — and the
-parameter is what it should grow to cover once the factory exists.
+So the `programs` test has grown to what it said it should: `function greet(value: number) {
+return; }`, typed in one run with three navigation keystrokes and no mouse.
 
 ### An empty list is not empty by default
 
@@ -964,17 +982,18 @@ annotation is not a state worth being able to write.
 
 ### What the console bullet was really waiting for
 
-`declare const console` needs `console.log` to be **member access that reads a member off a type**.
-Today `TSDotExpression` has no inference rule at all, and `console.log` works only because a
-substitute menu is gated on `TSConsoleType`. Making it general needs an object type with property
-signatures — which this document already assigns to phase 5, and already explains why: a type no
-expression can read is not worth shipping.
+`declare const console` needed `console.log` to be **member access that reads a member off a type**.
+`TSDotExpression` had no inference rule at all, and `console.log` worked only because a substitute
+menu was gated on `TSConsoleType`. Making it general needed an object type with property signatures,
+which is phase 5's, for the reason this document already gave: a type no expression can read is not
+worth shipping.
 
-So the bullet moves to phase 5, where the object literal and the object type already are, and it
-arrives with the types that can state it. What it is *not* waiting for is the general machinery: a
-call on any callable expression, function types, optional and rest parameters, and the arity
-normalisation behind them are all here, so an ambient `declare const console: { log(...data: …): void }`
-would be read by rules that already exist. Decision 3 is unchanged; only its phase is.
+What it was *not* waiting for was the general machinery, and that prediction held exactly. A call on
+any callable expression, function types, optional and rest parameters and the arity normalisation
+behind them were all already here, so `declare const console: { log(...data: unknown[]): void }` is
+read by rules not one of which had to change. What the bullet cost in the end was **one primitive
+type, one root concept, one scope method and one deletion** — see *The standard library is a model,
+not a concept* under phase 5.
 
 ### A third editor that disagreed with its own textgen
 
@@ -1007,25 +1026,27 @@ a projection through the checkers and only the generated text is ever compared t
 
 The largest and most open-ended phase; scope it by decision 1 above.
 
-- `any` / `unknown` / `never` with strict-null semantics. `null` and `undefined` are
+- `any` / ✅ `unknown` / `never` with strict-null semantics. `null` and `undefined` are
   already here as types and as literals, and with only the union rule for subtyping the language is
   *already* strict about them: `null` is assignable to nothing but a union that names it, which is
   what `--strictNullChecks` means. What is left for them is narrowing, below. **`void` came forward
-  with phase 3** — a function that returns nothing has no other type it can be given — and the other
-  three did not, because nothing needed them.
+  with phase 3** — a function that returns nothing has no other type it can be given — and
+  **`unknown` came with the standard library**, which is the first thing that needed one of the
+  three. `any` and `never` still have nothing asking for them: `any` is the one this language should
+  be slowest to add, since the whole build runs `--strict`, and `never` arrives with the array
+  literal below.
 - ✅ **Structural subtyping, object types, optional properties, the object literal and member
   access** — the four that had to arrive together, since a type no expression can state is not worth
   shipping and a literal with no type to state is the same thing said backwards. `TSObjectType` holds
   `TSPropertySignature`s under a `TSITypeMember` interface that index and call signatures can join
   later. Sections below say what each of them cost. Still open in this bullet: `interface` and
   `type` aliases, which are naming rather than typing, and index signatures.
-- **Retiring `TSConsole` / `TSConsoleOp_Log`** in favour of an ambient `declare const console`,
-  moved here from phase 3 with the object type it needs to say anything. The object type has now
-  arrived and the bullet still cannot be done: `console.log` takes anything, and the language has no
-  `unknown` to say so with. That is the bullet above, and it is now the *only* thing between here
-  and decision 3. Everything else is in place — a call on any callable expression, function types,
-  optional and rest parameters, and a member read off a type — so what arrives with it is the
-  *declaration*, not the rules that read it.
+- ✅ **`TSConsole` / `TSConsoleOp_Log` retired** in favour of an ambient `declare const console`,
+  moved here from phase 3 with the object type it needed to say anything and done once `unknown`
+  gave it a way to say `log` takes anything. Everything else was in place — a call on any callable
+  expression, function types, optional and rest parameters, and a member read off a type — so what
+  arrived with it was the *declaration*, not the rules that read it. See *The standard library is a
+  model, not a concept* below.
 - Intersections and literal types. Unions themselves are already here from phase 1, normalized by
   `TSTypeUtil.union` and with the member-of-union subtyping rule that phase 5 owed them — that one
   was small and blocking, so it was done with phase 1. What is left for phase 5 is the subtyping
@@ -1040,6 +1061,79 @@ The largest and most open-ended phase; scope it by decision 1 above.
 - Generics: type parameters on functions/aliases/classes, constraints, inference at call
   sites. Also a milestone of its own; conditional and mapped types are explicitly out of
   scope for now.
+
+### The standard library is a model, not a concept
+
+Decision 3 said `console` could not stay a concept and named the mechanism that should replace it.
+Both halves held; what is worth writing down is how little the replacement turned out to be, and
+which of the predicted costs was real.
+
+**One primitive, one root concept, one scope method, one deletion.**
+
+- **`TSUnknownType`** — alias, editor, textgen, and one subtyping rule. `log` takes anything, and
+  `unknown` is the only honest way to say so under `--strict`.
+- **`TSAmbientDeclaration`** — a *root*, implementing `TSIDeclaration`, holding a name and an
+  obligatory type: `declare const console: { log(...data: unknown[]): void }`. One root per global,
+  which is how `lib.dom.d.ts` states its own. Being a `TSIDeclaration` is the whole of why nothing
+  downstream had to change — `TSIdentifier.declaration` has pointed at that *interface* since phase
+  2, so name binding, completion, the validator and `typeof_TSIdentifier` all arrived free, exactly
+  as they did for `TSParameter` in phase 3. That is the second time the decision to declare the
+  interface rather than the concept has paid, and it is the argument for doing it again.
+- **`TSScopeUtil.ambientDeclarationsVisibleFrom`** — the other half of `TSModule.getScope`.
+- **The deletion** — `TSConsole`, `TSConsoleType`, `TSConsoleOp_Base`, `TSConsoleOp_Log`,
+  `TSDotExpression` and `TSIOperation`, with their editors, textgens, the substitute menu gated on
+  `TSConsoleType` and `typeof_TSConsole`.
+
+**`ModelPlusImportedScope` is the whole of the scope work, and finding it is the point.** The
+question "what can this model see?" has an answer in MPS already, and it is not one to re-derive:
+`ModelDependencyResolver` distinguishes *direct* imports from *implicit* ones, the second being the
+accessory models of every language the model uses, and `ModelPlusImportedScope(model, rootsOnly,
+concept)` is that walk wrapped as a `Scope`. Three lines, no reaching for `Language.getAccessoryModels()`
+and no hand-rolled traversal — and because it also covers direct imports, the cross-model half of
+phase 6 is already answered for declarations.
+
+**Two things about the model itself.** It is registered in the `.mpl` under `accessoryModels`, which
+is what makes MPS import it implicitly; and it is marked **do-not-generate**, because `console` is a
+global TypeScript declares for itself and a generated `console.d.ts` would collide with the one
+`tsc` already has. Which is also the division of labour to keep in mind when reading a test: MPS
+type-checks `console.log("hi")` against *our* declaration, and `tsc` type-checks the generated text
+against `@types/node`'s. Two independent checks of the same line, which is decision 1 working from
+both ends.
+
+**What is owed and deliberately not paid: a `TSTestCase` for either of them.** The definition of
+done asks for one *wherever the construct can be evaluated*, and neither can be. `unknown` has no
+operation at all until narrowing exists — that is what the top type means — so there is nothing for
+`assert equals` to compare; and asserting on `console.log` means capturing stdout, which is a test
+harness rather than a language test. Both are covered instead by a sandbox module that `tsc --strict`
+compiles: `unknowns.ts` for the annotations and `hello.ts` for the call. The first `TSTestCase` that
+can carry `unknown` is the one narrowing brings.
+
+**And the `isReadOnly` guard decision 3 asked for is not owed yet.** Both quick fixes act on
+expressions — a misplaced operator, a misplaced ternary — and the lib holds nothing but a name and a
+type. There is no path from either to a node in it. The guard becomes owed the first time a quick
+fix acts on a *type*, and this paragraph is here so that whoever writes that one knows it.
+
+### `unknown` is the rule whose body should be empty
+
+`TSIType_subtypeOf_TSUnknownType` is an `InequationReplacementRule` shaped like the union rule beside
+it — `BaseConcept` on the sub-type side with an instance test in the clause, for the reason *The one
+subtyping rule* records — and it differs in exactly one way: **its body is empty on purpose**.
+
+*The one subtyping rule* warns against precisely that: a rule that claims an inequation and leaves
+the body empty reports *success*, silently, because the solver takes an unhandled-but-claimed
+inequation as satisfied. That is a bug for the union, whose clause has to check membership before it
+dares claim anything. For `unknown` it is the answer: every type is assignable to the top type, so
+claiming the inequation is the whole of what the rule has to say.
+
+The two rules together are the general statement, which is the same one *What a subtyping clause can
+decide* makes from the third side: **how much a clause may claim is decided by where its inputs come
+from.** The union's clause reasons about written-down types and can decide the whole thing; the
+object type's cannot, because half of its inputs are inferred; `unknown`'s has nothing to decide at
+all. Ask that question before writing the next one.
+
+`unknown` is one-directional by construction — the rule only ever fires with the unknown on the
+super-type side — so nothing had to be written to stop `unknown` flowing back into a `number`. The
+negative test is what confirms it rather than the code: `let narrowed: number = u` is still an error.
 
 ### Assignability is not comparability, and weak subtyping is neither
 
@@ -1092,8 +1186,10 @@ error rather than that plus whatever the expression around it makes of an unreso
 optional member reads as `T | undefined`, which is what `b?: string` means to a reader and what
 TypeScript says under `strictNullChecks`.
 
-`TSDotExpression`, `TSIOperation` and the two `console` concepts are still here, and go when
-`unknown` lets an ambient declaration replace them.
+`TSDotExpression`, `TSIOperation` and the two `console` concepts are gone: `unknown` let an ambient
+declaration replace them, and this rule is what reads it. `console.log` is now `TSMemberAccess` over
+an ordinary identifier, typed by the rule above and called by `typeof_TSCallExpression` — no concept
+in the language knows what `console` is any more, which is the whole point.
 
 ### Typing an object literal is MPS's own tuple idiom
 
@@ -1177,8 +1273,24 @@ each found by trying it:
   else. It needs the name validator beside it, or the colon extends the name instead and the
   transform is never consulted.
 
-`TSParameter` has the same gap and not yet the same menu — see phase 3's open bullet, whose
-explanation this corrects.
+✅ **All four name-first concepts have it now.** `TSParameter` and `TSFunctionTypeParameter` were the
+two left, and doing them turned the three parts above into a rule rather than an observation:
+
+- **The handler gives a hole only where the child is obligatory.** `TSPropertySignature` and
+  `TSFunctionTypeParameter` declare their type `[1]` and render its cell always, so the handler
+  makes the placeholder. `TSParameter` declares it `[0..1]` and the editor hides it while it is
+  null, so the handler must *not* — the `:` transform is what opens it, and a hole made here would
+  render an annotation nobody asked for.
+- **The `:` is a transform either way, but it does different work.** Where the hole already exists
+  it changes no tree and owes only the caret; where it does not, it creates the child and then owes
+  the caret. Two shapes, one gesture, and the reason for the difference is the cardinality.
+- **The validator is not optional, and its absence looks like success.** `TSParameter` had one
+  already by implementing `TSIDeclaration`; `TSFunctionTypeParameter`, which implements only
+  `INamedConcept`, did not — and with the menu in place but no validator, `a:string` typed into a
+  function type's parameter list produced a parameter *named* `a:string` with its type still a hole.
+  The name cell swallowed the colon and the transform was never consulted. That is the same failure
+  the `${` debt under **Cross-cutting** describes, arrived at from the other direction: **a
+  name-first concept without a name validator is a free-text cell.**
 
 **Two more things `applicableProperty` cost, both worth knowing.** It resolves by neither name nor
 node id (the list under *The reference that cannot be written from text*), so each validator has to
@@ -1488,20 +1600,36 @@ follows, so the caret is not behind the annotation at all.
 
 ## Cross-cutting, ongoing
 
-- **Three debts phase 3 left.** The two body-form intentions on an arrow function have no editor
-  test, because `InvokeIntentionStatement.intention` is a reference the writer can neither resolve
-  by name nor even build the node for, so that test needs a `run_code` fix-up none of the others
-  did. `console.log` still takes its arguments through a list with no separator in its *editor*
-  (the textgen joins them correctly), which nobody has noticed because every call in the repository
-  passes one argument — it goes when the concept does. And a rest parameter can be declared, passed
-  and checked, but nothing inside the function can read it: that needs `.length` and indexing, which
-  are member access, which is phase 5.
+- **Two debts phase 3 left; the third went with the concept it was about.** The two body-form
+  intentions on an arrow function have no editor test, because `InvokeIntentionStatement.intention`
+  is a reference the writer can neither resolve by name nor even build the node for, so that test
+  needs a `run_code` fix-up none of the others did. And a rest parameter can be declared, passed and
+  checked, but nothing inside the function can read it: that needs `.length` and indexing — member
+  access is here, indexing is not.
+  The one that closed itself is worth noting as a pattern: `console.log`'s argument list had no
+  separator in its *editor* while the textgen joined them correctly, and nobody had noticed because
+  every call in the repository passed one argument. Retiring the concept retired the bug, because
+  `TSCallExpression`'s own editor has had the separator all along. **A bespoke concept standing in
+  for a general one carries bespoke bugs, and deleting it is the only fix that cannot regress.**
 - **In a `renderingCondition`, a property is not a property.** `node.someLink` resolves to an
   `SLinkAccess` and works; `node.someProperty` is read as a *Java field* reference and fails with
   `Cannot resolve 'isRest' as 'fieldDeclaration'`, with or without a cast on the receiver. It has to
   be written out as `§SPropertyAccess { property -> isRest }`. TextGen has no such trouble with the
   same expression, which is what makes the failure read as a missing property rather than as a
   notation limit.
+- **A link literal has two references, and repointing one of them silently strands the other.**
+  `link/TSDotExpression : operand/` is a `LinkIdRefExpression` carrying a `conceptDeclaration` *and*
+  a `linkDeclaration`. Rewriting the surrounding code to say `link/TSMemberAccess : operand/` while
+  both concepts still exist retypes the first and leaves the second pointing into the old concept —
+  `The reference operand (linkDeclaration) is out of search scope`, which reads as though the role
+  does not exist on the new concept when in fact it does. The same happens to `node<C>` casts far
+  less often, because a cast has only the one reference.
+  The fix is a `setReferenceTarget` from `run_code` onto the `LinkDeclaration` of the new concept,
+  which joins `applicableProperty`, `actionMap`, `EditorCellId`, `separatorStyle`, `emptyCellModel`
+  and `renderingCondition` on the list of things the notation cannot repair by itself. **The
+  cheaper order of work is to delete the old concept first**, so the role name is unambiguous while
+  the code that mentions it is being rewritten — which is not always possible, since a delete is
+  refused while references still point in.
 - **A metadata write is authoritative over every section it omits.** Adding one used language to a
   model by sending back its metadata without the `roots` block **deleted all 45 roots of the
   typesystem model**, saved that to disk, and reported it as forty-seven ordinary changes. The
@@ -1689,7 +1817,9 @@ follows, so the caret is not behind the annotation at all.
   test produces something inexplicable, count the layers before believing the editor.**
 - Intentions and quick fixes alongside each phase (the ternary paren quick fix is the model).
 - Migration scripts for every structural rename — the concept-prefix rename and the
-  `TSConsoleLog` removal show the cost of not having them.
+  `TSConsoleLog` removal show the cost of not having them. The `TSConsole` retirement is the third
+  time the excuse has been "every instance is in this repository", and it will stop being true the
+  first time anything outside it uses the language.
 - Editor tests for every typing interaction; nodes tests for every type rule. Any action map or
   transformation menu added from here on owes a caret assertion too — the placement is part of the
   gesture, and `EditorText.withCaret` makes it one line.

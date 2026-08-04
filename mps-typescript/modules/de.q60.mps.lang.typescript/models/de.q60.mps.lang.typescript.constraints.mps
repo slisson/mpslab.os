@@ -157,5 +157,22 @@
       </node>
     </node>
   </node>
+  <node concept="1M2fIO" id="5OpYk6g8As$">
+    <ref role="1M2myG" to="mo8k:465JEkTkUab" resolve="TSFunctionTypeParameter" />
+    <node concept="EnEH3" id="5OpYk6g8As_" role="1MhHOB">
+      <ref role="EomxK" to="tpck:h0TrG11" resolve="name" />
+      <node concept="QB0g5" id="5OpYk6g8AsA" role="QCWH9">
+        <node concept="3clFbS" id="5OpYk6g8AsB" role="2VODD2">
+          <node concept="3clFbF" id="5OpYk6g8AsC" role="3cqZAp">
+            <node concept="2YIFZM" id="5OpYk6g8AsD" role="3clFbG">
+              <ref role="37wK5l" to="tw2a:6WKYICG81rF" resolve="isValidName" />
+              <ref role="1Pybhc" to="tw2a:6WKYICG81rx" resolve="TSNameUtil" />
+              <node concept="1Wqviy" id="5OpYk6g8AsE" role="37wK5m" />
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 
