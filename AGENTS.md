@@ -37,20 +37,37 @@ its comments down is a welcome part of the change.
 ### Editor tests take no comments at all
 
 An `EditorTestCase` is a sequence of inputs and the tree they produce. Both are right there, so
-there is nothing left to explain — and explaining *why* the sequence is what it is gets it exactly
-backwards: **the sequence is not a design, it is whatever reaches the result today.** It is
-legitimate to change it the moment the editor gets easier to use, and a comment justifying it
-turns a free change into a documentation edit.
+there is nothing left for a comment to add — and the comments that get written explain *why the
+sequence is what it is*, which is the one thing the rule below already answers.
 
-Such comments also go stale silently, because nothing checks them. Two in this repository ended up
+They also go stale silently, because nothing checks them. Two in this repository ended up
 describing a keystroke that had been removed and a gesture that no longer happened, and both were
-found by reading, not by a failing test.
+found by reading rather than by a failing test.
 
 `A_whole_program_can_be_typed_into_an_empty_module` is the model: no comments, and none missing.
 
-If a keystroke is genuinely surprising — a gesture the language had no way to make until recently,
-a limit of MPS the test exists to pin — that belongs in ROADMAP.md, where it is written once for
-all the tests that share it.
+**What the input sequence should be: what a user would actually type.** As close to the rendered
+text as it can be — a plain text editor's keystrokes, minus what a modern IDE inserts for you: the
+closing bracket, the closing quote, the `;` a construct writes itself. `origin:{` and
+`x:number;y:number` are that, and so is `console.log(total` with no closing paren.
+
+Everything else in a sequence is a **finding**, not a preference. An arrow key, a `Tab`, a
+`MoveRight`, a navigation step nobody would think to make — each one says the notation costs
+something to reach. Write it because the editor forces it, not because it was the shortest way to
+get the test green.
+
+**And do not change a sequence to make a test pass.** Almost every editor test exists to *pin* a
+behaviour: the keystrokes are the thing under test, and rewriting them until it is green removes
+the test while leaving it in the file. If a gesture stops working, either the editor regressed or
+the change was deliberate — both are decisions, and neither is an edit to the input.
+
+The `programs` tests are the exception, and only in purpose: they ask what using this editor is
+like, so a sequence that grows an extra navigation step there is a result worth reading rather
+than a diff to wave through. When one of them gets *shorter*, that is the editor improving.
+
+If a keystroke is genuinely surprising — a limit of MPS, a gesture the language had no way to make
+until recently — that belongs in ROADMAP.md, where it is written once for all the tests that share
+it.
 
 ## Dispatch, not type tests
 
