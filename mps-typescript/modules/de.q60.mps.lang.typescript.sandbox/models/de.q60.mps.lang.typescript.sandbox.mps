@@ -12,13 +12,16 @@
         <child id="4217550342683633468" name="ifFalse" index="3nuTyc" />
         <child id="7687543187806104797" name="condition" index="3y1SWh" />
       </concept>
+      <concept id="5942537026495012038" name="de.q60.mps.lang.typescript.structure.TSMulAssignExpression" flags="ng" index="22FROQ" />
       <concept id="1507547570108522935" name="de.q60.mps.lang.typescript.structure.TSMinusExpression" flags="ng" index="2IocK" />
+      <concept id="1140500669856697243" name="de.q60.mps.lang.typescript.structure.TSExponentAssignExpression" flags="ng" index="3d9ja" />
       <concept id="8373526123298530633" name="de.q60.mps.lang.typescript.structure.TSNumberLiteral" flags="ng" index="24BhzH">
         <property id="7606013538328487736" name="value" index="2Hr5CV" />
       </concept>
       <concept id="2596016207932595749" name="de.q60.mps.lang.typescript.structure.TSModule" flags="ng" index="24Z7zp">
         <child id="906924707476882095" name="statements" index="1JIkAo" />
       </concept>
+      <concept id="2363935850608653464" name="de.q60.mps.lang.typescript.structure.TSGreaterThanExpression" flags="ng" index="27A9uT" />
       <concept id="5273689272520536483" name="de.q60.mps.lang.typescript.structure.TSArrayType" flags="ng" index="29s1Bg">
         <child id="8144558156267705696" name="elementType" index="2XRTOt" />
       </concept>
@@ -32,6 +35,7 @@
         <child id="439023831131999408" name="operation" index="CABlD" />
         <child id="7381226927831223239" name="operand" index="3DwI$f" />
       </concept>
+      <concept id="5318128150707536103" name="de.q60.mps.lang.typescript.structure.TSLeftShiftAssignExpression" flags="ng" index="l84A7" />
       <concept id="317735058024221081" name="de.q60.mps.lang.typescript.structure.TSMulExpression" flags="ng" index="mk1J3" />
       <concept id="6812379895036577066" name="de.q60.mps.lang.typescript.structure.TSDivExpression" flags="ng" index="2o8mD1" />
       <concept id="83412354109643915" name="de.q60.mps.lang.typescript.structure.TSParenthesizedExpression" flags="ng" index="pJsIj">
@@ -41,10 +45,13 @@
       <concept id="8640047791204011315" name="de.q60.mps.lang.typescript.structure.TSBlock" flags="ng" index="qYD23">
         <child id="7935308623531745380" name="statements" index="6EW52" />
       </concept>
+      <concept id="4951537840020102359" name="de.q60.mps.lang.typescript.structure.TSDivAssignExpression" flags="ng" index="qYJAT" />
       <concept id="4306270926879848440" name="de.q60.mps.lang.typescript.structure.TSLetDeclaration" flags="ng" index="2swglJ" />
       <concept id="8057680275657749238" name="de.q60.mps.lang.typescript.structure.TSIdentifier" flags="ng" index="2v$HdM">
         <reference id="7745766023969360865" name="declaration" index="2oxrr9" />
       </concept>
+      <concept id="6653327715734904214" name="de.q60.mps.lang.typescript.structure.TSUnsignedRightShiftAssignExpression" flags="ng" index="yXCfo" />
+      <concept id="1336511613465215979" name="de.q60.mps.lang.typescript.structure.TSLogicalAndAssignExpression" flags="ng" index="$iRRg" />
       <concept id="1148579228915497614" name="de.q60.mps.lang.typescript.structure.TSNullLiteral" flags="ng" index="C5IwR" />
       <concept id="6957642462239564337" name="de.q60.mps.lang.typescript.structure.TSFunctionTypeParameter" flags="ng" index="2Fu235">
         <child id="5089302120831439094" name="declaredType" index="3cr0mA" />
@@ -54,8 +61,10 @@
         <child id="4391307923817728188" name="condition" index="1usCvQ" />
         <child id="1792031550624269005" name="block" index="1TBx7Y" />
       </concept>
+      <concept id="229562936135476531" name="de.q60.mps.lang.typescript.structure.TSNullishCoalescingAssignExpression" flags="ng" index="IRftP" />
       <concept id="5991954684290791457" name="de.q60.mps.lang.typescript.structure.TSStringType" flags="ng" index="2Kh4GC" />
       <concept id="4715308568151819694" name="de.q60.mps.lang.typescript.structure.TSConstDeclaration" flags="ng" index="2MuU66" />
+      <concept id="342608947274766106" name="de.q60.mps.lang.typescript.structure.TSBitwiseAndAssignExpression" flags="ng" index="2NVYov" />
       <concept id="8023700100379537636" name="de.q60.mps.lang.typescript.structure.TSUndefinedLiteral" flags="ng" index="2OeDxu" />
       <concept id="2484694207365394374" name="de.q60.mps.lang.typescript.structure.TSCallExpression" flags="ng" index="2R1OvL">
         <child id="3404169969160214164" name="arguments" index="DTHKp" />
@@ -72,13 +81,19 @@
         <property id="7217799321058434228" name="escapedValue" index="3b_9E9" />
       </concept>
       <concept id="3355733505089403539" name="de.q60.mps.lang.typescript.structure.TSAssignmentExpression" flags="ng" index="35aKX4" />
+      <concept id="7168794925149236725" name="de.q60.mps.lang.typescript.structure.TSLogicalOrAssignExpression" flags="ng" index="36m03P" />
       <concept id="9916445101189094" name="de.q60.mps.lang.typescript.structure.TSArrowFunction" flags="ng" index="1b$XOi">
         <child id="4933867365879096709" name="body" index="34pjIZ" />
       </concept>
+      <concept id="5232066951734860421" name="de.q60.mps.lang.typescript.structure.TSBitwiseOrAssignExpression" flags="ng" index="1bETeD" />
+      <concept id="8473436592292004310" name="de.q60.mps.lang.typescript.structure.TSMinusAssignExpression" flags="ng" index="3bMN1T" />
+      <concept id="7517680150159072311" name="de.q60.mps.lang.typescript.structure.TSBitwiseXorAssignExpression" flags="ng" index="1dqbpN" />
       <concept id="3894583660651454994" name="de.q60.mps.lang.typescript.structure.TSBinaryOperation" flags="ng" index="1f9ZkA">
         <child id="7602522883118221103" name="rightExpression" index="GyX5B" />
         <child id="5707686448369938903" name="leftExpression" index="33kRt2" />
       </concept>
+      <concept id="7694618822963474221" name="de.q60.mps.lang.typescript.structure.TSModAssignExpression" flags="ng" index="1i3mww" />
+      <concept id="3285196913916941830" name="de.q60.mps.lang.typescript.structure.TSPlusAssignExpression" flags="ng" index="3iFsGD" />
       <concept id="7259284324402748763" name="de.q60.mps.lang.typescript.structure.TSExpressionStatement" flags="ng" index="3ja7nU">
         <child id="3951472244529450579" name="expression" index="$a3P1" />
       </concept>
@@ -86,14 +101,17 @@
       <concept id="4523838444874165896" name="de.q60.mps.lang.typescript.structure.TSUnionType" flags="ng" index="3pfgAg">
         <child id="4870825102337838263" name="types" index="3KvU$C" />
       </concept>
+      <concept id="5495870994482695625" name="de.q60.mps.lang.typescript.structure.TSRightShiftAssignExpression" flags="ng" index="1pLGL4" />
       <concept id="6704462043861673507" name="de.q60.mps.lang.typescript.structure.TSPlusExpression" flags="ng" index="1rvuUm" />
       <concept id="2766191210374331012" name="de.q60.mps.lang.typescript.structure.TSIFunctionLike" flags="ngI" index="3ti0qV">
         <child id="2122589399313796228" name="returnType" index="jrNXk" />
         <child id="6735212671840276135" name="parameters" index="3qLSqq" />
       </concept>
+      <concept id="6260345984398119061" name="de.q60.mps.lang.typescript.structure.TSTrueLiteral" flags="ng" index="1tXIsk" />
       <concept id="6565583381729432161" name="de.q60.mps.lang.typescript.structure.TSReturnStatement" flags="ng" index="3wbn4H">
         <child id="9210120436657261188" name="expression" index="qlm4T" />
       </concept>
+      <concept id="3472769636933287167" name="de.q60.mps.lang.typescript.structure.TSBooleanType" flags="ng" index="3$6BPE" />
       <concept id="6275768358144507624" name="de.q60.mps.lang.typescript.structure.TSEqualsExpression" flags="ng" index="1CNJNU" />
       <concept id="3288523768773114486" name="de.q60.mps.lang.typescript.structure.TSFunctionDeclaration" flags="ng" index="3Gxli7">
         <child id="6635070173404449213" name="body" index="1PAOym" />
@@ -102,6 +120,7 @@
         <child id="7603193039132759139" name="declaredType" index="19IeeE" />
         <child id="8956598854396892412" name="initializer" index="1bGQZ8" />
       </concept>
+      <concept id="3284552453049428227" name="de.q60.mps.lang.typescript.structure.TSFalseLiteral" flags="ng" index="3JGNCe" />
       <concept id="3145181163763065424" name="de.q60.mps.lang.typescript.structure.TSConsole" flags="ng" index="3JZgZa" />
       <concept id="316800515626931645" name="de.q60.mps.lang.typescript.structure.TSFunctionType" flags="ng" index="3MZLnu">
         <child id="2138071087599881886" name="parameters" index="2thRFd" />
@@ -859,6 +878,226 @@
             <node concept="24BhzH" id="5OpYk6foWwt" role="DTHKp">
               <property role="2Hr5CV" value="40" />
             </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="24Z7zp" id="5OpYk6fzXth">
+    <property role="TrG5h" value="compound" />
+    <node concept="2swglJ" id="5OpYk6fzXti" role="1JIkAo">
+      <property role="TrG5h" value="total" />
+      <node concept="1ku6r5" id="5OpYk6fzXtj" role="19IeeE" />
+      <node concept="24BhzH" id="5OpYk6fzXtk" role="1bGQZ8">
+        <property role="2Hr5CV" value="10" />
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXtl" role="1JIkAo">
+      <node concept="3iFsGD" id="5OpYk6fzXtn" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXtq" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXti" resolve="total" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXtr" role="GyX5B">
+          <property role="2Hr5CV" value="5" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXts" role="1JIkAo">
+      <node concept="3bMN1T" id="5OpYk6fzXtu" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXtx" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXti" resolve="total" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXty" role="GyX5B">
+          <property role="2Hr5CV" value="3" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXtz" role="1JIkAo">
+      <node concept="22FROQ" id="5OpYk6fzXt_" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXtC" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXti" resolve="total" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXtD" role="GyX5B">
+          <property role="2Hr5CV" value="2" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXtE" role="1JIkAo">
+      <node concept="qYJAT" id="5OpYk6fzXtG" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXtJ" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXti" resolve="total" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXtK" role="GyX5B">
+          <property role="2Hr5CV" value="4" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXtL" role="1JIkAo">
+      <node concept="1i3mww" id="5OpYk6fzXtN" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXtQ" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXti" resolve="total" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXtR" role="GyX5B">
+          <property role="2Hr5CV" value="5" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXtS" role="1JIkAo">
+      <node concept="3d9ja" id="5OpYk6fzXtU" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXtX" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXti" resolve="total" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXtY" role="GyX5B">
+          <property role="2Hr5CV" value="2" />
+        </node>
+      </node>
+    </node>
+    <node concept="2swglJ" id="5OpYk6fzXtZ" role="1JIkAo">
+      <property role="TrG5h" value="bits" />
+      <node concept="1ku6r5" id="5OpYk6fzXu0" role="19IeeE" />
+      <node concept="24BhzH" id="5OpYk6fzXu1" role="1bGQZ8">
+        <property role="2Hr5CV" value="12" />
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXu2" role="1JIkAo">
+      <node concept="2NVYov" id="5OpYk6fzXu4" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXu7" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXtZ" resolve="bits" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXu8" role="GyX5B">
+          <property role="2Hr5CV" value="10" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXu9" role="1JIkAo">
+      <node concept="1bETeD" id="5OpYk6fzXub" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXue" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXtZ" resolve="bits" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXuf" role="GyX5B">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXug" role="1JIkAo">
+      <node concept="1dqbpN" id="5OpYk6fzXui" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXul" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXtZ" resolve="bits" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXum" role="GyX5B">
+          <property role="2Hr5CV" value="6" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXun" role="1JIkAo">
+      <node concept="l84A7" id="5OpYk6fzXup" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXus" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXtZ" resolve="bits" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXut" role="GyX5B">
+          <property role="2Hr5CV" value="2" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXuu" role="1JIkAo">
+      <node concept="1pLGL4" id="5OpYk6fzXuw" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXuz" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXtZ" resolve="bits" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXu$" role="GyX5B">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXu_" role="1JIkAo">
+      <node concept="yXCfo" id="5OpYk6fzXuB" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXuE" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXtZ" resolve="bits" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXuF" role="GyX5B">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+    </node>
+    <node concept="2swglJ" id="5OpYk6fzXuG" role="1JIkAo">
+      <property role="TrG5h" value="text" />
+      <node concept="2Kh4GC" id="5OpYk6fzXuH" role="19IeeE" />
+      <node concept="33xXhr" id="5OpYk6fzXuI" role="1bGQZ8">
+        <property role="3b_9E9" value="a" />
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXuJ" role="1JIkAo">
+      <node concept="3iFsGD" id="5OpYk6fzXuL" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXuO" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXuG" resolve="text" />
+        </node>
+        <node concept="33xXhr" id="5OpYk6fzXuP" role="GyX5B">
+          <property role="3b_9E9" value="b" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXuQ" role="1JIkAo">
+      <node concept="3iFsGD" id="5OpYk6fzXuS" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXuV" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXuG" resolve="text" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXuW" role="GyX5B">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+    </node>
+    <node concept="2swglJ" id="5OpYk6fzXuX" role="1JIkAo">
+      <property role="TrG5h" value="flag" />
+      <node concept="3$6BPE" id="5OpYk6fzXuY" role="19IeeE" />
+      <node concept="27A9uT" id="5OpYk6fzXuZ" role="1bGQZ8">
+        <node concept="2v$HdM" id="5OpYk6fzXv2" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXti" resolve="total" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXv3" role="GyX5B">
+          <property role="2Hr5CV" value="0" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXv4" role="1JIkAo">
+      <node concept="$iRRg" id="5OpYk6fzXv6" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXv9" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXuX" resolve="flag" />
+        </node>
+        <node concept="3JGNCe" id="5OpYk6fzXva" role="GyX5B" />
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXvb" role="1JIkAo">
+      <node concept="36m03P" id="5OpYk6fzXvd" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXvg" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXuX" resolve="flag" />
+        </node>
+        <node concept="1tXIsk" id="5OpYk6fzXvh" role="GyX5B" />
+      </node>
+    </node>
+    <node concept="2swglJ" id="5OpYk6fzXvi" role="1JIkAo">
+      <property role="TrG5h" value="maybe" />
+      <node concept="3pfgAg" id="5OpYk6fzXvj" role="19IeeE">
+        <node concept="2UUy$f" id="5OpYk6fzXvk" role="3KvU$C" />
+        <node concept="1ku6r5" id="5OpYk6fzXvl" role="3KvU$C" />
+      </node>
+      <node concept="C5IwR" id="5OpYk6fzXvm" role="1bGQZ8" />
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXvn" role="1JIkAo">
+      <node concept="IRftP" id="5OpYk6fzXvp" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fzXvs" role="33kRt2">
+          <ref role="2oxrr9" node="5OpYk6fzXvi" resolve="maybe" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fzXvt" role="GyX5B">
+          <property role="2Hr5CV" value="7" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fzXvu" role="1JIkAo">
+      <node concept="hjOgg" id="5OpYk6fzXvw" role="$a3P1">
+        <node concept="3JZgZa" id="5OpYk6fzXvz" role="3DwI$f" />
+        <node concept="2hi8J1" id="5OpYk6fzXv$" role="CABlD">
+          <node concept="2v$HdM" id="5OpYk6fzXv_" role="3gGa23">
+            <ref role="2oxrr9" node="5OpYk6fzXvi" resolve="maybe" />
           </node>
         </node>
       </node>
