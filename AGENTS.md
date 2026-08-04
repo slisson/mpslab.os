@@ -51,10 +51,12 @@ text as it can be — a plain text editor's keystrokes, minus what a modern IDE 
 closing bracket, the closing quote, the `;` a construct writes itself. `origin:{` and
 `x:number;y:number` are that, and so is `console.log(total` with no closing paren.
 
-Everything else in a sequence is a **finding**, not a preference. An arrow key, a `Tab`, a
-`MoveRight`, a navigation step nobody would think to make — each one says the notation costs
-something to reach. Write it because the editor forces it, not because it was the shortest way to
-get the test green.
+**Navigation is how these tests measure caret placement.** A `Tab`, an arrow, a `MoveRight` is
+there because the caret is not where the next keystroke needs it — most often just past something
+the editor inserted for you, which is ordinary and expected. One step is fine. **A run of them is
+the finding**: it means an edit left the caret somewhere the user then has to correct, and that is
+poor usability whatever the tree comes out as. Count them when writing a sequence, and treat a
+growing count as a result rather than a detail.
 
 **And do not change a sequence to make a test pass.** Almost every editor test exists to *pin* a
 behaviour: the keystrokes are the thing under test, and rewriting them until it is green removes
@@ -62,8 +64,8 @@ the test while leaving it in the file. If a gesture stops working, either the ed
 the change was deliberate — both are decisions, and neither is an edit to the input.
 
 The `programs` tests are the exception, and only in purpose: they ask what using this editor is
-like, so a sequence that grows an extra navigation step there is a result worth reading rather
-than a diff to wave through. When one of them gets *shorter*, that is the editor improving.
+like, and their navigation count is the answer. When one of them gets *shorter*, that is the
+editor improving; when it grows, something now needs correcting that did not before.
 
 If a keystroke is genuinely surprising — a limit of MPS, a gesture the language had no way to make
 until recently — that belongs in ROADMAP.md, where it is written once for all the tests that share
