@@ -34,6 +34,30 @@ question really is bigger than the code. Do not repeat the roadmap's argument in
 Existing over-commented code is not a licence to add more. When you touch such a method, cutting
 its comments down is a welcome part of the change.
 
+## Dispatch, not type tests
+
+**A chain of `isInstanceOf` is a polymorphic method written the wrong way round.** It is not an MPS
+quirk — it is the type-switch anti-pattern, and it fails for the usual reasons: the knowledge of
+every case sits in one place instead of with the concept it describes, adding a concept means
+finding and editing that place, and nothing tells you when you have missed one.
+
+Write a **virtual behavior method** on the common interface, `null` or a sensible default in the
+base, overridden by each concept that has something to say. `TSIExpression.writtenType()` is the
+worked example: it began as one static with seven `isInstanceOf` branches over identifiers,
+property accesses, parentheses and three kinds of declaration; it is now one virtual method on
+`TSIExpression`, one on `TSIDeclaration`, and a one-line override on each of the six.
+
+Two `isInstanceOf` uses that are legitimate, so the rule stays usable:
+
+- a **predicate about a different node** — `thisNode.parent.isInstanceOf(TSIForEachLoop)` asks about
+  a *context* the concept does not own, and there is no receiver to dispatch on;
+- a **checking rule refusing a shape** — `check_TSForStatement` asking whether its initializer is
+  one of the two concepts the grammar allows. The rule exists precisely to enumerate what is
+  rejected.
+
+The test is whether the branches are answering *the same question about different concepts*. If
+they are, it is dispatch, and it belongs on the concepts.
+
 ## Roadmap
 
 `mps-typescript/ROADMAP.md` is the project's record: phases, decisions, and what each piece cost.
