@@ -32,6 +32,7 @@
       <concept id="2450593264803086893" name="de.q60.mps.lang.typescript.structure.TSNotExpression" flags="ng" index="fzWeU" />
       <concept id="7893345815834438480" name="de.q60.mps.lang.typescript.structure.TSStrictEqualsExpression" flags="ng" index="2fEAty" />
       <concept id="1686735314819989884" name="de.q60.mps.lang.typescript.structure.TSStrictNotEqualsExpression" flags="ng" index="iAVQD" />
+      <concept id="519210219420976711" name="de.q60.mps.lang.typescript.structure.TSPrefixIncrementExpression" flags="ng" index="2joTMQ" />
       <concept id="5318128150707536103" name="de.q60.mps.lang.typescript.structure.TSLeftShiftAssignExpression" flags="ng" index="l84A7" />
       <concept id="317735058024221081" name="de.q60.mps.lang.typescript.structure.TSMulExpression" flags="ng" index="mk1J3" />
       <concept id="4892061089786907168" name="de.q60.mps.lang.typescript.structure.TSRightShiftExpression" flags="ng" index="nD_Q4" />
@@ -89,11 +90,16 @@
         <child id="1920165562965334341" name="expression" index="3CQlky" />
       </concept>
       <concept id="3854543600690315319" name="de.q60.mps.lang.typescript.structure.TSLessThanOrEqualsExpression" flags="ng" index="2Z6drc" />
+      <concept id="7113081857034482378" name="de.q60.mps.lang.typescript.structure.TSPostfixIncrementExpression" flags="ng" index="10p$M9" />
+      <concept id="5386741445896491392" name="de.q60.mps.lang.typescript.structure.TSPostfixOperation" flags="ng" index="11ilPe">
+        <child id="3230647348629920174" name="expression" index="2Psk$b" />
+      </concept>
       <concept id="3854180306267379657" name="de.q60.mps.lang.typescript.structure.TSTypeofExpression" flags="ng" index="128PHo" />
       <concept id="8939379926891817692" name="de.q60.mps.lang.typescript.structure.TSLeftShiftExpression" flags="ng" index="12EYhM" />
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
         <property id="7217799321058434228" name="escapedValue" index="3b_9E9" />
       </concept>
+      <concept id="3431481493934648401" name="de.q60.mps.lang.typescript.structure.TSPostfixDecrementExpression" flags="ng" index="34OzTH" />
       <concept id="3355733505089403539" name="de.q60.mps.lang.typescript.structure.TSAssignmentExpression" flags="ng" index="35aKX4" />
       <concept id="4112825962079110083" name="de.q60.mps.lang.typescript.structure.TSExponentExpression" flags="ng" index="35EnaC" />
       <concept id="7168794925149236725" name="de.q60.mps.lang.typescript.structure.TSLogicalOrAssignExpression" flags="ng" index="36m03P" />
@@ -144,6 +150,7 @@
         <child id="8956598854396892412" name="initializer" index="1bGQZ8" />
       </concept>
       <concept id="3284552453049428227" name="de.q60.mps.lang.typescript.structure.TSFalseLiteral" flags="ng" index="3JGNCe" />
+      <concept id="1451663585142773798" name="de.q60.mps.lang.typescript.structure.TSPrefixDecrementExpression" flags="ng" index="3LUO1K" />
       <concept id="316800515626931645" name="de.q60.mps.lang.typescript.structure.TSFunctionType" flags="ng" index="3MZLnu">
         <child id="2138071087599881886" name="parameters" index="2thRFd" />
         <child id="4744527248198108312" name="returnType" index="19PnrX" />
@@ -2935,6 +2942,183 @@
         </node>
         <node concept="24BhzH" id="5OpYk6f$$98" role="3SOflj">
           <property role="2Hr5CV" value="3" />
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="Jsc18" id="5OpYk6fENnE">
+    <property role="TrG5h" value="increment_and_decrement" />
+    <node concept="B13S5" id="5OpYk6fENnF" role="1QJMAF">
+      <property role="TrG5h" value="a prefix increment yields the value it wrote" />
+      <node concept="2swglJ" id="5OpYk6fENnG" role="1OrNMJ">
+        <property role="TrG5h" value="i" />
+        <node concept="1ku6r5" id="5OpYk6fENnH" role="19IeeE" />
+        <node concept="24BhzH" id="5OpYk6fENnI" role="1bGQZ8">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENnJ" role="1OrNMJ">
+        <node concept="2joTMQ" id="5OpYk6fENnM" role="1s_IBt">
+          <node concept="2v$HdM" id="5OpYk6fENnO" role="3CQlky">
+            <ref role="2oxrr9" node="5OpYk6fENnG" resolve="i" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="5OpYk6fENnP" role="3SOflj">
+          <property role="2Hr5CV" value="2" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENnQ" role="1OrNMJ">
+        <node concept="2v$HdM" id="5OpYk6fENnT" role="1s_IBt">
+          <ref role="2oxrr9" node="5OpYk6fENnG" resolve="i" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fENnU" role="3SOflj">
+          <property role="2Hr5CV" value="2" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="5OpYk6fENnV" role="1QJMAF">
+      <property role="TrG5h" value="a postfix increment yields the value it replaced" />
+      <node concept="2swglJ" id="5OpYk6fENnW" role="1OrNMJ">
+        <property role="TrG5h" value="i" />
+        <node concept="1ku6r5" id="5OpYk6fENnX" role="19IeeE" />
+        <node concept="24BhzH" id="5OpYk6fENnY" role="1bGQZ8">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENnZ" role="1OrNMJ">
+        <node concept="10p$M9" id="5OpYk6fENo2" role="1s_IBt">
+          <node concept="2v$HdM" id="5OpYk6fENo4" role="2Psk$b">
+            <ref role="2oxrr9" node="5OpYk6fENnW" resolve="i" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="5OpYk6fENo5" role="3SOflj">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENo6" role="1OrNMJ">
+        <node concept="2v$HdM" id="5OpYk6fENo9" role="1s_IBt">
+          <ref role="2oxrr9" node="5OpYk6fENnW" resolve="i" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fENoa" role="3SOflj">
+          <property role="2Hr5CV" value="2" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="5OpYk6fENob" role="1QJMAF">
+      <property role="TrG5h" value="the decrements are the same two in the other direction" />
+      <node concept="2swglJ" id="5OpYk6fENoc" role="1OrNMJ">
+        <property role="TrG5h" value="i" />
+        <node concept="1ku6r5" id="5OpYk6fENod" role="19IeeE" />
+        <node concept="24BhzH" id="5OpYk6fENoe" role="1bGQZ8">
+          <property role="2Hr5CV" value="5" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENof" role="1OrNMJ">
+        <node concept="3LUO1K" id="5OpYk6fENoi" role="1s_IBt">
+          <node concept="2v$HdM" id="5OpYk6fENok" role="3CQlky">
+            <ref role="2oxrr9" node="5OpYk6fENoc" resolve="i" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="5OpYk6fENol" role="3SOflj">
+          <property role="2Hr5CV" value="4" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENom" role="1OrNMJ">
+        <node concept="34OzTH" id="5OpYk6fENop" role="1s_IBt">
+          <node concept="2v$HdM" id="5OpYk6fENor" role="2Psk$b">
+            <ref role="2oxrr9" node="5OpYk6fENoc" resolve="i" />
+          </node>
+        </node>
+        <node concept="24BhzH" id="5OpYk6fENos" role="3SOflj">
+          <property role="2Hr5CV" value="4" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENot" role="1OrNMJ">
+        <node concept="2v$HdM" id="5OpYk6fENow" role="1s_IBt">
+          <ref role="2oxrr9" node="5OpYk6fENoc" resolve="i" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fENox" role="3SOflj">
+          <property role="2Hr5CV" value="3" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="5OpYk6fENoy" role="1QJMAF">
+      <property role="TrG5h" value="postfix binds tighter than a prefix operator, and both tighter than the binary ones" />
+      <node concept="2swglJ" id="5OpYk6fENoz" role="1OrNMJ">
+        <property role="TrG5h" value="i" />
+        <node concept="1ku6r5" id="5OpYk6fENo$" role="19IeeE" />
+        <node concept="24BhzH" id="5OpYk6fENo_" role="1bGQZ8">
+          <property role="2Hr5CV" value="3" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENoA" role="1OrNMJ">
+        <node concept="2t6vHR" id="5OpYk6fENoD" role="1s_IBt">
+          <node concept="10p$M9" id="5OpYk6fENoF" role="3CQlky">
+            <node concept="2v$HdM" id="5OpYk6fENoH" role="2Psk$b">
+              <ref role="2oxrr9" node="5OpYk6fENoz" resolve="i" />
+            </node>
+          </node>
+        </node>
+        <node concept="2t6vHR" id="5OpYk6fENoI" role="3SOflj">
+          <node concept="24BhzH" id="5OpYk6fENoK" role="3CQlky">
+            <property role="2Hr5CV" value="3" />
+          </node>
+        </node>
+      </node>
+      <node concept="2swglJ" id="5OpYk6fENoL" role="1OrNMJ">
+        <property role="TrG5h" value="j" />
+        <node concept="1ku6r5" id="5OpYk6fENoM" role="19IeeE" />
+        <node concept="24BhzH" id="5OpYk6fENoN" role="1bGQZ8">
+          <property role="2Hr5CV" value="1" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENoO" role="1OrNMJ">
+        <node concept="1rvuUm" id="5OpYk6fENoR" role="1s_IBt">
+          <node concept="10p$M9" id="5OpYk6fENoU" role="33kRt2">
+            <node concept="2v$HdM" id="5OpYk6fENoW" role="2Psk$b">
+              <ref role="2oxrr9" node="5OpYk6fENoL" resolve="j" />
+            </node>
+          </node>
+          <node concept="2joTMQ" id="5OpYk6fENoX" role="GyX5B">
+            <node concept="2v$HdM" id="5OpYk6fENoZ" role="3CQlky">
+              <ref role="2oxrr9" node="5OpYk6fENoL" resolve="j" />
+            </node>
+          </node>
+        </node>
+        <node concept="24BhzH" id="5OpYk6fENp0" role="3SOflj">
+          <property role="2Hr5CV" value="4" />
+        </node>
+      </node>
+    </node>
+    <node concept="B13S5" id="5OpYk6fENp1" role="1QJMAF">
+      <property role="TrG5h" value="a prefix decrement is spelled apart from the minus in front of it" />
+      <node concept="2swglJ" id="5OpYk6fENp2" role="1OrNMJ">
+        <property role="TrG5h" value="i" />
+        <node concept="1ku6r5" id="5OpYk6fENp3" role="19IeeE" />
+        <node concept="24BhzH" id="5OpYk6fENp4" role="1bGQZ8">
+          <property role="2Hr5CV" value="5" />
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENp5" role="1OrNMJ">
+        <node concept="2t6vHR" id="5OpYk6fENp8" role="1s_IBt">
+          <node concept="3LUO1K" id="5OpYk6fENpa" role="3CQlky">
+            <node concept="2v$HdM" id="5OpYk6fENpc" role="3CQlky">
+              <ref role="2oxrr9" node="5OpYk6fENp2" resolve="i" />
+            </node>
+          </node>
+        </node>
+        <node concept="2t6vHR" id="5OpYk6fENpd" role="3SOflj">
+          <node concept="24BhzH" id="5OpYk6fENpf" role="3CQlky">
+            <property role="2Hr5CV" value="4" />
+          </node>
+        </node>
+      </node>
+      <node concept="174eko" id="5OpYk6fENpg" role="1OrNMJ">
+        <node concept="2v$HdM" id="5OpYk6fENpj" role="1s_IBt">
+          <ref role="2oxrr9" node="5OpYk6fENp2" resolve="i" />
+        </node>
+        <node concept="24BhzH" id="5OpYk6fENpk" role="3SOflj">
+          <property role="2Hr5CV" value="4" />
         </node>
       </node>
     </node>

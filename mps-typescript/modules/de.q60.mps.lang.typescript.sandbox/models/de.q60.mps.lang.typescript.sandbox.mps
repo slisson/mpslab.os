@@ -35,6 +35,7 @@
         <child id="439023831131999408" name="operation" index="CABlD" />
         <child id="7381226927831223239" name="operand" index="3DwI$f" />
       </concept>
+      <concept id="519210219420976711" name="de.q60.mps.lang.typescript.structure.TSPrefixIncrementExpression" flags="ng" index="2joTMQ" />
       <concept id="5318128150707536103" name="de.q60.mps.lang.typescript.structure.TSLeftShiftAssignExpression" flags="ng" index="l84A7" />
       <concept id="317735058024221081" name="de.q60.mps.lang.typescript.structure.TSMulExpression" flags="ng" index="mk1J3" />
       <concept id="6812379895036577066" name="de.q60.mps.lang.typescript.structure.TSDivExpression" flags="ng" index="2o8mD1" />
@@ -47,6 +48,7 @@
       </concept>
       <concept id="4951537840020102359" name="de.q60.mps.lang.typescript.structure.TSDivAssignExpression" flags="ng" index="qYJAT" />
       <concept id="4306270926879848440" name="de.q60.mps.lang.typescript.structure.TSLetDeclaration" flags="ng" index="2swglJ" />
+      <concept id="5261423696657887118" name="de.q60.mps.lang.typescript.structure.TSUnaryMinusExpression" flags="ng" index="2t6vHR" />
       <concept id="8057680275657749238" name="de.q60.mps.lang.typescript.structure.TSIdentifier" flags="ng" index="2v$HdM">
         <reference id="7745766023969360865" name="declaration" index="2oxrr9" />
       </concept>
@@ -77,9 +79,17 @@
         <child id="1643725414952352214" name="defaultValue" index="1ciTpo" />
       </concept>
       <concept id="2894647882240095206" name="de.q60.mps.lang.typescript.structure.TSNullType" flags="ng" index="2UUy$f" />
+      <concept id="5203292047127445673" name="de.q60.mps.lang.typescript.structure.TSUnaryOperation" flags="ng" index="V$4S_">
+        <child id="1920165562965334341" name="expression" index="3CQlky" />
+      </concept>
+      <concept id="7113081857034482378" name="de.q60.mps.lang.typescript.structure.TSPostfixIncrementExpression" flags="ng" index="10p$M9" />
+      <concept id="5386741445896491392" name="de.q60.mps.lang.typescript.structure.TSPostfixOperation" flags="ng" index="11ilPe">
+        <child id="3230647348629920174" name="expression" index="2Psk$b" />
+      </concept>
       <concept id="3369613353357185318" name="de.q60.mps.lang.typescript.structure.TSStringLiteral" flags="ng" index="33xXhr">
         <property id="7217799321058434228" name="escapedValue" index="3b_9E9" />
       </concept>
+      <concept id="3431481493934648401" name="de.q60.mps.lang.typescript.structure.TSPostfixDecrementExpression" flags="ng" index="34OzTH" />
       <concept id="3355733505089403539" name="de.q60.mps.lang.typescript.structure.TSAssignmentExpression" flags="ng" index="35aKX4" />
       <concept id="7168794925149236725" name="de.q60.mps.lang.typescript.structure.TSLogicalOrAssignExpression" flags="ng" index="36m03P" />
       <concept id="9916445101189094" name="de.q60.mps.lang.typescript.structure.TSArrowFunction" flags="ng" index="1b$XOi">
@@ -122,6 +132,7 @@
       </concept>
       <concept id="3284552453049428227" name="de.q60.mps.lang.typescript.structure.TSFalseLiteral" flags="ng" index="3JGNCe" />
       <concept id="3145181163763065424" name="de.q60.mps.lang.typescript.structure.TSConsole" flags="ng" index="3JZgZa" />
+      <concept id="1451663585142773798" name="de.q60.mps.lang.typescript.structure.TSPrefixDecrementExpression" flags="ng" index="3LUO1K" />
       <concept id="316800515626931645" name="de.q60.mps.lang.typescript.structure.TSFunctionType" flags="ng" index="3MZLnu">
         <child id="2138071087599881886" name="parameters" index="2thRFd" />
         <child id="4744527248198108312" name="returnType" index="19PnrX" />
@@ -1098,6 +1109,103 @@
         <node concept="2hi8J1" id="5OpYk6fzXv$" role="CABlD">
           <node concept="2v$HdM" id="5OpYk6fzXv_" role="3gGa23">
             <ref role="2oxrr9" node="5OpYk6fzXvi" resolve="maybe" />
+          </node>
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="24Z7zp" id="5OpYk6fEEBq">
+    <property role="TrG5h" value="increments" />
+    <node concept="2swglJ" id="5OpYk6fEEBr" role="1JIkAo">
+      <property role="TrG5h" value="i" />
+      <node concept="1ku6r5" id="5OpYk6fEEBs" role="19IeeE" />
+      <node concept="24BhzH" id="5OpYk6fEEBt" role="1bGQZ8">
+        <property role="2Hr5CV" value="0" />
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fEEBu" role="1JIkAo">
+      <node concept="2joTMQ" id="5OpYk6fEEBw" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fEEBy" role="3CQlky">
+          <ref role="2oxrr9" node="5OpYk6fEEBr" resolve="i" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fEEBz" role="1JIkAo">
+      <node concept="10p$M9" id="5OpYk6fEEB_" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fEEBB" role="2Psk$b">
+          <ref role="2oxrr9" node="5OpYk6fEEBr" resolve="i" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fEEBC" role="1JIkAo">
+      <node concept="3LUO1K" id="5OpYk6fEEBE" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fEEBG" role="3CQlky">
+          <ref role="2oxrr9" node="5OpYk6fEEBr" resolve="i" />
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fEEBH" role="1JIkAo">
+      <node concept="34OzTH" id="5OpYk6fEEBJ" role="$a3P1">
+        <node concept="2v$HdM" id="5OpYk6fEEBL" role="2Psk$b">
+          <ref role="2oxrr9" node="5OpYk6fEEBr" resolve="i" />
+        </node>
+      </node>
+    </node>
+    <node concept="2swglJ" id="5OpYk6fEEBM" role="1JIkAo">
+      <property role="TrG5h" value="spaced" />
+      <node concept="1ku6r5" id="5OpYk6fEEBN" role="19IeeE" />
+      <node concept="2t6vHR" id="5OpYk6fEEBO" role="1bGQZ8">
+        <node concept="3LUO1K" id="5OpYk6fEEBQ" role="3CQlky">
+          <node concept="2v$HdM" id="5OpYk6fEEBS" role="3CQlky">
+            <ref role="2oxrr9" node="5OpYk6fEEBr" resolve="i" />
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="2swglJ" id="5OpYk6fEEBT" role="1JIkAo">
+      <property role="TrG5h" value="tighter" />
+      <node concept="1ku6r5" id="5OpYk6fEEBU" role="19IeeE" />
+      <node concept="2t6vHR" id="5OpYk6fEEBV" role="1bGQZ8">
+        <node concept="10p$M9" id="5OpYk6fEEBX" role="3CQlky">
+          <node concept="2v$HdM" id="5OpYk6fEEBZ" role="2Psk$b">
+            <ref role="2oxrr9" node="5OpYk6fEEBr" resolve="i" />
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="2swglJ" id="5OpYk6fEEC0" role="1JIkAo">
+      <property role="TrG5h" value="sum" />
+      <node concept="1ku6r5" id="5OpYk6fEEC1" role="19IeeE" />
+      <node concept="1rvuUm" id="5OpYk6fEEC2" role="1bGQZ8">
+        <node concept="10p$M9" id="5OpYk6fEEC5" role="33kRt2">
+          <node concept="2v$HdM" id="5OpYk6fEEC7" role="2Psk$b">
+            <ref role="2oxrr9" node="5OpYk6fEEBr" resolve="i" />
+          </node>
+        </node>
+        <node concept="2joTMQ" id="5OpYk6fEEC8" role="GyX5B">
+          <node concept="2v$HdM" id="5OpYk6fEECa" role="3CQlky">
+            <ref role="2oxrr9" node="5OpYk6fEEBr" resolve="i" />
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="2swglJ" id="5OpYk6fEECb" role="1JIkAo">
+      <property role="TrG5h" value="grouped" />
+      <node concept="1ku6r5" id="5OpYk6fEECc" role="19IeeE" />
+      <node concept="10p$M9" id="5OpYk6fEECd" role="1bGQZ8">
+        <node concept="pJsIj" id="5OpYk6fEECf" role="2Psk$b">
+          <node concept="2v$HdM" id="5OpYk6fEECh" role="3tJ$EF">
+            <ref role="2oxrr9" node="5OpYk6fEEBr" resolve="i" />
+          </node>
+        </node>
+      </node>
+    </node>
+    <node concept="3ja7nU" id="5OpYk6fEECi" role="1JIkAo">
+      <node concept="hjOgg" id="5OpYk6fEECk" role="$a3P1">
+        <node concept="3JZgZa" id="5OpYk6fEECn" role="3DwI$f" />
+        <node concept="2hi8J1" id="5OpYk6fEECo" role="CABlD">
+          <node concept="2v$HdM" id="5OpYk6fEECp" role="3gGa23">
+            <ref role="2oxrr9" node="5OpYk6fEEC0" resolve="sum" />
           </node>
         </node>
       </node>

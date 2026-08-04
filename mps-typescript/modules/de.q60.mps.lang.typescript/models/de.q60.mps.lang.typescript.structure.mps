@@ -1245,5 +1245,61 @@
     <property role="34LRSv" value="??=" />
     <ref role="1TJDcQ" node="5OpYk6fxhlX" resolve="TSLogicalAssignmentOperation" />
   </node>
+  <node concept="1TIwiD" id="5OpYk6f$$os">
+    <property role="EcuMT" value="519210219420976711" />
+    <property role="TrG5h" value="TSPrefixIncrementExpression" />
+    <property role="34LRSv" value="++" />
+    <property role="R4oN_" value="prefix increment" />
+    <ref role="1TJDcQ" node="5OpYk6fBPgt" resolve="TSPrefixIncrementOperation" />
+  </node>
+  <node concept="1TIwiD" id="5OpYk6f$$si">
+    <property role="EcuMT" value="1451663585142773798" />
+    <property role="TrG5h" value="TSPrefixDecrementExpression" />
+    <property role="34LRSv" value="--" />
+    <property role="R4oN_" value="prefix decrement" />
+    <ref role="1TJDcQ" node="5OpYk6fBPgt" resolve="TSPrefixIncrementOperation" />
+  </node>
+  <node concept="1TIwiD" id="5OpYk6f$$wc">
+    <property role="EcuMT" value="5386741445896491392" />
+    <property role="TrG5h" value="TSPostfixOperation" />
+    <property role="R5$K7" value="true" />
+    <property role="34LRSv" value="&lt;?&gt;" />
+    <property role="R4oN_" value="abstract postfix unary operation" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" />
+    <node concept="PrWs8" id="5OpYk6f$$wd" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6f$$we" role="PzmwI">
+      <ref role="PrY4T" node="5YMdeQYNSu" resolve="TSIBinaryLike" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6f$$wf" role="1TKVEi">
+      <property role="IQ2ns" value="3230647348629920174" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="expression" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6f$$$a">
+    <property role="EcuMT" value="7113081857034482378" />
+    <property role="TrG5h" value="TSPostfixIncrementExpression" />
+    <property role="34LRSv" value="++" />
+    <property role="R4oN_" value="postfix increment" />
+    <ref role="1TJDcQ" node="5OpYk6f$$wc" resolve="TSPostfixOperation" />
+  </node>
+  <node concept="1TIwiD" id="5OpYk6f$$C6">
+    <property role="EcuMT" value="3431481493934648401" />
+    <property role="TrG5h" value="TSPostfixDecrementExpression" />
+    <property role="34LRSv" value="--" />
+    <property role="R4oN_" value="postfix decrement" />
+    <ref role="1TJDcQ" node="5OpYk6f$$wc" resolve="TSPostfixOperation" />
+  </node>
+  <node concept="1TIwiD" id="5OpYk6fBPgt">
+    <property role="EcuMT" value="5550500933593706157" />
+    <property role="TrG5h" value="TSPrefixIncrementOperation" />
+    <property role="R5$K7" value="true" />
+    <property role="R4oN_" value="abstract prefix increment or decrement" />
+    <ref role="1TJDcQ" node="6WKYICGq2yd" resolve="TSUnaryOperation" />
+  </node>
 </model>
 
