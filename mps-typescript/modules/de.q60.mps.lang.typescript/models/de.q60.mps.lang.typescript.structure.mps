@@ -1398,5 +1398,318 @@
       <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
     </node>
   </node>
+  <node concept="PlHQZ" id="5OpYk6grXdh">
+    <property role="EcuMT" value="1113920793110829741" />
+    <property role="TrG5h" value="TSILoop" />
+    <property role="R4oN_" value="a statement that repeats a body" />
+    <node concept="PrWs8" id="5OpYk6grXdi" role="PrDN$">
+      <ref role="PrY4T" node="1TCdlWHrFuz" resolve="TSIStatement" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grXdj" role="1TKVEi">
+      <property role="IQ2ns" value="462024174991291677" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="body" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="6WKYICFF5gs" resolve="TSBlock" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grXhB">
+    <property role="EcuMT" value="7661040975551884702" />
+    <property role="TrG5h" value="TSWhileStatement" />
+    <property role="34LRSv" value="while" />
+    <property role="R4oN_" value="while loop" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grXhC" role="PzmwI">
+      <ref role="PrY4T" node="5OpYk6grXdh" resolve="TSILoop" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grXhD" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICGeLHG" resolve="TSITrailingChildOwner" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grXhE" role="1TKVEi">
+      <property role="IQ2ns" value="8176306495002123692" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="condition" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grXm1">
+    <property role="EcuMT" value="4004210842016756869" />
+    <property role="TrG5h" value="TSDoWhileStatement" />
+    <property role="34LRSv" value="do" />
+    <property role="R4oN_" value="do-while loop" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grXm2" role="PzmwI">
+      <ref role="PrY4T" node="5OpYk6grXdh" resolve="TSILoop" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grXm3" role="1TKVEi">
+      <property role="IQ2ns" value="2022861889023822418" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="condition" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grXqx">
+    <property role="EcuMT" value="3625690808891259473" />
+    <property role="TrG5h" value="TSForStatement" />
+    <property role="34LRSv" value="for" />
+    <property role="R4oN_" value="for loop" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grXqy" role="PzmwI">
+      <ref role="PrY4T" node="5OpYk6grXdh" resolve="TSILoop" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grXqz" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICGeLHG" resolve="TSITrailingChildOwner" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grXq$" role="PzmwI">
+      <ref role="PrY4T" to="tpck:3fifI_xCcJN" resolve="ScopeProvider" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grXq_" role="1TKVEi">
+      <property role="IQ2ns" value="3805913402361037029" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="initializer" />
+      <ref role="20lvS9" node="1TCdlWHrFuz" resolve="TSIStatement" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grXqA" role="1TKVEi">
+      <property role="IQ2ns" value="2735800563764813271" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="condition" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grXqB" role="1TKVEi">
+      <property role="IQ2ns" value="6594990606590003271" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="incrementor" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="PlHQZ" id="5OpYk6grXv9">
+    <property role="EcuMT" value="8230984297125240977" />
+    <property role="TrG5h" value="TSIForEachLoop" />
+    <property role="R4oN_" value="a loop that binds one name per iteration" />
+    <node concept="PrWs8" id="5OpYk6grXva" role="PrDN$">
+      <ref role="PrY4T" node="5OpYk6grXdh" resolve="TSILoop" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grXvb" role="1TKVEi">
+      <property role="IQ2ns" value="7086253282184478317" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="declaration" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="6WKYICFF5hS" resolve="TSVariableDeclaration" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grXvc" role="1TKVEi">
+      <property role="IQ2ns" value="5572694192943756872" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="expression" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grXzM">
+    <property role="EcuMT" value="6275493024567124969" />
+    <property role="TrG5h" value="TSForOfStatement" />
+    <property role="34LRSv" value="for-of" />
+    <property role="R4oN_" value="for-of loop over the values of an array" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grXzN" role="PzmwI">
+      <ref role="PrY4T" node="5OpYk6grXv9" resolve="TSIForEachLoop" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grXzO" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICGeLHG" resolve="TSITrailingChildOwner" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grXzP" role="PzmwI">
+      <ref role="PrY4T" to="tpck:3fifI_xCcJN" resolve="ScopeProvider" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grXCv">
+    <property role="EcuMT" value="4043624921075319313" />
+    <property role="TrG5h" value="TSForInStatement" />
+    <property role="34LRSv" value="for-in" />
+    <property role="R4oN_" value="for-in loop over the keys of an object" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grXCw" role="PzmwI">
+      <ref role="PrY4T" node="5OpYk6grXv9" resolve="TSIForEachLoop" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grXCx" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICGeLHG" resolve="TSITrailingChildOwner" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grXCy" role="PzmwI">
+      <ref role="PrY4T" to="tpck:3fifI_xCcJN" resolve="ScopeProvider" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grXHe">
+    <property role="EcuMT" value="7767684701842828021" />
+    <property role="TrG5h" value="TSBreakStatement" />
+    <property role="34LRSv" value="break" />
+    <property role="R4oN_" value="break statement" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grXHf" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFuz" resolve="TSIStatement" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grXLX">
+    <property role="EcuMT" value="6837294514292652218" />
+    <property role="TrG5h" value="TSContinueStatement" />
+    <property role="34LRSv" value="continue" />
+    <property role="R4oN_" value="continue statement" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grXLY" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFuz" resolve="TSIStatement" />
+    </node>
+  </node>
+  <node concept="PlHQZ" id="5OpYk6grXQI">
+    <property role="EcuMT" value="255943911805286420" />
+    <property role="TrG5h" value="TSISwitchClause" />
+    <property role="R4oN_" value="a clause of a switch statement" />
+    <node concept="1TJgyj" id="5OpYk6grXQJ" role="1TKVEi">
+      <property role="IQ2ns" value="5295775359691522895" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="statements" />
+      <property role="20lbJX" value="fLJekj5/_0__n" />
+      <ref role="20lvS9" node="1TCdlWHrFuz" resolve="TSIStatement" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grXVz">
+    <property role="EcuMT" value="1105819224358179769" />
+    <property role="TrG5h" value="TSCaseClause" />
+    <property role="34LRSv" value="case" />
+    <property role="R4oN_" value="case clause" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grXV$" role="PzmwI">
+      <ref role="PrY4T" node="5OpYk6grXQI" resolve="TSISwitchClause" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grXV_" role="PzmwI">
+      <ref role="PrY4T" to="tpck:3fifI_xCcJN" resolve="ScopeProvider" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grXVA" role="1TKVEi">
+      <property role="IQ2ns" value="113394964859828794" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="expression" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grY0t">
+    <property role="EcuMT" value="9182737273483795847" />
+    <property role="TrG5h" value="TSDefaultClause" />
+    <property role="34LRSv" value="default" />
+    <property role="R4oN_" value="default clause" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grY0u" role="PzmwI">
+      <ref role="PrY4T" node="5OpYk6grXQI" resolve="TSISwitchClause" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grY0v" role="PzmwI">
+      <ref role="PrY4T" to="tpck:3fifI_xCcJN" resolve="ScopeProvider" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grY5q">
+    <property role="EcuMT" value="9011752434925346572" />
+    <property role="TrG5h" value="TSSwitchStatement" />
+    <property role="34LRSv" value="switch" />
+    <property role="R4oN_" value="switch statement" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grY5r" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFuz" resolve="TSIStatement" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grY5s" role="1TKVEi">
+      <property role="IQ2ns" value="6299422987900026855" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="expression" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grY5t" role="1TKVEi">
+      <property role="IQ2ns" value="7921438235492334414" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="clauses" />
+      <property role="20lbJX" value="fLJekj5/_0__n" />
+      <ref role="20lvS9" node="5OpYk6grXQI" resolve="TSISwitchClause" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grYar">
+    <property role="EcuMT" value="1623722890794836876" />
+    <property role="TrG5h" value="TSThrowStatement" />
+    <property role="34LRSv" value="throw" />
+    <property role="R4oN_" value="throw statement" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grYas" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFuz" resolve="TSIStatement" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grYat" role="1TKVEi">
+      <property role="IQ2ns" value="87263482773472484" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="expression" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1TCdlWHrFu$" resolve="TSIExpression" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grYft">
+    <property role="EcuMT" value="4852639209182938254" />
+    <property role="TrG5h" value="TSCatchParameter" />
+    <property role="R4oN_" value="the value a catch clause binds" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grYfu" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICFF5f7" resolve="TSIDeclaration" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grYkz">
+    <property role="EcuMT" value="6380736331902577846" />
+    <property role="TrG5h" value="TSCatchClause" />
+    <property role="34LRSv" value="catch" />
+    <property role="R4oN_" value="catch clause" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grYk$" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICGeLHG" resolve="TSITrailingChildOwner" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grYk_" role="PzmwI">
+      <ref role="PrY4T" to="tpck:3fifI_xCcJN" resolve="ScopeProvider" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grYkA" role="1TKVEi">
+      <property role="IQ2ns" value="5205009883105838996" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="binding" />
+      <ref role="20lvS9" node="5OpYk6grYft" resolve="TSCatchParameter" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grYkB" role="1TKVEi">
+      <property role="IQ2ns" value="5251133188521413811" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="block" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="6WKYICFF5gs" resolve="TSBlock" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="5OpYk6grYpM">
+    <property role="EcuMT" value="7026554582782322030" />
+    <property role="TrG5h" value="TSTryStatement" />
+    <property role="34LRSv" value="try" />
+    <property role="R4oN_" value="try statement" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="5OpYk6grYpN" role="PzmwI">
+      <ref role="PrY4T" node="1TCdlWHrFuz" resolve="TSIStatement" />
+    </node>
+    <node concept="PrWs8" id="5OpYk6grYpO" role="PzmwI">
+      <ref role="PrY4T" node="6WKYICGeLHG" resolve="TSITrailingChildOwner" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grYpP" role="1TKVEi">
+      <property role="IQ2ns" value="4854415673904191394" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="tryBlock" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="6WKYICFF5gs" resolve="TSBlock" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grYpQ" role="1TKVEi">
+      <property role="IQ2ns" value="7910050254052730252" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="catchClause" />
+      <ref role="20lvS9" node="5OpYk6grYkz" resolve="TSCatchClause" />
+    </node>
+    <node concept="1TJgyj" id="5OpYk6grYpR" role="1TKVEi">
+      <property role="IQ2ns" value="5449485796123857302" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="finallyBlock" />
+      <ref role="20lvS9" node="6WKYICFF5gs" resolve="TSBlock" />
+    </node>
+  </node>
 </model>
 
