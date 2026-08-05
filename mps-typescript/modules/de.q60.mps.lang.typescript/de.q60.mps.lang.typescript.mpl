@@ -10,7 +10,9 @@
       <classes generated="true" path="${module}/classes_gen" />
     </facet>
   </facets>
-  <accessoryModels />
+  <accessoryModels>
+    <model modelUID="r:ca666ffb-a99b-49fd-a375-315208406478(de.q60.mps.lang.typescript.lib)" />
+  </accessoryModels>
   <generators>
     <generator alias="main" namespace="de.q60.mps.lang.typescript.generator" uuid="c991be5a-4bfe-472d-bcac-4ee680b3a472">
       <models>
