@@ -4,6 +4,9 @@
     <modelRoot contentPath="${module}" type="default">
       <sourceRoot path="${module}/models" />
     </modelRoot>
+    <modelRoot contentPath="${module}/../.." type="typescript_dts_stubs">
+      <sourceRoot location="." />
+    </modelRoot>
   </models>
   <facets>
     <facet type="java" compile="mps" classes="mps" ext="no">

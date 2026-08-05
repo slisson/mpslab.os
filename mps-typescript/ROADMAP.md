@@ -1785,20 +1785,47 @@ aspect, and `getModelRootFactory("typescript_dts_stubs")` answers with our facto
   registration. Registration was observed after a language reload, which is not the same as being
   in place before modules load at startup — that needs a restart with something actually declaring
   a root of this type.
-- **What is built so far** is the skeleton: `TSDtsStubsModelRoot extends FileBasedModelRoot` with
-  its type id and `canCreateModels() == false`, `TSDtsStubModelRootFactory`, and a `loadModels()`
-  that returns nothing yet.
+### Importing a `.d.ts`
+
+✅ **`stubs.punycode` and `stubs.path` are read-only models produced by running the extractor**, one
+per specifier listed in `mps-typescript/stubs.txt`. `TSDtsStubsModelRoot.loadModels()` returns a
+`TSDtsStubModelDescriptor` per line; `createModel()` spawns the sidecar, reads its output and
+returns `ModelLoadingState.NO_IMPLEMENTATION` — signatures, no bodies, which is what a stub is.
+
+- **The stream, not JSON.** Gson is on MPS's runtime classpath but no module in this project stubs
+  it, and adding a Java stub dependency to read one file is out of proportion — so `--stream` emits
+  a node-construction stream instead: `N <role> <concept>` / `P <name> <value>` /
+  `R <link> <name>` / `E`, one tab-separated record per line, read by a forty-line stack machine.
+  The schema stays the contract; this is one more rendering of it beside `--mps`.
+- **Separators are built from char codes**, `String.valueOf((char) 9)` and friends, because a string
+  literal written through the notation will not carry `\t` or `\n` — the same escaping seam the
+  string literal has, met from the other side.
+- **References resolve after the walk**, since a type may be named before it is declared;
+  `punycode.ucs2` is the case, and it is what proves the import binds rather than inlines.
+- **`isReadOnly()` is one method**, and it is the whole of what makes these models read-only.
+- **Two names that are not the ones you would guess.** `FileBasedModelRoot.getSupportedFileKinds1()`
+  has to be overridden or `getSourceRoots(SOURCES)` is empty and the root silently yields nothing;
+  and `PersistenceFacade.createModelId` refuses a plain name — it wants a designator, `r:<uuid>`,
+  and the uuid has to be derived from the specifier so a reference into a stub survives a reload.
+- **The model root is registered at module-load time**, which answers the timing question the
+  previous section left open: the root type resolved when the module's roots were read, with no
+  `Unknown model root type` in the log.
+- **Still crude.** The sidecar is spawned per model rather than held open over `--stdio`; the
+  specifier list is a file rather than discovery over `node_modules`; and `FolderDataSource` watches
+  the whole project directory, so any change re-imports everything. All three are the same step-4
+  work, and none of them is in the way of the next thing.
 
 ### Order of work
 
 1. ✅ The extractor (`Program` → `getExportsOfModule` → stub JSON) in the existing npm project.
-2. ✅ **In part**: an importer producing an ordinary model, for the subset the language can build.
-   What is left of this step is the two concepts the fixtures named — a type-alias declaration and a
-   type reference — and then the JVM reader, which the text importer above stands in for.
+2. ✅ An importer producing a model, for the subset the language can build. The two concepts the
+   fixtures named — a type-alias declaration and a type reference — landed with it.
 3. A round-trip test that costs nothing to build: the language generates `.ts`, `tsc` declares
    it, the importer reads the `.d.ts` back, and the result is asserted against the nodes it
    came from. A `@types` package is the second corpus.
-4. Only then the model-root plumbing, once the schema has stopped moving.
+4. ✅ **In part**: the model-root plumbing. What is left of it is discovery over `node_modules`
+   instead of `stubs.txt`, a long-lived sidecar over `--stdio`, and a data source narrower than the
+   whole project directory.
 
 ## What typing a whole program costs today
 
