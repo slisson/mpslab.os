@@ -1792,14 +1792,15 @@ per specifier listed in `mps-typescript/stubs.txt`. `TSDtsStubsModelRoot.loadMod
 `TSDtsStubModelDescriptor` per line; `createModel()` spawns the sidecar, reads its output and
 returns `ModelLoadingState.NO_IMPLEMENTATION` — signatures, no bodies, which is what a stub is.
 
-- **The stream, not JSON.** Gson is on MPS's runtime classpath but no module in this project stubs
-  it, and adding a Java stub dependency to read one file is out of proportion — so `--stream` emits
-  a node-construction stream instead: `N <role> <concept>` / `P <name> <value>` /
-  `R <link> <name>` / `E`, one tab-separated record per line, read by a forty-line stack machine.
-  The schema stays the contract; this is one more rendering of it beside `--mps`.
-- **Separators are built from char codes**, `String.valueOf((char) 9)` and friends, because a string
-  literal written through the notation will not carry `\t` or `\n` — the same escaping seam the
-  string literal has, met from the other side.
+- **The schema is the contract, read with Gson.** `MPS.IDEA.Modules` stubs `com.google.gson`, so one
+  module dependency is the whole of what it took, and `TSDtsStubJson` reads the extractor's ordinary
+  JSON output. A line-oriented node stream was built first, on the belief that no module here stubs
+  a JSON parser; it was wrong, and the format it invented is gone. **A dependency is worth looking
+  for before a format is worth inventing.**
+- **`JsonObject.get(String)` cannot be written in a model that uses `baseLanguage.collections`.**
+  It is re-read as the collections `GetElementOperation`, which wants an int index, and the error
+  says `type java.lang.String is not a subtype of int` — which reads as a bug in your own code.
+  `getAsJsonPrimitive(key)` is the way past it, and the same trap catches `.get` on any Java map.
 - **References resolve after the walk**, since a type may be named before it is declared;
   `punycode.ucs2` is the case, and it is what proves the import binds rather than inlines.
 - **`isReadOnly()` is one method**, and it is the whole of what makes these models read-only.
