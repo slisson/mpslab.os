@@ -1758,29 +1758,36 @@ project has never shipped. It does not have to be: `ModelFactoryRegister` reads 
 method as public API — so **an application plugin calling it in its init is registration-equivalent**,
 with no descriptor and no build wiring.
 
-That half works, and the half that does not is worth writing down before someone tries it again.
+✅ **It works, and a language needs no solution of its own for it.** Three roots in a `plugin`
+aspect, and `getModelRootFactory("typescript_dts_stubs")` answers with our factory.
 
-- **The declaration generates exactly the right code.** A `plugin` aspect on the language —
-  `LanguageAspect.plugin` is recognised from the model name alone, `<language>.plugin`, nothing to
-  declare — holding an `ApplicationPluginDeclaration` produces
-  `TSDtsStubs_AppPluginPart extends ApplicationPluginPart` whose `init()` is the
-  `setModelRootFactory` call and whose `dispose()` clears it. Nothing about the generated part is
-  wrong.
-- **Nothing loads it.** MPS instantiates parts through a `<Name>_ApplicationPlugin extends
-  BaseApplicationPlugin` overriding `fillCustomParts`, found through a `startup.properties` carrying
-  `init.application=<fqn>`. A language's plugin aspect generates **neither**, on a clean rebuild —
-  and every one of the twenty `_ApplicationPlugin` classes in the MPS tree comes from a **solution**,
-  never from a language. `getModelRootFactory("typescript_dts_stubs")` returns null after a rebuild
-  and a language reload, which is how this was established rather than guessed.
-- **So the `ApplicationPluginDeclaration` belongs in a small plugin solution**, and the persistence
-  classes can stay where they are. `TSDtsStubsModelRoot` and `TSDtsStubModelRootFactory` are in the
-  language's plugin aspect and compile; the root is the `FileBasedModelRoot` skeleton — type id,
-  `canCreateModels() == false`, and a `loadModels()` that returns nothing yet.
-- **Timing is the next thing to check, not the first.** `AbstractModule.loadRoots` logs
-  `Unknown model root type` and *skips the root* when the factory is missing, so a module declaring
-  one has to be read after registration. The EP path runs at platform startup, before modules load;
-  an application plugin runs when its module's plugin is loaded. Whether that is early enough is
-  unknown until something registers successfully.
+- **The `plugin` aspect is free.** `LanguageAspect.plugin` is recognised from the model name alone —
+  `<language>.plugin` — with nothing to declare in the `.mpl`.
+- **`StandalonePluginDescriptor` is the piece that is not guessable, and without it the aspect
+  silently does nothing.** An `ApplicationPluginDeclaration` on its own generates a correct
+  `TSDtsStubs_AppPluginPart extends ApplicationPluginPart`, whose `init()` is the
+  `setModelRootFactory` call — and *nothing instantiates it*. MPS reaches a part through a
+  `<Name>_ApplicationPlugin extends BaseApplicationPlugin` overriding `fillCustomParts`, and that
+  class is generated only when a `StandalonePluginDescriptor` root is present. Adding one — a bare
+  root, no content — produces `Typescript_ApplicationPlugin`, and the registration then happens on
+  language reload.
+  The tell while it was missing is worth knowing, because nothing reports it: the *part* is
+  generated and compiles, so the aspect looks complete, and the only symptom is that
+  `getModelRootFactory` keeps answering null. Searching the MPS tree misleads here as well — every
+  `_ApplicationPlugin` in it belongs to a solution, which reads as "a language cannot do this" when
+  the truth is that no language in that tree happens to want one.
+- **No `plugin.xml` and no build wiring**, which is the whole point: this project has never shipped
+  an IDEA plugin descriptor and still does not need one. `ModelFactoryRegister` reaches
+  `setModelRootFactory` from the extension point; the application plugin reaches the same method
+  from the same process.
+- **Timing is still unverified.** `AbstractModule.loadRoots` logs `Unknown model root type` and
+  *skips the root* when the factory is missing, so a module declaring one must be read after
+  registration. Registration was observed after a language reload, which is not the same as being
+  in place before modules load at startup — that needs a restart with something actually declaring
+  a root of this type.
+- **What is built so far** is the skeleton: `TSDtsStubsModelRoot extends FileBasedModelRoot` with
+  its type id and `canCreateModels() == false`, `TSDtsStubModelRootFactory`, and a `loadModels()`
+  that returns nothing yet.
 
 ### Order of work
 
