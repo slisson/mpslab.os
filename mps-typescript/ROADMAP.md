@@ -1546,8 +1546,22 @@ no dependency a contributor does not already have. The extractor is a small TS p
 beside the existing npm project; it speaks a request/response JSON protocol over stdio, and it
 emits **our own stub schema, shaped like our concepts** — not `ts.Node`. Serialising the real
 AST is not an option anyway: it is cyclic through `parent` and far larger than what a stub
-needs. Keep it behind one interface on the JVM side; long-lived with a reused `LanguageService`
-for interactive re-import, spawn-and-exit for a one-shot.
+needs. Keep it behind one interface on the JVM side; long-lived for interactive re-import,
+spawn-and-exit for a one-shot.
+
+**A correction, because the paragraph above used to name an API that is not installed here.**
+`typescript@7.0.2` **is** `typescript-go`. The package's `main` is undefined and its only
+non-`unstable` export is `version.cjs`, so `ts.createProgram`, `ts.TypeChecker` and
+`ts.resolveModuleName` — every name the sections above were written against — do not exist in
+this dependency. What replaced them is `typescript/unstable/sync`: an `API` that spawns the Go
+binary and hands back `Snapshot` → `Project` → `.program` / `.checker`. It is LSP-shaped in its
+*transport*, which is what the rejection note below meant, but not in its surface — `Checker`
+carries `getExportsOfModule`, `getTypeOfSymbol`, `getDeclaredTypeOfSymbol`, `getPropertiesOfType`,
+`getSignaturesOfType`, `getReturnTypeOfSignature`, `getTypeArguments`, `getIndexInfosOfType`,
+`getAliasedSymbol` and `typeToString`. Every operation *Read the checker's symbols, not the syntax
+tree* asks for is there, under a different import. So the decision stands and only the names
+change; what actually needed rethinking was reaching the module symbol, since there is no
+`resolveModuleName` — see below.
 
 Rejected: **GraalJS in process**, which does run `typescript.js` and would let a custom
 `CompilerHost` read through MPS's VFS, but runs interpreter-only on JBR — far too slow for a
@@ -1556,9 +1570,7 @@ default. **IntelliJ's own TS PSI** is not available: MPS is built on the Communi
 JavaScript/TypeScript support is a closed-source plugin bundled only with the commercial IDEs
 (confirm against the target distribution before relying on the absence). **A JVM-native TS
 parser** does not exist in maintained form, and the Rust parsers (swc, oxc) are syntax-only,
-which is exactly the level ruled out above. **`typescript-go` / TS 7** is the one to revisit —
-much faster, but its public surface is still LSP-shaped rather than "hand me the program",
-which is the other reason for the interface.
+which is exactly the level ruled out above.
 
 ### The MPS side: a real stub model root
 
@@ -1597,11 +1609,153 @@ Budget for scale from the start: `lib.dom.d.ts` is on the order of 20k declarati
 model root has to be lazy per model and filtered, or the first import against a real project
 hangs.
 
+### What the extractor found
+
+✅ **Step 1 is done**: `mps-typescript/tools/dts-extract` — `src/schema.ts` is the stub schema,
+`src/extract.ts` the conversion, `src/cli.ts` a one-shot and a `--stdio` mode, and
+`test/extract.test.ts` runs `punycode` and `path` under `npm run test:extractor`. Thirteen tests.
+It needs no MPS language feature and no gradle build, which is why it was the right thing to build
+first: none of the gates in *The part that is actually hard* bite until the JVM side exists.
+
+- **The checker really does flatten the module wrappers, and `path` proves it on the first run.**
+  `path.d.ts` is `declare module "path"` around `namespace path` ending in `export = path`, with a
+  second `declare module "node:path"` re-exporting it through `import path = require("path")`. None
+  of that reaches the extractor: what comes back is three interfaces and a value. That is the whole
+  argument of *Read the checker's symbols, not the syntax tree*, settled by the cheapest fixture
+  rather than by a hard one.
+- **`export =` is not among a module's exports, and the obvious accessor does not find it.**
+  `getExportsOfModule` on `"path"` returns only `ParsedPath`, `FormatInputPathObject` and
+  `PlatformPath` — the *types*. The value is under the key `export=` in `symbol.getExports()`, and
+  `getMemberInModuleExports(symbol, "export=")` returns `undefined` for it, which reads as "this
+  module has no such export" rather than as "wrong accessor". The stub schema carries it as its own
+  `exportEquals` field, and for `path` it comes out as a reference to `PlatformPath` — which is
+  exactly what a stub of a CommonJS module should say.
+- **There is no `resolveModuleName`, so the module symbol is reached through a synthetic entry
+  file.** One `import * as mN from "<specifier>";` per module, then `getSymbolAtPosition` at the
+  offset of the specifier string. The file is never written to disk: `APIOptions.fs` is an overlay
+  whose `readFile` returning `undefined` *falls back to the real filesystem*, so overlaying the
+  entry and a tsconfig leaves `node_modules` resolving normally and the caller's tree untouched.
+- **Declaration merging arrives in the simplest fixture there is.** `punycode.ucs2` is a
+  `BlockScopedVariable` **and** an `Interface` on one symbol, so a merged symbol owes one
+  declaration of each kind. A first cut that branched on the first matching flag would have dropped
+  half of it silently.
+- **`SymbolFlags.Optional` is set on properties and not on parameters.** The property side works —
+  every member of `FormatInputPathObject` reports it — but `suffix?: string` does not, and the
+  optionality has to be read off the `ParameterDeclaration`'s `questionToken`. `dotDotDotToken` is
+  the same story for rest, and is better than inferring it from `hasRestParameter` plus position.
+- **`boolean` is internally a union of two literal types**, so the primitive check has to run
+  *before* the union check or `matchesGlob` returns `true | false`. `path` happens to contain the
+  one method that catches this.
+- **`?` and `| undefined` say the same thing twice.** The checker gives `string | undefined` for
+  `suffix?: string`; the language carries optionality on the declaration, so the extractor strips
+  `undefined` from an optional's union rather than emitting both.
+- **What falls back to raw is asserted, not estimated.** In `path` it is exactly two members, `sep`
+  and `delimiter`, both string-literal unions — and the union is kept with raw *members* rather than
+  becoming one raw blob, so `"/" | "\\"` still generates correctly. The test names the two; if the
+  list grows, something stopped converting.
+
+### Importing what fits, and letting the rest name itself
+
+The catch-all was going to be `TSRawType`, and it is not built. What replaced it for now costs no
+language change at all: **the extractor names the construct it could not express, and the importer
+names the concept it would have needed** — so what is missing is a list rather than a silence, and
+the list is the argument for what to build next.
+
+- **`unsupported` carries `missing`, not only text.** `{ kind: "unsupported", text: "\"/\"",
+  missing: "literal-type" }`. `src/gaps.ts` walks a module and prints the tally —
+  `--gaps` on the CLI — which for `path` is four literal types and for `punycode` is nothing at all.
+- **What the *schema* cannot say and what the *language* cannot build are two questions**, and the
+  schema encodes only the first. A reference and a type declaration are perfectly expressible in the
+  stub JSON and simply have no concept yet, so `src/notation.ts` answers the second by walking the
+  tree — which means the schema does not churn every time the language grows.
+- **A type that reports index infos is not necessarily an object type.** The first cut classified
+  every fallback by its signatures and index infos, and reported the string literal `"/"` as an
+  `index-signature`: a literal answers `getIndexInfosOfType` from its apparent type. The
+  signature-shaped reasons are only asked of `isObjectType()` now.
+- **The result is that `punycode` imports and `path` does not**, which is the finding. Five
+  declarations — the four `(string) => string` functions and `version` — went in and check clean.
+  Everything else in both fixtures is blocked by exactly two missing concepts: a
+  **type-alias declaration** (all three of `path`'s exports, and `punycode.ucs2`'s type half) and a
+  **type reference** (`path`'s `export =`, and `punycode.ucs2`'s value half). Nothing else blocks
+  anything. Object types, function types, rest and optional parameters, arrays and unions were all
+  already here and needed no work.
+- **The importer is text, not a JVM reader.** `--mps` prints the roots in MPS's generic
+  `§Concept { … }` syntax and they go in through `write_root` verbatim. That is a shortcut past step
+  2's JVM side, and it bought the whole of the finding above for an afternoon; the schema can stop
+  moving before anything is written in Java.
+- **A stub model must be `doNotGenerate`, and nothing enforces it yet.** It is set by hand through
+  `DefaultSModelDescriptor.setDoNotGenerate` — `read_model_metadata` does not show the attribute, so
+  a model created without it would quietly emit `.d.ts` files into `source_gen` and collide with the
+  real library, which is the same trap decision 3 recorded for `console`.
+- **Where the stubs live is provisional.** `de.q60.mps.lang.typescript.sandbox.stubs.punycode` sits
+  in the sandbox solution because that solution already uses the language, and the sandbox is for
+  demonstrating notation rather than for this. It moves once step 4's model root exists.
+
+### A declaration file is a root; a declaration is not
+
+The first import wrote five roots for five declarations, and a model that reads as five unrelated
+things is not what a `.d.ts` is — it is **one file of many declarations**. `TSDeclarationFile` is
+that file: a named root under `INamedConcept` holding `declarations: TSAmbientDeclaration[0..n]`,
+and `TSAmbientDeclaration` is no longer rootable.
+
+- **The file extension moves with the root.** Only a root produces a file, so
+  `TSDeclarationFile` carries the `d.ts` extension and writes a line per declaration, and
+  `TSAmbientDeclaration`'s textgen loses its `ExtensionDeclaration` and writes only
+  `declare const <name>: <type>;`. That mirrors `TSModule` over `TSIStatement` exactly.
+- **`ModelPlusImportedScope`'s second argument is `rootsOnly`, and it had to become `false`.** The
+  scope that reaches `console` was looking for `TSAmbientDeclaration` *roots*; nested one level
+  deeper, they are found only when the search descends. Nothing else in the scope story changed —
+  the model, its imports and the accessory models are still the three ways in.
+- **The existing instances were moved, not rewritten.** `console` is referenced by node id from the
+  sandbox and from the `programs` editor test, so the migration adds the new root and re-parents the
+  declaration under it — `removeRootNode` then `declarations.add` — rather than building a fresh
+  tree. A recreate would have left every reference pointing at nothing.
+- **Still owed: the module specifier.** `punycode` is recorded only as the file's name, which is
+  also what its textgen would write. A real stub says `declare module "punycode"`, and the specifier
+  is where an `import` statement will get its text from — so it belongs on this concept, and is the
+  natural third property once something can import *from* a stub.
+
+### A name in type position
+
+`TSTypeAlias` and `TSTypeReference` are the two concepts the fixtures asked for, and they are what
+took `punycode` from five of seven declarations to **all seven** and `path` from none to two.
+`TSITypeDeclaration` is the interface a reference points at — `interface`, `class` and `enum` join it
+later — and `TSIDeclarationFileMember` is what a declaration file holds, now that it holds two kinds.
+
+- **The reference resolves through `ScopeProvider`, not through a search-scope function.**
+  `TSDeclarationFile` implements `ScopeProvider` and answers both kinds: `TSITypeDeclaration` with
+  `typeDeclarationsVisibleFrom`, `TSIDeclaration` with the ambient lookup it already had.
+  `TSModule` answers the type kind too, so a name in type position resolves in ordinary code and not
+  only in a stub.
+- **Three references in the aspect models cannot be written from text at all**, which is a longer
+  list than *the notation drops some things silently* had. `ConceptConstraints.concept`,
+  `NodeReferentConstraint.applicableLink` and `ConceptMethodDeclaration.overriddenMethod` each fail
+  to resolve when a *new root* carrying them is written — and the first fails for `TSObjectType` as
+  readily as for a concept added a minute ago, so it is not staleness. **Editing an existing root is
+  fine**; it is only creating one that cannot. The way through is to **copy a root that already has
+  the reference and repoint it** from `run_code` — `TSIdentifier`'s constraint became
+  `TSTypeReference`'s with three `setReferenceTarget` calls, and `TSModule`'s behavior became
+  `TSDeclarationFile`'s with one, after which `write_root` rewrote the body normally.
+- **A merged symbol is what proves the binding.** `punycode.ucs2` is a variable *and* an interface,
+  so the import writes a `TSTypeAlias` and a `TSAmbientDeclaration` of the same name, the second
+  holding a `TSTypeReference` to the first. Nothing else in the repository has a type that refers to
+  a declaration by name.
+- **What is left of `path` is one construct.** `PlatformPath` is blocked only by the string-literal
+  unions in `sep` and `delimiter`, and `export =` has nowhere to go in a declaration file. The first
+  is what `TSRawType` was designed for, and it is now the single most blocking thing in the fixtures.
+- **Owed, and named rather than pretended:** a type alias is not yet *substitutable* for what it
+  names — there is no `SubstituteTypeRule` on `TSTypeReference`, so `ParsedPath` and its object type
+  are distinct types to the solver. Nothing type-checks against a stub yet, which is why this was
+  survivable; it stops being so the moment a module assigns through an alias. `TSTypeAlias` is also
+  a declaration-file member only, not a statement, so ordinary code can reference a named type but
+  not declare one. Neither concept has an editor test or a nodes test of its own yet.
+
 ### Order of work
 
-1. The extractor (`Program` → `getExportsOfModule` → stub JSON) in the existing npm project.
-2. The JVM reader and an import action producing an ordinary model, with `TSRawType` as the
-   catch-all.
+1. ✅ The extractor (`Program` → `getExportsOfModule` → stub JSON) in the existing npm project.
+2. ✅ **In part**: an importer producing an ordinary model, for the subset the language can build.
+   What is left of this step is the two concepts the fixtures named — a type-alias declaration and a
+   type reference — and then the JVM reader, which the text importer above stands in for.
 3. A round-trip test that costs nothing to build: the language generates `.ts`, `tsc` declares
    it, the importer reads the `.d.ts` back, and the result is asserted against the nodes it
    came from. A `@types` package is the second corpus.
