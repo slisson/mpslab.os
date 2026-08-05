@@ -1824,6 +1824,16 @@ returns `ModelLoadingState.NO_IMPLEMENTATION` — signatures, no bodies, which i
   route: convecton declares `mps.modelRootFactory` in its *build* model, so the packaged plugin
   registers the factory at platform startup and needs no refresh — worth having if this project ever
   ships a plugin descriptor, and no reason to add one before then.
+- **A model root also needs a UI, and it is a second extension point.** Without
+  `com.intellij.mps.modelRootEntry` the root works but is invisible in the module properties dialog,
+  so there is no way to add or configure one except by editing the `.msd`. Registering it is the
+  opposite of the factory in one respect that matters: `ModelRootEntryPersistence` reads the
+  extension *list* on every open rather than caching it at startup, so registering from the plugin's
+  init is soon enough and no refresh is owed.
+  **The entry itself costs nothing here**: `TSDtsStubsModelRoot` is a `FileBasedModelRoot`, so MPS's
+  own `FileBasedModelRootEntryFactory` — the one behind `rootType="default"` — is the whole editor.
+  The `ModelRootEntryEP` bean is filled in by hand and pointed at that class by name, with the
+  `jetbrains.mps.core` plugin descriptor supplying the classloader that can see it.
 - **Still crude.** The sidecar is spawned per model rather than held open over `--stdio`; the
   specifier list is a file rather than discovery over `node_modules`; and `FolderDataSource` watches
   the whole project directory, so any change re-imports everything. All three are the same step-4
