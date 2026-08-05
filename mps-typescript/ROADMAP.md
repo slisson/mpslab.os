@@ -1750,6 +1750,38 @@ later — and `TSIDeclarationFileMember` is what a declaration file holds, now t
   a declaration-file member only, not a statement, so ordinary code can reference a named type but
   not declare one. Neither concept has an editor test or a nodes test of its own yet.
 
+### Registering a model root without a plugin descriptor
+
+The extension point is `<mps.modelRootFactory rootType=… className=…/>` in a `plugin.xml`, which this
+project has never shipped. It does not have to be: `ModelFactoryRegister` reads that EP and calls
+`PersistenceRegistry.setModelRootFactory(rootType, factory)`, and `PersistenceFacade` declares that
+method as public API — so **an application plugin calling it in its init is registration-equivalent**,
+with no descriptor and no build wiring.
+
+That half works, and the half that does not is worth writing down before someone tries it again.
+
+- **The declaration generates exactly the right code.** A `plugin` aspect on the language —
+  `LanguageAspect.plugin` is recognised from the model name alone, `<language>.plugin`, nothing to
+  declare — holding an `ApplicationPluginDeclaration` produces
+  `TSDtsStubs_AppPluginPart extends ApplicationPluginPart` whose `init()` is the
+  `setModelRootFactory` call and whose `dispose()` clears it. Nothing about the generated part is
+  wrong.
+- **Nothing loads it.** MPS instantiates parts through a `<Name>_ApplicationPlugin extends
+  BaseApplicationPlugin` overriding `fillCustomParts`, found through a `startup.properties` carrying
+  `init.application=<fqn>`. A language's plugin aspect generates **neither**, on a clean rebuild —
+  and every one of the twenty `_ApplicationPlugin` classes in the MPS tree comes from a **solution**,
+  never from a language. `getModelRootFactory("typescript_dts_stubs")` returns null after a rebuild
+  and a language reload, which is how this was established rather than guessed.
+- **So the `ApplicationPluginDeclaration` belongs in a small plugin solution**, and the persistence
+  classes can stay where they are. `TSDtsStubsModelRoot` and `TSDtsStubModelRootFactory` are in the
+  language's plugin aspect and compile; the root is the `FileBasedModelRoot` skeleton — type id,
+  `canCreateModels() == false`, and a `loadModels()` that returns nothing yet.
+- **Timing is the next thing to check, not the first.** `AbstractModule.loadRoots` logs
+  `Unknown model root type` and *skips the root* when the factory is missing, so a module declaring
+  one has to be read after registration. The EP path runs at platform startup, before modules load;
+  an application plugin runs when its module's plugin is loaded. Whether that is early enough is
+  unknown until something registers successfully.
+
 ### Order of work
 
 1. ✅ The extractor (`Program` → `getExportsOfModule` → stub JSON) in the existing npm project.
