@@ -383,5 +383,14 @@
       </node>
     </node>
   </node>
+  <node concept="1M2fIO" id="1jfLtDTBQti">
+    <ref role="1M2myG" to="mo8k:1jfLtDTxEF7" resolve="TSTypeReference" />
+    <node concept="1N5Pfh" id="1jfLtDTBQtj" role="1Mr941">
+      <ref role="1N5Vy1" to="mo8k:1jfLtDTxEF9" resolve="declaration" />
+      <node concept="1dDu$B" id="1jfLtDTBQtk" role="1N6uqs">
+        <ref role="1dDu$A" to="mo8k:1jfLtDTxEqQ" resolve="TSITypeDeclaration" />
+      </node>
+    </node>
+  </node>
 </model>
 
