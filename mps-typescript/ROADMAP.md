@@ -1808,9 +1808,22 @@ returns `ModelLoadingState.NO_IMPLEMENTATION` — signatures, no bodies, which i
   has to be overridden or `getSourceRoots(SOURCES)` is empty and the root silently yields nothing;
   and `PersistenceFacade.createModelId` refuses a plain name — it wants a designator, `r:<uuid>`,
   and the uuid has to be derived from the specifier so a reference into a stub survives a reload.
-- **The model root is registered at module-load time**, which answers the timing question the
-  previous section left open: the root type resolved when the module's roots were read, with no
-  `Unknown model root type` in the log.
+- **Registering the factory is only half of it, and the other half is not optional.** A module's
+  roots are read *before* an application plugin's init runs, so `AbstractModule.loadRoots` has
+  already logged `Unknown model root type: 'typescript_dts_stubs'` and **dropped the root** by the
+  time the factory exists. Registering afterwards changes nothing on its own: the module keeps the
+  roots it built at load time. So the init also walks the repository and calls
+  `AbstractModule.updateModelsSet()` on every module whose descriptor asks for the type, which is
+  what makes them read their roots again.
+  This is the bug that survived a session: it worked all afternoon because `updateModelsSet()` was
+  being called by hand from `run_code`, and the stub models were gone after the first restart. The
+  log is where it says so plainly, and `Requested by: <module>` in that line is the proof that the
+  `.msd` was configured correctly all along — a missing model root produces no line at all.
+  **`io.convecton.typescript.importer.stub.hack` in the convecton project is the precedent**, and
+  its `ExtensionDescriptor` does exactly these two things in this order. It also shows the other
+  route: convecton declares `mps.modelRootFactory` in its *build* model, so the packaged plugin
+  registers the factory at platform startup and needs no refresh — worth having if this project ever
+  ships a plugin descriptor, and no reason to add one before then.
 - **Still crude.** The sidecar is spawned per model rather than held open over `--stdio`; the
   specifier list is a file rather than discovery over `node_modules`; and `FolderDataSource` watches
   the whole project directory, so any change re-imports everything. All three are the same step-4
