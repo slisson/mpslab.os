@@ -1,0 +1,18 @@
+{
+  // Separate from the root tsconfig, which compiles only what the MPS generator wrote into
+  // source_gen. This is the one place in this npm project with hand-written sources.
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "rootDir": ".",
+    "outDir": "../../build/dts-extract",
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

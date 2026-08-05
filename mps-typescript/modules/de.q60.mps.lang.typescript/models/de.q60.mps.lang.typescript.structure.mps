@@ -1362,7 +1362,6 @@
   <node concept="1TIwiD" id="5OpYk6gb2_Z">
     <property role="EcuMT" value="5872399183276680561" />
     <property role="TrG5h" value="TSAmbientDeclaration" />
-    <property role="19KtqR" value="true" />
     <property role="34LRSv" value="declare" />
     <property role="R4oN_" value="ambient declaration" />
     <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
@@ -1375,6 +1374,9 @@
       <property role="20kJfa" value="declaredType" />
       <property role="20lbJX" value="fLJekj4/_1" />
       <ref role="20lvS9" node="4Ul7eGthLpQ" resolve="TSIType" />
+    </node>
+    <node concept="PrWs8" id="1jfLtDTxEKB" role="PzmwI">
+      <ref role="PrY4T" node="1jfLtDTxEwd" resolve="TSIDeclarationFileMember" />
     </node>
   </node>
   <node concept="1TIwiD" id="5OpYk6gni9v">
@@ -1738,6 +1740,75 @@
       <property role="20kJfa" value="property" />
       <property role="20lbJX" value="fLJekj4/_1" />
       <ref role="20lvS9" node="5OpYk6fF69k" resolve="TSPropertySignature" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="1jfLtDTvUXv">
+    <property role="EcuMT" value="3600262704481932991" />
+    <property role="TrG5h" value="TSDeclarationFile" />
+    <property role="19KtqR" value="true" />
+    <property role="34LRSv" value="declarations" />
+    <property role="R4oN_" value="a file of ambient declarations" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="1jfLtDTvUXw" role="PzmwI">
+      <ref role="PrY4T" to="tpck:h0TrEE$" resolve="INamedConcept" />
+    </node>
+    <node concept="1TJgyj" id="1jfLtDTvUXx" role="1TKVEi">
+      <property role="IQ2ns" value="1378682086413470213" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="declarations" />
+      <property role="20lbJX" value="fLJekj5/_0__n" />
+      <ref role="20lvS9" node="1jfLtDTxEwd" resolve="TSIDeclarationFileMember" />
+    </node>
+    <node concept="PrWs8" id="1jfLtDT$uAw" role="PzmwI">
+      <ref role="PrY4T" to="tpck:3fifI_xCcJN" resolve="ScopeProvider" />
+    </node>
+  </node>
+  <node concept="PlHQZ" id="1jfLtDTxEqQ">
+    <property role="EcuMT" value="899983587716959376" />
+    <property role="TrG5h" value="TSITypeDeclaration" />
+    <property role="R4oN_" value="a name usable in type position" />
+    <node concept="PrWs8" id="1jfLtDTxEqR" role="PrDN$">
+      <ref role="PrY4T" to="tpck:h0TrEE$" resolve="INamedConcept" />
+    </node>
+  </node>
+  <node concept="PlHQZ" id="1jfLtDTxEwd">
+    <property role="EcuMT" value="1463753820574353441" />
+    <property role="TrG5h" value="TSIDeclarationFileMember" />
+    <property role="R4oN_" value="what a declaration file holds" />
+  </node>
+  <node concept="1TIwiD" id="1jfLtDTxE_B">
+    <property role="EcuMT" value="3669866448792605535" />
+    <property role="TrG5h" value="TSTypeAlias" />
+    <property role="34LRSv" value="type" />
+    <property role="R4oN_" value="type alias" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="1jfLtDTxE_C" role="PzmwI">
+      <ref role="PrY4T" node="1jfLtDTxEqQ" resolve="TSITypeDeclaration" />
+    </node>
+    <node concept="PrWs8" id="1jfLtDTxE_D" role="PzmwI">
+      <ref role="PrY4T" node="1jfLtDTxEwd" resolve="TSIDeclarationFileMember" />
+    </node>
+    <node concept="1TJgyj" id="1jfLtDTxE_E" role="1TKVEi">
+      <property role="IQ2ns" value="6707524301942339210" />
+      <property role="20lmBu" value="fLJjDmT/aggregation" />
+      <property role="20kJfa" value="aliasedType" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="4Ul7eGthLpQ" resolve="TSIType" />
+    </node>
+  </node>
+  <node concept="1TIwiD" id="1jfLtDTxEF7">
+    <property role="EcuMT" value="5581245314995758456" />
+    <property role="TrG5h" value="TSTypeReference" />
+    <property role="R4oN_" value="a reference to a named type" />
+    <ref role="1TJDcQ" to="tpck:gw2VY9q" resolve="BaseConcept" />
+    <node concept="PrWs8" id="1jfLtDTxEF8" role="PzmwI">
+      <ref role="PrY4T" node="4Ul7eGthLpQ" resolve="TSIType" />
+    </node>
+    <node concept="1TJgyj" id="1jfLtDTxEF9" role="1TKVEi">
+      <property role="IQ2ns" value="7581794054781100515" />
+      <property role="20kJfa" value="declaration" />
+      <property role="20lbJX" value="fLJekj4/_1" />
+      <ref role="20lvS9" node="1jfLtDTxEqQ" resolve="TSITypeDeclaration" />
     </node>
   </node>
 </model>

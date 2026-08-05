@@ -19717,5 +19717,60 @@
       </node>
     </node>
   </node>
+  <node concept="24kQdi" id="1jfLtDTvWLS">
+    <ref role="1XX52x" to="mo8k:1jfLtDTvUXv" resolve="TSDeclarationFile" />
+    <node concept="3EZMnI" id="1jfLtDTvWLU" role="2wV5jI">
+      <node concept="l2Vlx" id="1jfLtDTvWLV" role="2iSdaV" />
+      <node concept="3F0ifn" id="1jfLtDTvWLW" role="3EZMnx">
+        <property role="3F0ifm" value="declarations" />
+      </node>
+      <node concept="3F0A7n" id="1jfLtDTvWLX" role="3EZMnx">
+        <ref role="1NtTu8" to="tpck:h0TrG11" resolve="name" />
+      </node>
+      <node concept="3F2HdR" id="1jfLtDTvWLY" role="3EZMnx">
+        <ref role="1NtTu8" to="mo8k:1jfLtDTvUXx" resolve="declarations" />
+        <node concept="l2Vlx" id="1jfLtDTvWLZ" role="2czzBx" />
+        <node concept="pj6Ft" id="1jfLtDTvWM0" role="3F10Kt">
+          <property role="VOm3f" value="true" />
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="24kQdi" id="1jfLtDTxNky">
+    <ref role="1XX52x" to="mo8k:1jfLtDTxEF7" resolve="TSTypeReference" />
+    <node concept="1iCGBv" id="1jfLtDTxNk$" role="2wV5jI">
+      <ref role="1NtTu8" to="mo8k:1jfLtDTxEF9" resolve="declaration" />
+      <node concept="1sVBvm" id="1jfLtDTxNkB" role="1sWHZn">
+        <node concept="3F0A7n" id="1jfLtDTxNkD" role="2wV5jI">
+          <property role="1Intyy" value="true" />
+          <ref role="1NtTu8" to="tpck:h0TrG11" resolve="name" />
+        </node>
+      </node>
+    </node>
+  </node>
+  <node concept="24kQdi" id="1jfLtDTxP9d">
+    <ref role="1XX52x" to="mo8k:1jfLtDTxE_B" resolve="TSTypeAlias" />
+    <node concept="3EZMnI" id="1jfLtDTxP9f" role="2wV5jI">
+      <node concept="l2Vlx" id="1jfLtDTxP9g" role="2iSdaV" />
+      <node concept="3F0ifn" id="1jfLtDTxP9h" role="3EZMnx">
+        <property role="3F0ifm" value="type" />
+      </node>
+      <node concept="3F0A7n" id="1jfLtDTxP9i" role="3EZMnx">
+        <ref role="1NtTu8" to="tpck:h0TrG11" resolve="name" />
+      </node>
+      <node concept="3F0ifn" id="1jfLtDTxP9j" role="3EZMnx">
+        <property role="3F0ifm" value="=" />
+      </node>
+      <node concept="3F1sOY" id="1jfLtDTxP9k" role="3EZMnx">
+        <ref role="1NtTu8" to="mo8k:1jfLtDTxE_E" resolve="aliasedType" />
+      </node>
+      <node concept="3F0ifn" id="1jfLtDTxP9l" role="3EZMnx">
+        <property role="3F0ifm" value=";" />
+        <node concept="11L4FC" id="1jfLtDTxP9m" role="3F10Kt">
+          <property role="VOm3f" value="true" />
+        </node>
+      </node>
+    </node>
+  </node>
 </model>
 

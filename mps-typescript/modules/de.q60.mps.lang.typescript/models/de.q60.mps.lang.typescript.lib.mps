@@ -30,6 +30,9 @@
       <concept id="5872399183276680561" name="de.q60.mps.lang.typescript.structure.TSAmbientDeclaration" flags="ng" index="3NZHq0">
         <child id="671136011488177472" name="declaredType" index="21Uvv_" />
       </concept>
+      <concept id="3600262704481932991" name="de.q60.mps.lang.typescript.structure.TSDeclarationFile" flags="ng" index="3Zjil_">
+        <child id="1378682086413470213" name="declarations" index="21Z9C8" />
+      </concept>
     </language>
     <language id="ceab5195-25ea-4f22-9b92-103b95ca8c0c" name="jetbrains.mps.lang.core">
       <concept id="1169194658468" name="jetbrains.mps.lang.core.structure.INamedConcept" flags="ngI" index="TrEIO">
@@ -37,20 +40,23 @@
       </concept>
     </language>
   </registry>
-  <node concept="3NZHq0" id="5OpYk6gdLqU">
-    <property role="TrG5h" value="console" />
-    <node concept="3n0$7x" id="5OpYk6gdLqW" role="21Uvv_">
-      <node concept="1D9KjG" id="5OpYk6gdLqX" role="2XfbTT">
-        <property role="TrG5h" value="log" />
-        <node concept="3MZLnu" id="5OpYk6gdLqZ" role="ahpXF">
-          <node concept="2Fu235" id="5OpYk6gdLr1" role="2thRFd">
-            <property role="3MDvzs" value="true" />
-            <property role="TrG5h" value="data" />
-            <node concept="29s1Bg" id="5OpYk6gdLr3" role="3cr0mA">
-              <node concept="cSnVn" id="5OpYk6gdLr5" role="2XRTOt" />
+  <node concept="3Zjil_" id="1jfLtDTwa7c">
+    <property role="TrG5h" value="lib" />
+    <node concept="3NZHq0" id="5OpYk6gdLqU" role="21Z9C8">
+      <property role="TrG5h" value="console" />
+      <node concept="3n0$7x" id="5OpYk6gdLqW" role="21Uvv_">
+        <node concept="1D9KjG" id="5OpYk6gdLqX" role="2XfbTT">
+          <property role="TrG5h" value="log" />
+          <node concept="3MZLnu" id="5OpYk6gdLqZ" role="ahpXF">
+            <node concept="2Fu235" id="5OpYk6gdLr1" role="2thRFd">
+              <property role="3MDvzs" value="true" />
+              <property role="TrG5h" value="data" />
+              <node concept="29s1Bg" id="5OpYk6gdLr3" role="3cr0mA">
+                <node concept="cSnVn" id="5OpYk6gdLr5" role="2XRTOt" />
+              </node>
             </node>
+            <node concept="qIwln" id="5OpYk6gdLr6" role="19PnrX" />
           </node>
-          <node concept="qIwln" id="5OpYk6gdLr6" role="19PnrX" />
         </node>
       </node>
     </node>
