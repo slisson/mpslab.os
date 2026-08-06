@@ -1834,10 +1834,30 @@ returns `ModelLoadingState.NO_IMPLEMENTATION` — signatures, no bodies, which i
   own `FileBasedModelRootEntryFactory` — the one behind `rootType="default"` — is the whole editor.
   The `ModelRootEntryEP` bean is filled in by hand and pointed at that class by name, with the
   `jetbrains.mps.core` plugin descriptor supplying the classloader that can see it.
+- **Reloading is two mechanisms, and each needs its own hook.** A `.d.ts` changing alters one
+  model's *content*: the descriptor implements `DataSourceListener` and answers `changed` with
+  `replace(createModel())`, which is what `JavaSourceStubModelDescriptor` does. `stubs.txt` changing
+  alters *which models exist*, and that is the model root's business — but
+  `FileBasedModelRoot.update` re-reads the model set **only when a file is created or removed**, and
+  a listing edited in place is neither. So `update` is overridden to look for `stubs.txt` in
+  `event.getChanged()`. Neither hook is optional and neither substitutes for the other.
+- **A specifier is not a folder**, which is why the source-root UI cannot replace `stubs.txt`.
+  `punycode` and `path` are ambient modules declared *inside* `@types/node`, and `@types/node` is
+  not a resolvable specifier at all — so the folder that contains them names nothing importable.
+  The new API has no `getAmbientModules`, so the extractor cannot enumerate them either; only a
+  syntactic scan for `declare module "…"` could, which is worth doing for *discovery* even though
+  the design rejects syntax for *content*.
+- **A reference to a type that was itself unrepresentable has nothing to bind to.** `querystring`
+  is the case: `ParsedUrlQuery` extends `NodeJS.Dict<…>`, so its alias is dropped while the
+  signatures referring to it are not — leaving four `TSTypeReference`s with an unset obligatory
+  reference, which is a broken model rather than a degraded one. `dropUnresolved` removes the
+  declaration holding such a reference, the way any other unrepresentable declaration is removed,
+  and loops because dropping one can strand a reference to it.
 - **Still crude.** The sidecar is spawned per model rather than held open over `--stdio`; the
-  specifier list is a file rather than discovery over `node_modules`; and `FolderDataSource` watches
-  the whole project directory, so any change re-imports everything. All three are the same step-4
-  work, and none of them is in the way of the next thing.
+  specifier list is a file rather than discovery over `node_modules`; `FolderDataSource` watches the
+  whole project directory, so any change re-imports everything; and `convertType` has no depth
+  bound, which is a stack overflow on a package-sized `.d.ts` — `undici-types` is one. All of that
+  is the same step-4 work.
 
 ### Order of work
 

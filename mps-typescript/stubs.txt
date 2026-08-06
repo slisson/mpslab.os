@@ -2,3 +2,4 @@
 # Discovering these from node_modules is step 4; for now the list is explicit.
 punycode
 path
+querystring
