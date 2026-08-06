@@ -1834,10 +1834,53 @@ returns `ModelLoadingState.NO_IMPLEMENTATION` — signatures, no bodies, which i
   own `FileBasedModelRootEntryFactory` — the one behind `rootType="default"` — is the whole editor.
   The `ModelRootEntryEP` bean is filled in by hand and pointed at that class by name, with the
   `jetbrains.mps.core` plugin descriptor supplying the classloader that can see it.
+- **Reloading is two mechanisms, and each needs its own hook.** A `.d.ts` changing alters one
+  model's *content*: the descriptor implements `DataSourceListener` and answers `changed` with
+  `replace(createModel())`, which is what `JavaSourceStubModelDescriptor` does. `stubs.txt` changing
+  alters *which models exist*, and that is the model root's business — but
+  `FileBasedModelRoot.update` re-reads the model set **only when a file is created or removed**, and
+  a listing edited in place is neither. So `update` is overridden to look for `stubs.txt` in
+  `event.getChanged()`. Neither hook is optional and neither substitutes for the other.
+- **A specifier is not a folder**, which is why the source-root UI cannot replace `stubs.txt`.
+  `punycode` and `path` are ambient modules declared *inside* `@types/node`, and `@types/node` is
+  not a resolvable specifier at all — so the folder that contains them names nothing importable.
+  The new API has no `getAmbientModules`, so the extractor cannot enumerate them either; only a
+  syntactic scan for `declare module "…"` could, which is worth doing for *discovery* even though
+  the design rejects syntax for *content*.
+- **A reference to a type that was itself unrepresentable has nothing to bind to.** `querystring`
+  is the case: `ParsedUrlQuery` extends `NodeJS.Dict<…>`, so its alias is dropped while the
+  signatures referring to it are not — leaving four `TSTypeReference`s with an unset obligatory
+  reference, which is a broken model rather than a degraded one. `dropUnresolved` removes the
+  declaration holding such a reference, the way any other unrepresentable declaration is removed,
+  and loops because dropping one can strand a reference to it.
+- **A specifier that will not extract must leave an empty model, not an exception.** `crypto`
+  desyncs the sidecar's RPC channel — `name mismatch for response: expected 'release', got
+  'getTypeOfSymbol'` — and the first version threw `Not a JSON Array: null` from `createModel`,
+  which surfaced wherever the model was *first read*: the project pane, on every expand, and in the
+  middle of unrelated writes. Two guards, and both are needed. `run` reads the exit status and
+  stderr and returns null on failure, logging the reason, which is the only place it is ever
+  visible; `read` returns on anything that is not a JSON array. A stub whose extraction failed is
+  now an empty model and one line in the log.
+  The lesson is narrower than "handle errors": **a model root runs inside whatever touches the
+  model**, so an exception in `createModel` is an exception in the IDE's tree, and the specifier
+  that caused it appears nowhere in the stack.
+- **A type from another module is expanded, not referenced, and that is the real cost.**
+  `namedTypes` holds only the module's *own* exports, so `Buffer`, `Stream`, `InspectOptions` and
+  their like are inlined structurally at every occurrence. Three symptoms, all the same cause:
+  `undici-types` overflowed the stack; `node:crypto` then exhausted the heap once a depth bound
+  stopped that; and with a work budget stopping *that*, `crypto` still produced **43 MB of JSON**
+  and left the IDE unresponsive while it built the model. Even `console` costs 157 KB.
+  The cycle guard does not help, and it is worth knowing why: the checker is remote, so a `Type` is
+  a handle from one response and the same TypeScript type comes back under a different id — a type
+  can recur forever without `visiting` ever firing. **`MAX_DEPTH` and `MAX_TYPES` are what actually
+  hold**, and the budget is deliberately small (500): it costs `crypto` two declarations and leaves
+  the four small fixtures untouched, which is the right trade until a reference can cross module
+  boundaries. That is the fix — hoist an external named type into the file, or import the stub that
+  declares it — and it is what would make `crypto` worth reading rather than merely loadable.
 - **Still crude.** The sidecar is spawned per model rather than held open over `--stdio`; the
   specifier list is a file rather than discovery over `node_modules`; and `FolderDataSource` watches
-  the whole project directory, so any change re-imports everything. All three are the same step-4
-  work, and none of them is in the way of the next thing.
+  the whole project directory, so any change re-imports everything. All of that is the same step-4
+  work.
 
 ### Order of work
 

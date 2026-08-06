@@ -105,6 +105,7 @@ export type MissingConstruct =
   | "intersection-type"
   | "literal-type"
   | "overloaded-function"
+  | "recursion-limit"
   | "recursive-type"
   | "template-literal-type"
   | "tuple-type"

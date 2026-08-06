@@ -110,7 +110,25 @@ interface Context {
   namedTypes: Map<number, string>;
   /** Type ids on the current conversion path, so a cycle outside `namedTypes` cannot hang. */
   visiting: Set<number>;
+  /** How deep the current conversion is; `visiting` alone does not bound it. See MAX_DEPTH. */
+  depth: number;
+  /** Types left to convert for this module. See MAX_TYPES. */
+  budget: number;
 }
+
+/**
+ * `visiting` catches a type that recurs *by id*, and that is not enough: the checker is remote here,
+ * so a `Type` is a handle from one response and the same TypeScript type can come back under a new
+ * id. `node:crypto` recurses past the stack without ever repeating one, so a depth bound is what
+ * actually holds — nothing real nests this far.
+ *
+ * Depth alone does not bound the *work*, though: a type from another module (`Buffer`, `Stream`) is
+ * not in `namedTypes`, so it is expanded structurally at every occurrence, and `node:crypto` then
+ * exhausts the heap at bounded depth. Until a reference can cross module boundaries, the budget is
+ * what keeps a pathological module from hanging the IDE that is loading it.
+ */
+const MAX_DEPTH = 64;
+const MAX_TYPES = 500;
 
 function convertModule(checker: Checker, moduleSymbol: TsSymbol, specifier: string): StubModule {
   const exported = checker.getExportsOfModule(moduleSymbol).map((s) => resolveAlias(checker, s));
@@ -120,6 +138,8 @@ function convertModule(checker: Checker, moduleSymbol: TsSymbol, specifier: stri
       exported.filter((s) => s.flags & TYPE_SYMBOL).map((s) => [s.id, s.name] as const),
     ),
     visiting: new Set(),
+    depth: 0,
+    budget: MAX_TYPES,
   };
 
   const declarations = exported.flatMap((symbol) => convertExport(context, symbol));
@@ -172,11 +192,17 @@ function convertType(context: Context, type: Type): StubType {
   const name = context.namedTypes.get(type.getSymbol()?.id ?? -1);
   if (name !== undefined) return { kind: "reference", name };
   if (context.visiting.has(type.id)) return unsupported(context, type, "recursive-type");
+  if (context.depth >= MAX_DEPTH || context.budget <= 0) {
+    return unsupported(context, type, "recursion-limit");
+  }
   context.visiting.add(type.id);
+  context.depth++;
+  context.budget--;
   try {
     return convertStructure(context, type);
   } finally {
     context.visiting.delete(type.id);
+    context.depth--;
   }
 }
 
