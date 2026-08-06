@@ -3,3 +3,5 @@
 punycode
 path
 querystring
+crypto
+constants

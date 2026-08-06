@@ -1853,6 +1853,17 @@ returns `ModelLoadingState.NO_IMPLEMENTATION` — signatures, no bodies, which i
   reference, which is a broken model rather than a degraded one. `dropUnresolved` removes the
   declaration holding such a reference, the way any other unrepresentable declaration is removed,
   and loops because dropping one can strand a reference to it.
+- **A specifier that will not extract must leave an empty model, not an exception.** `crypto`
+  desyncs the sidecar's RPC channel — `name mismatch for response: expected 'release', got
+  'getTypeOfSymbol'` — and the first version threw `Not a JSON Array: null` from `createModel`,
+  which surfaced wherever the model was *first read*: the project pane, on every expand, and in the
+  middle of unrelated writes. Two guards, and both are needed. `run` reads the exit status and
+  stderr and returns null on failure, logging the reason, which is the only place it is ever
+  visible; `read` returns on anything that is not a JSON array. A stub whose extraction failed is
+  now an empty model and one line in the log.
+  The lesson is narrower than "handle errors": **a model root runs inside whatever touches the
+  model**, so an exception in `createModel` is an exception in the IDE's tree, and the specifier
+  that caused it appears nowhere in the stack.
 - **Still crude.** The sidecar is spawned per model rather than held open over `--stdio`; the
   specifier list is a file rather than discovery over `node_modules`; `FolderDataSource` watches the
   whole project directory, so any change re-imports everything; and `convertType` has no depth
