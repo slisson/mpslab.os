@@ -1864,11 +1864,23 @@ returns `ModelLoadingState.NO_IMPLEMENTATION` — signatures, no bodies, which i
   The lesson is narrower than "handle errors": **a model root runs inside whatever touches the
   model**, so an exception in `createModel` is an exception in the IDE's tree, and the specifier
   that caused it appears nowhere in the stack.
+- **A type from another module is expanded, not referenced, and that is the real cost.**
+  `namedTypes` holds only the module's *own* exports, so `Buffer`, `Stream`, `InspectOptions` and
+  their like are inlined structurally at every occurrence. Three symptoms, all the same cause:
+  `undici-types` overflowed the stack; `node:crypto` then exhausted the heap once a depth bound
+  stopped that; and with a work budget stopping *that*, `crypto` still produced **43 MB of JSON**
+  and left the IDE unresponsive while it built the model. Even `console` costs 157 KB.
+  The cycle guard does not help, and it is worth knowing why: the checker is remote, so a `Type` is
+  a handle from one response and the same TypeScript type comes back under a different id — a type
+  can recur forever without `visiting` ever firing. **`MAX_DEPTH` and `MAX_TYPES` are what actually
+  hold**, and the budget is deliberately small (500): it costs `crypto` two declarations and leaves
+  the four small fixtures untouched, which is the right trade until a reference can cross module
+  boundaries. That is the fix — hoist an external named type into the file, or import the stub that
+  declares it — and it is what would make `crypto` worth reading rather than merely loadable.
 - **Still crude.** The sidecar is spawned per model rather than held open over `--stdio`; the
-  specifier list is a file rather than discovery over `node_modules`; `FolderDataSource` watches the
-  whole project directory, so any change re-imports everything; and `convertType` has no depth
-  bound, which is a stack overflow on a package-sized `.d.ts` — `undici-types` is one. All of that
-  is the same step-4 work.
+  specifier list is a file rather than discovery over `node_modules`; and `FolderDataSource` watches
+  the whole project directory, so any change re-imports everything. All of that is the same step-4
+  work.
 
 ### Order of work
 
