@@ -28,10 +28,10 @@ jobs:
           java-version: '21'
 
       - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@v6.2.0
+        uses: gradle/actions/wrapper-validation@v6.3.0
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v6.2.0
+        uses: gradle/actions/setup-gradle@v6.3.0
         with:
           # Releases run off a tag, not the default branch; reuse the cache the
           # build workflow wrote rather than adding an entry per tag.

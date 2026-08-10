@@ -44,14 +44,14 @@ jobs:
           cache-dependency-path: mps-typescript/package-lock.json
 
       - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@v6.2.0
+        uses: gradle/actions/wrapper-validation@v6.3.0
 
       # Caches the Gradle user home, which is what keeps the ~700 MB MPS archive from being
       # downloaded again. The unpacked distribution is deliberately not cached on top of
       # that: the extracted tree is a few GB, and restoring it costs about what unpacking
       # the cached archive does.
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v6.2.0
+        uses: gradle/actions/setup-gradle@v6.3.0
 
       # The editor tests boot a real MPS editor, and the IDE platform initialises AWT for
       # real rather than headlessly — -Djava.awt.headless=true is not enough. With no X
